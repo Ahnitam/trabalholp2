@@ -42,19 +42,19 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jButton7" alignment="0" min="-2" pref="183" max="-2" attributes="0"/>
-                          <Component id="jButton6" alignment="0" min="-2" pref="183" max="-2" attributes="0"/>
-                          <Component id="jButton5" alignment="0" min="-2" pref="183" max="-2" attributes="0"/>
+                          <Component id="btnGenUsers" alignment="0" min="-2" pref="183" max="-2" attributes="0"/>
+                          <Component id="btnGenAnime" alignment="0" min="-2" pref="183" max="-2" attributes="0"/>
+                          <Component id="btnGenGen" alignment="0" min="-2" pref="183" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jButton8" min="-2" pref="183" max="-2" attributes="0"/>
+                              <Component id="btnGenEst" min="-2" pref="183" max="-2" attributes="0"/>
                               <EmptySpace pref="452" max="32767" attributes="0"/>
-                              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnLogoutAdm" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <Component id="welcomeLabel" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
@@ -65,17 +65,17 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace pref="92" max="32767" attributes="0"/>
-              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <Component id="welcomeLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
-              <Component id="jButton7" min="-2" max="-2" attributes="0"/>
+              <Component id="btnGenUsers" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jButton6" min="-2" max="-2" attributes="0"/>
+              <Component id="btnGenAnime" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jButton5" min="-2" max="-2" attributes="0"/>
+              <Component id="btnGenGen" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jButton8" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnGenEst" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnLogoutAdm" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
           </Group>
@@ -83,32 +83,32 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="jButton5">
+    <Component class="javax.swing.JButton" name="btnGenGen">
       <Properties>
         <Property name="text" type="java.lang.String" value="Gerenciar Gen&#xea;ros"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton6">
+    <Component class="javax.swing.JButton" name="btnGenAnime">
       <Properties>
         <Property name="text" type="java.lang.String" value="Gerenciar Animes"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton7">
+    <Component class="javax.swing.JButton" name="btnGenUsers">
       <Properties>
         <Property name="text" type="java.lang.String" value="Gerenciar Usu&#xe1;rio"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton8">
+    <Component class="javax.swing.JButton" name="btnGenEst">
       <Properties>
         <Property name="text" type="java.lang.String" value="Gerenciar Est&#xfa;dios"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Component class="javax.swing.JLabel" name="welcomeLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Bem Vindo ADM!"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="btnLogoutAdm">
       <Properties>
         <Property name="text" type="java.lang.String" value="Logout"/>
       </Properties>

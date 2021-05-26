@@ -31,26 +31,26 @@ public class HomeAdm extends javax.swing.JFrame {
         buttonGroup2 = new javax.swing.ButtonGroup();
         jPopupMenu1 = new javax.swing.JPopupMenu();
         buttonGroup3 = new javax.swing.ButtonGroup();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnGenGen = new javax.swing.JButton();
+        btnGenAnime = new javax.swing.JButton();
+        btnGenUsers = new javax.swing.JButton();
+        btnGenEst = new javax.swing.JButton();
+        welcomeLabel = new javax.swing.JLabel();
+        btnLogoutAdm = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton5.setText("Gerenciar Genêros");
+        btnGenGen.setText("Gerenciar Genêros");
 
-        jButton6.setText("Gerenciar Animes");
+        btnGenAnime.setText("Gerenciar Animes");
 
-        jButton7.setText("Gerenciar Usuário");
+        btnGenUsers.setText("Gerenciar Usuário");
 
-        jButton8.setText("Gerenciar Estúdios");
+        btnGenEst.setText("Gerenciar Estúdios");
 
-        jLabel1.setText("Bem Vindo ADM!");
+        welcomeLabel.setText("Bem Vindo ADM!");
 
-        jButton1.setText("Logout");
+        btnLogoutAdm.setText("Logout");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -61,33 +61,33 @@ public class HomeAdm extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnGenUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnGenAnime, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnGenGen, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnGenEst, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 452, Short.MAX_VALUE)
-                                .addComponent(jButton1))))
+                                .addComponent(btnLogoutAdm))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel1)))
+                        .addComponent(welcomeLabel)))
                 .addGap(45, 45, 45))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(92, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(welcomeLabel)
                 .addGap(55, 55, 55)
-                .addComponent(jButton7)
+                .addComponent(btnGenUsers)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton6)
+                .addComponent(btnGenAnime)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5)
+                .addComponent(btnGenGen)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton8)
-                    .addComponent(jButton1))
+                    .addComponent(btnGenEst)
+                    .addComponent(btnLogoutAdm))
                 .addGap(51, 51, 51))
         );
 
@@ -130,15 +130,15 @@ public class HomeAdm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGenAnime;
+    private javax.swing.JButton btnGenEst;
+    private javax.swing.JButton btnGenGen;
+    private javax.swing.JButton btnGenUsers;
+    private javax.swing.JButton btnLogoutAdm;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JLabel welcomeLabel;
     // End of variables declaration//GEN-END:variables
 }
