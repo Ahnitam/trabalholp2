@@ -5,6 +5,10 @@
  */
 package pctFormulario;
 
+import javax.swing.JOptionPane;
+import pctControle.Usuario;
+import pctDAO.UsuarioDAO;
+
 /**
  *
  * @author Luis Henrique
@@ -33,10 +37,12 @@ public class Cadastro extends javax.swing.JFrame {
         btnRegReg = new javax.swing.JButton();
         UserRegLabel = new javax.swing.JLabel();
         emailRegLabel = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtEmailReg = new javax.swing.JTextField();
         btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Cadastrar");
+        setLocation(new java.awt.Point(0, 0));
 
         txtUserReg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -63,9 +69,9 @@ public class Cadastro extends javax.swing.JFrame {
 
         emailRegLabel.setText("Email:");
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        txtEmailReg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                txtEmailRegActionPerformed(evt);
             }
         });
 
@@ -84,7 +90,7 @@ public class Cadastro extends javax.swing.JFrame {
                 .addGap(73, 73, 73)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(emailRegLabel)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtEmailReg, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnRegReg)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -116,7 +122,7 @@ public class Cadastro extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(emailRegLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtEmailReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegReg)
@@ -132,16 +138,35 @@ public class Cadastro extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUserRegActionPerformed
 
     private void btnRegRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegRegActionPerformed
-        // TODO add your handling code here:
+
+        //Verificar se os campos estão vazios
+        if (txtUserReg.getText().isEmpty() || txtEmailReg.getText().isEmpty() || txtRegPass.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Não deixe campos vazios!");
+            return;
+        }
+        //Cadastrar usuário
+        try {
+            UsuarioDAO dao = new UsuarioDAO();
+            Usuario usuario = new Usuario();
+            usuario.setUsername(txtUserReg.getText());
+            usuario.setEmail(txtEmailReg.getText());
+            usuario.setPassword(txtRegPass.getText());
+            dao.cadastrarUsuario(usuario);
+            // Voltar para a tela de login caso for um sucesso
+            this.setVisible(false);
+            new Login().setVisible(true);
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_btnRegRegActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
+        this.setVisible(false);
+        new Login().setVisible(true);
     }//GEN-LAST:event_btnCancelActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void txtEmailRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailRegActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_txtEmailRegActionPerformed
 
     private void txtRegPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRegPassActionPerformed
         // TODO add your handling code here:
@@ -188,7 +213,7 @@ public class Cadastro extends javax.swing.JFrame {
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnRegReg;
     private javax.swing.JLabel emailRegLabel;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField txtEmailReg;
     private javax.swing.JTextField txtRegPass;
     private javax.swing.JTextField txtUserReg;
     // End of variables declaration//GEN-END:variables

@@ -87,21 +87,33 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Gerenciar Gen&#xea;ros"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGenGenActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnGenAnime">
       <Properties>
         <Property name="text" type="java.lang.String" value="Gerenciar Animes"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGenAnimeActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnGenUsers">
       <Properties>
         <Property name="text" type="java.lang.String" value="Gerenciar Usu&#xe1;rio"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGenUsersActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnGenEst">
       <Properties>
         <Property name="text" type="java.lang.String" value="Gerenciar Est&#xfa;dios"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGenEstActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="welcomeLabel">
       <Properties>
@@ -112,6 +124,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Logout"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLogoutAdmActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

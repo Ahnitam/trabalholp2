@@ -41,16 +41,41 @@ public class HomeAdm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnGenGen.setText("Gerenciar Genêros");
+        btnGenGen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenGenActionPerformed(evt);
+            }
+        });
 
         btnGenAnime.setText("Gerenciar Animes");
+        btnGenAnime.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenAnimeActionPerformed(evt);
+            }
+        });
 
         btnGenUsers.setText("Gerenciar Usuário");
+        btnGenUsers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenUsersActionPerformed(evt);
+            }
+        });
 
         btnGenEst.setText("Gerenciar Estúdios");
+        btnGenEst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenEstActionPerformed(evt);
+            }
+        });
 
         welcomeLabel.setText("Bem Vindo ADM!");
 
         btnLogoutAdm.setText("Logout");
+        btnLogoutAdm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutAdmActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -93,6 +118,31 @@ public class HomeAdm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnLogoutAdmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutAdmActionPerformed
+        this.setVisible(false);
+        new Login().setVisible(true);
+    }//GEN-LAST:event_btnLogoutAdmActionPerformed
+
+    private void btnGenUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenUsersActionPerformed
+        this.setVisible(false);
+        new GerenciaUsuario().setVisible(true);
+    }//GEN-LAST:event_btnGenUsersActionPerformed
+
+    private void btnGenAnimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenAnimeActionPerformed
+        this.setVisible(false);
+        new GerenciaAnime().setVisible(true);
+    }//GEN-LAST:event_btnGenAnimeActionPerformed
+
+    private void btnGenGenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenGenActionPerformed
+        this.setVisible(false);
+        new GerenciaGenero().setVisible(true);
+    }//GEN-LAST:event_btnGenGenActionPerformed
+
+    private void btnGenEstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenEstActionPerformed
+        this.setVisible(false);
+        new GerenciaEstudio().setVisible(true);
+    }//GEN-LAST:event_btnGenEstActionPerformed
 
     /**
      * @param args the command line arguments

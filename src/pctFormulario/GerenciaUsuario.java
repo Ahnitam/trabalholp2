@@ -5,17 +5,41 @@
  */
 package pctFormulario;
 
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import pctControle.Usuario;
+import pctDAO.UsuarioDAO;
+
 /**
  *
  * @author Luis Henrique
  */
-public class GerenciaUser extends javax.swing.JFrame {
+public class GerenciaUsuario extends javax.swing.JFrame {
 
     /**
      * Creates new form GerenciaAdm
      */
-    public GerenciaUser() {
+    public GerenciaUsuario() {
         initComponents();
+        Tabela();
+    }
+    
+    private void Tabela() {
+        UsuarioDAO dao = new UsuarioDAO();
+        List<Usuario> lista = dao.listarClientes();
+        DefaultTableModel dados = (DefaultTableModel) userTable.getModel();
+
+        dados.setNumRows(0);
+
+        for (Usuario usuario : lista) {
+            dados.addRow(new Object[]{
+                usuario.getIduser(),
+                usuario.getUsername(),
+                usuario.getEmail(),
+                usuario.getPermission()
+            });
+
+        }
     }
 
     /**
@@ -35,16 +59,18 @@ public class GerenciaUser extends javax.swing.JFrame {
         btnToHomeUser = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Gerenciar Usuários");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         userTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "IdUsuário", "Usuário", "Email"
+                "IdUsuário", "Usuário", "Email", "Permissão"
             }
         ));
         jScrollPane1.setViewportView(userTable);
@@ -60,6 +86,11 @@ public class GerenciaUser extends javax.swing.JFrame {
         btnUpdateUser.setText("Atualizar");
 
         btnToHomeUser.setText("Voltar pra Home");
+        btnToHomeUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnToHomeUserActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -93,7 +124,7 @@ public class GerenciaUser extends javax.swing.JFrame {
                 .addComponent(txtDigitaUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnUpdateUser)
                     .addComponent(btnToHomeUser))
@@ -106,6 +137,11 @@ public class GerenciaUser extends javax.swing.JFrame {
     private void txtDigitaUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDigitaUsernameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDigitaUsernameActionPerformed
+
+    private void btnToHomeUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToHomeUserActionPerformed
+        this.setVisible(false);
+        new HomeAdm().setVisible(true);
+    }//GEN-LAST:event_btnToHomeUserActionPerformed
 
     /**
      * @param args the command line arguments
@@ -124,21 +160,23 @@ public class GerenciaUser extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GerenciaUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerenciaUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GerenciaUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerenciaUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GerenciaUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerenciaUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GerenciaUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GerenciaUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GerenciaUser().setVisible(true);
+                new GerenciaUsuario().setVisible(true);
             }
         });
     }
