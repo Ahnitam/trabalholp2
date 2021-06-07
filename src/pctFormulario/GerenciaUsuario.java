@@ -36,6 +36,7 @@ public class GerenciaUsuario extends javax.swing.JFrame {
                 usuario.getIduser(),
                 usuario.getUsername(),
                 usuario.getEmail(),
+                usuario.getPermission()
             });
 
         }
@@ -63,13 +64,13 @@ public class GerenciaUsuario extends javax.swing.JFrame {
 
         userTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "IdUsuário", "Usuário", "Email"
+                "IdUsuário", "Usuário", "Email", "Permissão"
             }
         ));
         jScrollPane1.setViewportView(userTable);
@@ -85,6 +86,11 @@ public class GerenciaUsuario extends javax.swing.JFrame {
         btnUpdateUser.setText("Atualizar");
 
         btnToHomeUser.setText("Voltar pra Home");
+        btnToHomeUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnToHomeUserActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -131,6 +137,11 @@ public class GerenciaUsuario extends javax.swing.JFrame {
     private void txtDigitaUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDigitaUsernameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDigitaUsernameActionPerformed
+
+    private void btnToHomeUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToHomeUserActionPerformed
+        this.setVisible(false);
+        new HomeAdm().setVisible(true);
+    }//GEN-LAST:event_btnToHomeUserActionPerformed
 
     /**
      * @param args the command line arguments

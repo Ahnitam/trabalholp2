@@ -8,6 +8,15 @@ public class Usuario {
     String username;
     String email;
     String password;
+    int permission;
+
+    public int getPermission() {
+        return permission;
+    }
+
+    public void setPermission(int permission) {
+        this.permission = permission;
+    }
 
     public int getIduser() {
         return iduser;

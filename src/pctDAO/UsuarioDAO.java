@@ -113,7 +113,7 @@ public class UsuarioDAO {
     public List<Usuario> listarClientes() {
         List<Usuario> lista = new ArrayList<>();
 
-        String sql = "select iduser, username, email, password from usuario";
+        String sql = "select iduser, username, email, password, permission from usuario";
         try {
             //Segundo  passo - conectar o banco de dados e organizar o comando sql
             PreparedStatement stmt = con.prepareStatement(sql);
@@ -125,6 +125,7 @@ public class UsuarioDAO {
                 usuario.setUsername(rs.getString("username"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setPassword(rs.getString("password"));
+                usuario.setPermission(rs.getInt("permission"));
                 lista.add(usuario);
             }
 
@@ -135,7 +136,7 @@ public class UsuarioDAO {
     }
 
     public Usuario VerificarUsuario(String username) {
-        String sql = "select iduser, username, email, password from usuario where username=?";
+        String sql = "select iduser, username, email, password, permission from usuario where username=?";
         try {
             //Segundo  passo - conectar o banco de dados e organizar o comando sql
             PreparedStatement stmt = con.prepareStatement(sql);
@@ -149,6 +150,7 @@ public class UsuarioDAO {
             usuario.setUsername(rs.getString("username"));
             usuario.setEmail(rs.getString("email"));
             usuario.setPassword(rs.getString("password"));
+            usuario.setPermission(rs.getInt("permission"));
             return usuario;
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);

@@ -141,9 +141,15 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Senha incorreta.");
             return;
         }
-        JOptionPane.showMessageDialog(null, "Logado com sucesso.  Seja bem vindo: " + usuario.getUsername());
+        if (usuario.getPermission() == 0) {
+            JOptionPane.showMessageDialog(null, "Logado com sucesso.  Seja bem vindo: " + usuario.getUsername());
+            this.setVisible(false);
+            new Review().setVisible(true);
+            return;
+        }
+        JOptionPane.showMessageDialog(null, "Logado com sucesso.  Seja bem vindo ADM: " + usuario.getUsername());
         this.setVisible(false);
-        new Review().setVisible(true);
+        new HomeAdm().setVisible(true);
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
