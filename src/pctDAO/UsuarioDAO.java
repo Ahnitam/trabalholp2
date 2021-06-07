@@ -56,7 +56,8 @@ public class UsuarioDAO {
         }
 
     }
-;
+
+    ;
 ;
 // Método para exclusão de registro
 
@@ -132,4 +133,27 @@ public class UsuarioDAO {
         }
         return lista;
     }
+
+    public Usuario VerificarUsuario(String username) {
+        String sql = "select iduser, username, email, password from usuario where username=?";
+        try {
+            //Segundo  passo - conectar o banco de dados e organizar o comando sql
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next() == false){
+                return null;
+            }
+            Usuario usuario = new Usuario();
+            usuario.setIduser(rs.getInt("iduser"));
+            usuario.setUsername(rs.getString("username"));
+            usuario.setEmail(rs.getString("email"));
+            usuario.setPassword(rs.getString("password"));
+            return usuario;
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
 }

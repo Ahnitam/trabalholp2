@@ -58,6 +58,8 @@ public class GerenciaUsuario extends javax.swing.JFrame {
         btnToHomeUser = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Gerenciar Usuários");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         userTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

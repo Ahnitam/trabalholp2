@@ -5,6 +5,10 @@
  */
 package pctFormulario;
 
+import javax.swing.JOptionPane;
+import pctControle.Usuario;
+import pctDAO.UsuarioDAO;
+
 /**
  *
  * @author Luis Henrique
@@ -35,6 +39,7 @@ public class Login extends javax.swing.JFrame {
         btnRegister = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Faça seu login");
 
         userLabel.setText("Usuário:");
 
@@ -120,11 +125,30 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPassActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // TODO add your handling code here:
+        if (txtUser.getText().isEmpty() || txtPass.getText().isEmpty()) {
+            JOptionPane.showConfirmDialog(null, "Não deixe campos vazios!");
+            return;
+        }
+        UsuarioDAO dao = new UsuarioDAO();
+
+        Usuario usuario = dao.VerificarUsuario(txtUser.getText());
+
+        if (usuario == null) {
+            JOptionPane.showMessageDialog(null, "Usuário não encontrado no banco de dados.");
+            return;
+        }
+        if (!usuario.getPassword().equals(txtPass.getText())) {
+            JOptionPane.showMessageDialog(null, "Senha incorreta.");
+            return;
+        }
+        JOptionPane.showMessageDialog(null, "Logado com sucesso.  Seja bem vindo: " + usuario.getUsername());
+        this.setVisible(false);
+        new Review().setVisible(true);
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
-        // TODO add your handling code here:
+        this.setVisible(false);
+        new Cadastro().setVisible(true);
     }//GEN-LAST:event_btnRegisterActionPerformed
 
     /**
