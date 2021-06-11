@@ -149,10 +149,7 @@ public class Cadastro extends javax.swing.JFrame {
     private void btnRegRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegRegActionPerformed
 
         //Verificar se os campos estão vazios
-        if (txtUserReg.getText().isEmpty() || txtEmailReg.getText().isEmpty() || String.valueOf(txtRegPass.getPassword()).isEmpty() || String.valueOf(txtRegPassConfirm.getPassword()).isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Não deixe campos vazios!");
-            return;
-        }
+        
         //Cadastrar usuário
         try {
             if(String.valueOf(txtRegPass.getPassword()).equals(String.valueOf(txtRegPassConfirm.getPassword()))){
