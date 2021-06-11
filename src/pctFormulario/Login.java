@@ -5,6 +5,7 @@
  */
 package pctFormulario;
 
+import java.util.Arrays;
 import javax.swing.JOptionPane;
 import pctControle.Usuario;
 import pctDAO.UsuarioDAO;
@@ -34,9 +35,9 @@ public class Login extends javax.swing.JFrame {
         userLabel = new javax.swing.JLabel();
         txtUser = new javax.swing.JTextField();
         passLabel = new javax.swing.JLabel();
-        txtPass = new javax.swing.JTextField();
         btnLogin = new javax.swing.JButton();
         btnRegister = new javax.swing.JButton();
+        txtPass = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Faça seu login");
@@ -50,12 +51,6 @@ public class Login extends javax.swing.JFrame {
         });
 
         passLabel.setText("Senha:");
-
-        txtPass.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPassActionPerformed(evt);
-            }
-        });
 
         btnLogin.setText("Logar");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -120,12 +115,8 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUserActionPerformed
 
-    private void txtPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPassActionPerformed
-
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        if (txtUser.getText().isEmpty() || txtPass.getText().isEmpty()) {
+        if (txtUser.getText().isEmpty() || String.valueOf(txtPass.getPassword()).isEmpty()) {
             JOptionPane.showConfirmDialog(null, "Não deixe campos vazios!");
             return;
         }
@@ -137,7 +128,7 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Usuário não encontrado no banco de dados.");
             return;
         }
-        if (!usuario.getPassword().equals(txtPass.getText())) {
+        if (!usuario.getPassword().equals(String.valueOf(txtPass.getPassword()))) {
             JOptionPane.showMessageDialog(null, "Senha incorreta.");
             return;
         }
@@ -197,7 +188,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton btnLogin;
     private javax.swing.JButton btnRegister;
     private javax.swing.JLabel passLabel;
-    private javax.swing.JTextField txtPass;
+    private javax.swing.JPasswordField txtPass;
     private javax.swing.JTextField txtUser;
     private javax.swing.JLabel userLabel;
     // End of variables declaration//GEN-END:variables
