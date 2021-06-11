@@ -121,26 +121,26 @@ public class Login extends javax.swing.JFrame {
             return;
         }
         UsuarioDAO dao = new UsuarioDAO();
-
         Usuario usuario = dao.VerificarUsuario(txtUser.getText());
 
         if (usuario == null) {
             JOptionPane.showMessageDialog(null, "Usuário não encontrado no banco de dados.");
-            return;
         }
-        if (!usuario.getPassword().equals(String.valueOf(txtPass.getPassword()))) {
+        else if (!usuario.getPassword().equals(String.valueOf(txtPass.getPassword()))) {
             JOptionPane.showMessageDialog(null, "Senha incorreta.");
-            return;
         }
-        if (usuario.getPermission() == 0) {
-            JOptionPane.showMessageDialog(null, "Logado com sucesso.  Seja bem vindo: " + usuario.getUsername());
-            this.setVisible(false);
-            new Review().setVisible(true);
-            return;
+        else{
+            if (usuario.getPermission() == 0) {
+                JOptionPane.showMessageDialog(null, "Logado com sucesso.  Seja bem vindo: " + usuario.getUsername());
+                this.setVisible(false);
+                new Review().setVisible(true);
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Logado com sucesso.  Seja bem vindo ADM: " + usuario.getUsername());
+                this.setVisible(false);
+                new HomeAdm().setVisible(true);
+            }
         }
-        JOptionPane.showMessageDialog(null, "Logado com sucesso.  Seja bem vindo ADM: " + usuario.getUsername());
-        this.setVisible(false);
-        new HomeAdm().setVisible(true);
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
