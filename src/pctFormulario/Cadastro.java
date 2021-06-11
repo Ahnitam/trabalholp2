@@ -5,6 +5,8 @@
  */
 package pctFormulario;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import javax.swing.JOptionPane;
 import pctControle.Usuario;
 import pctDAO.UsuarioDAO;
@@ -158,7 +160,11 @@ public class Cadastro extends javax.swing.JFrame {
                 Usuario usuario = new Usuario();
                 usuario.setUsername(txtUserReg.getText());
                 usuario.setEmail(txtEmailReg.getText());
-                usuario.setPassword(txtRegPass.getText());
+                
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                BigInteger hash = new BigInteger(1, md.digest(String.valueOf(txtRegPass.getPassword()).getBytes()));
+                usuario.setPassword(hash.toString(16));
+                
                 dao.cadastrarUsuario(usuario);
                 // Voltar para a tela de login caso for um sucesso
                 this.setVisible(false);

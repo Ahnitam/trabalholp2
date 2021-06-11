@@ -5,6 +5,9 @@
  */
 package pctFormulario;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
 import pctControle.Usuario;
@@ -120,13 +123,22 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showConfirmDialog(null, "Não deixe campos vazios!");
             return;
         }
+        String senha = String.valueOf(txtPass.getPassword());
+        try{
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            BigInteger hash = new BigInteger(1, md.digest(String.valueOf(txtPass.getPassword()).getBytes()));
+            senha = hash.toString(16);
+        }catch(NoSuchAlgorithmException e){
+            System.err.println(e.getMessage());
+        }
+        
         UsuarioDAO dao = new UsuarioDAO();
         Usuario usuario = dao.VerificarUsuario(txtUser.getText());
 
         if (usuario == null) {
             JOptionPane.showMessageDialog(null, "Usuário não encontrado no banco de dados.");
         }
-        else if (!usuario.getPassword().equals(String.valueOf(txtPass.getPassword()))) {
+        else if (!usuario.getPassword().equals(senha)) {
             JOptionPane.showMessageDialog(null, "Senha incorreta.");
         }
         else{
