@@ -5,6 +5,8 @@
  */
 package pctFormulario;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import javax.swing.JOptionPane;
 import pctControle.Usuario;
 import pctDAO.UsuarioDAO;
@@ -33,12 +35,14 @@ public class Cadastro extends javax.swing.JFrame {
 
         txtUserReg = new javax.swing.JTextField();
         PassRegLabel = new javax.swing.JLabel();
-        txtRegPass = new javax.swing.JTextField();
         btnRegReg = new javax.swing.JButton();
         UserRegLabel = new javax.swing.JLabel();
         emailRegLabel = new javax.swing.JLabel();
         txtEmailReg = new javax.swing.JTextField();
         btnCancel = new javax.swing.JButton();
+        PassRegLabel1 = new javax.swing.JLabel();
+        txtRegPass = new javax.swing.JPasswordField();
+        txtRegPassConfirm = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cadastrar");
@@ -51,12 +55,6 @@ public class Cadastro extends javax.swing.JFrame {
         });
 
         PassRegLabel.setText("Senha:");
-
-        txtRegPass.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtRegPassActionPerformed(evt);
-            }
-        });
 
         btnRegReg.setText("Cadastrar");
         btnRegReg.addActionListener(new java.awt.event.ActionListener() {
@@ -82,6 +80,8 @@ public class Cadastro extends javax.swing.JFrame {
             }
         });
 
+        PassRegLabel1.setText("Confirmar Senha:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -89,41 +89,50 @@ public class Cadastro extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(73, 73, 73)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(emailRegLabel)
-                    .addComponent(txtEmailReg, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnRegReg)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCancel))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(UserRegLabel)
-                                .addGap(208, 208, 208))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtUserReg)
-                                .addGap(83, 83, 83)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(PassRegLabel)
-                            .addComponent(txtRegPass, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(255, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtRegPass, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                                .addGap(87, 87, 87)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(emailRegLabel)
+                                    .addComponent(txtEmailReg, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(PassRegLabel1)
+                                    .addComponent(txtRegPassConfirm)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnRegReg)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnCancel))
+                            .addComponent(UserRegLabel))
+                        .addGap(253, 253, 253))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtUserReg, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(PassRegLabel))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(103, 103, 103)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(UserRegLabel)
-                    .addComponent(PassRegLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtUserReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtRegPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addComponent(emailRegLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtEmailReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(emailRegLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtEmailReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(PassRegLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtRegPassConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(UserRegLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtUserReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(PassRegLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtRegPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegReg)
                     .addComponent(btnCancel))
@@ -140,22 +149,30 @@ public class Cadastro extends javax.swing.JFrame {
     private void btnRegRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegRegActionPerformed
 
         //Verificar se os campos estão vazios
-        if (txtUserReg.getText().isEmpty() || txtEmailReg.getText().isEmpty() || txtRegPass.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Não deixe campos vazios!");
-            return;
-        }
+        
         //Cadastrar usuário
         try {
-            UsuarioDAO dao = new UsuarioDAO();
-            Usuario usuario = new Usuario();
-            usuario.setUsername(txtUserReg.getText());
-            usuario.setEmail(txtEmailReg.getText());
-            usuario.setPassword(txtRegPass.getText());
-            dao.cadastrarUsuario(usuario);
-            // Voltar para a tela de login caso for um sucesso
-            this.setVisible(false);
-            new Login().setVisible(true);
+            if(String.valueOf(txtRegPass.getPassword()).equals(String.valueOf(txtRegPassConfirm.getPassword()))){
+                UsuarioDAO dao = new UsuarioDAO();
+                Usuario usuario = new Usuario();
+                usuario.setUsername(txtUserReg.getText());
+                usuario.setEmail(txtEmailReg.getText());
+                
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                BigInteger hash = new BigInteger(1, md.digest(String.valueOf(txtRegPass.getPassword()).getBytes()));
+                usuario.setPassword(hash.toString(16));
+                
+                dao.cadastrarUsuario(usuario);
+                // Voltar para a tela de login caso for um sucesso
+                this.setVisible(false);
+                new Login().setVisible(true);
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Senhas Diferentes!");
+            }
+            
         } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
     }//GEN-LAST:event_btnRegRegActionPerformed
 
@@ -167,10 +184,6 @@ public class Cadastro extends javax.swing.JFrame {
     private void txtEmailRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailRegActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmailRegActionPerformed
-
-    private void txtRegPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRegPassActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtRegPassActionPerformed
 
     /**
      * @param args the command line arguments
@@ -209,12 +222,14 @@ public class Cadastro extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel PassRegLabel;
+    private javax.swing.JLabel PassRegLabel1;
     private javax.swing.JLabel UserRegLabel;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnRegReg;
     private javax.swing.JLabel emailRegLabel;
     private javax.swing.JTextField txtEmailReg;
-    private javax.swing.JTextField txtRegPass;
+    private javax.swing.JPasswordField txtRegPass;
+    private javax.swing.JPasswordField txtRegPassConfirm;
     private javax.swing.JTextField txtUserReg;
     // End of variables declaration//GEN-END:variables
 }

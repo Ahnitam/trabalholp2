@@ -7,6 +7,11 @@ public class Genero {
     int idcategoria;
     String nome;
 
+    public Genero(int idcategoria, String nome) {
+        this.idcategoria = idcategoria;
+        this.nome = nome;
+    }
+
     public int getIdcategoria() {
         return idcategoria;
     }

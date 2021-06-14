@@ -7,6 +7,11 @@ public class Estudio {
     int idestudio;
     String nome;
 
+    public Estudio(int idestudio, String nome) {
+        this.idestudio = idestudio;
+        this.nome = nome;
+    }
+    
     public int getIdestudio() {
         return idestudio;
     }

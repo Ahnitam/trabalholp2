@@ -5,6 +5,12 @@
  */
 package pctFormulario;
 
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import pctControle.Genero;
+import pctDAO.GeneroDAO;
+
 /**
  *
  * @author Luis Henrique
@@ -12,10 +18,13 @@ package pctFormulario;
 public class GerenciaGenero extends javax.swing.JFrame {
 
     /**
-     * Creates new form GerenciaGenero
+     * Creates new form GerenciaEstudio
      */
+    private String comp = "";
+    
     public GerenciaGenero() {
         initComponents();
+        ListarGeneros();
     }
 
     /**
@@ -27,114 +36,281 @@ public class GerenciaGenero extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnUpdateGender = new javax.swing.JButton();
-        btnToHomeGender = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        genderTable = new javax.swing.JTable();
-        digiteGenderLabel = new javax.swing.JLabel();
-        txtDigiteGender = new javax.swing.JTextField();
-        genderLabel = new javax.swing.JLabel();
-        txtGender = new javax.swing.JTextField();
         btnCadastraGenero = new javax.swing.JButton();
+        btnExcluirGenero = new javax.swing.JButton();
+        btnToHomeEstudio = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        generoTable = new javax.swing.JTable();
+        digitaEstudioLabel = new javax.swing.JLabel();
+        txtDigitaGenero = new javax.swing.JTextField();
+        estudioLabel = new javax.swing.JLabel();
+        txtGenero = new javax.swing.JTextField();
+        btnUpdateGenero = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnUpdateGender.setText("Atualizar");
+        btnCadastraGenero.setText("Cadatrar Gênero");
+        btnCadastraGenero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastraGeneroActionPerformed(evt);
+            }
+        });
 
-        btnToHomeGender.setText("Voltar pra Home");
+        btnExcluirGenero.setText("Excluir");
+        btnExcluirGenero.setEnabled(false);
+        btnExcluirGenero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirGeneroActionPerformed(evt);
+            }
+        });
 
-        genderTable.setModel(new javax.swing.table.DefaultTableModel(
+        btnToHomeEstudio.setText("Voltar pra Home");
+        btnToHomeEstudio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnToHomeEstudioActionPerformed(evt);
+            }
+        });
+
+        generoTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "IdGênero", "Nome"
             }
-        ));
-        jScrollPane1.setViewportView(genderTable);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true
+            };
 
-        digiteGenderLabel.setText("Digite o Gênero:");
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        generoTable.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                generoTableFocusGained(evt);
+            }
+        });
+        jScrollPane1.setViewportView(generoTable);
+        if (generoTable.getColumnModel().getColumnCount() > 0) {
+            generoTable.getColumnModel().getColumn(0).setResizable(false);
+            generoTable.getColumnModel().getColumn(0).setPreferredWidth(20);
+            generoTable.getColumnModel().getColumn(1).setResizable(false);
+            generoTable.getColumnModel().getColumn(1).setPreferredWidth(550);
+        }
 
-        txtDigiteGender.addActionListener(new java.awt.event.ActionListener() {
+        digitaEstudioLabel.setText("Digite o nome do Gênero:");
+
+        txtDigitaGenero.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDigiteGenderActionPerformed(evt);
+                txtDigitaGeneroActionPerformed(evt);
+            }
+        });
+        txtDigitaGenero.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDigitaGeneroKeyTyped(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtDigitaGeneroKeyReleased(evt);
             }
         });
 
-        genderLabel.setText("Gênero:");
+        estudioLabel.setText("Gênero");
 
-        txtGender.addActionListener(new java.awt.event.ActionListener() {
+        txtGenero.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtGenderActionPerformed(evt);
+                txtGeneroActionPerformed(evt);
             }
         });
 
-        btnCadastraGenero.setText("Cadatrar Gênero");
+        btnUpdateGenero.setText("Atualizar");
+        btnUpdateGenero.setEnabled(false);
+        btnUpdateGenero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateGeneroActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 815, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(btnToHomeGender)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnUpdateGender))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(txtGender, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnCadastraGenero))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(digiteGenderLabel))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(genderLabel))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(txtDigiteGender, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(digitaEstudioLabel)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnCadastraGenero))
+                            .addComponent(estudioLabel))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(txtDigitaGenero)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 731, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(btnToHomeEstudio)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnUpdateGenero)
+                        .addGap(36, 36, 36)
+                        .addComponent(btnExcluirGenero)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(genderLabel)
+                .addContainerGap()
+                .addComponent(digitaEstudioLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtDigitaGenero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(estudioLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtGenero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCadastraGenero))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(digiteGenderLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtDigiteGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnUpdateGender)
-                    .addComponent(btnToHomeGender))
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnToHomeEstudio)
+                    .addComponent(btnExcluirGenero)
+                    .addComponent(btnUpdateGenero))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtDigiteGenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDigiteGenderActionPerformed
+    private void txtGeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGeneroActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtDigiteGenderActionPerformed
+    }//GEN-LAST:event_txtGeneroActionPerformed
 
-    private void txtGenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGenderActionPerformed
+    private void txtDigitaGeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDigitaGeneroActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtGenderActionPerformed
+    }//GEN-LAST:event_txtDigitaGeneroActionPerformed
 
+    private void btnCadastraGeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastraGeneroActionPerformed
+        
+        if (txtGenero.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Campo vazio!");
+            return;
+        }
+        try{
+            int a = JOptionPane.showConfirmDialog(null, "Deseja Cadastrar?\nGenero: "+txtGenero.getText());
+            if (a == 0){
+                GeneroDAO dao = new GeneroDAO();
+                dao.cadastrarGenero(txtGenero.getText());
+                LimparCampoCadastro();
+                if (!txtDigitaGenero.getText().isEmpty()){
+                    ListarGeneros(txtDigitaGenero.getText());
+                }else{
+                    ListarGeneros();
+                }
+            }
+        }catch(Exception e){
+            
+        }
+        
+        
+    }//GEN-LAST:event_btnCadastraGeneroActionPerformed
+
+    private void txtDigitaGeneroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDigitaGeneroKeyTyped
+        
+    }//GEN-LAST:event_txtDigitaGeneroKeyTyped
+
+    private void txtDigitaGeneroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDigitaGeneroKeyReleased
+        if (!txtDigitaGenero.getText().equals(this.comp)){
+            ListarGeneros(txtDigitaGenero.getText());
+        }else if(txtDigitaGenero.getText().isEmpty()){
+            ListarGeneros();
+        }
+    }//GEN-LAST:event_txtDigitaGeneroKeyReleased
+
+    private void btnExcluirGeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirGeneroActionPerformed
+        int a = JOptionPane.showConfirmDialog(null, "Deseja Excluir?\nGenero: "+generoTable.getValueAt(generoTable.getSelectedRow(), 1).toString());
+        if (a == 0){
+            Genero genero = new Genero(Integer.valueOf(generoTable.getValueAt(generoTable.getSelectedRow(), 0).toString()), generoTable.getValueAt(generoTable.getSelectedRow(), 1).toString());
+            GeneroDAO dao = new GeneroDAO();
+
+            dao.excluirGenero(genero);
+            if (!txtDigitaGenero.getText().isEmpty()){
+                ListarGeneros(txtDigitaGenero.getText());
+            }else{
+                ListarGeneros();
+            }
+        }
+    }//GEN-LAST:event_btnExcluirGeneroActionPerformed
+
+    private void generoTableFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_generoTableFocusGained
+        btnExcluirGenero.setEnabled(true);
+        btnUpdateGenero.setEnabled(true);
+    }//GEN-LAST:event_generoTableFocusGained
+
+    private void btnUpdateGeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateGeneroActionPerformed
+        Genero genero = new Genero(Integer.valueOf(generoTable.getValueAt(generoTable.getSelectedRow(), 0).toString()), generoTable.getValueAt(generoTable.getSelectedRow(), 1).toString());
+        GeneroDAO dao = new GeneroDAO();
+        Genero oldgenero = dao.BuscarGeneroById(Integer.valueOf(generoTable.getValueAt(generoTable.getSelectedRow(), 0).toString()));
+        if (oldgenero.getNome().equals(genero.getNome())){
+            JOptionPane.showMessageDialog(null, "Faça uma alteração na tabela para atualizar!");
+        }else{
+            int a = JOptionPane.showConfirmDialog(null, "Deseja Atualizar?\nDe: "+oldgenero.getNome()+"\nPara: "+genero.getNome());
+            if (a == 0){
+                dao.atualizarGenero(genero);
+                if (!txtDigitaGenero.getText().isEmpty()){
+                    ListarGeneros(txtDigitaGenero.getText());
+                }else{
+                    ListarGeneros();
+                }
+            }
+        }
+        
+    }//GEN-LAST:event_btnUpdateGeneroActionPerformed
+
+    private void btnToHomeEstudioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToHomeEstudioActionPerformed
+        this.setVisible(false);
+        new HomeAdm().setVisible(true);
+    }//GEN-LAST:event_btnToHomeEstudioActionPerformed
+
+    private void LimparCampoCadastro(){
+        txtGenero.setText("");
+        
+    }
+    
+    private void ListarGeneros(){
+        btnExcluirGenero.setEnabled(false);
+        btnUpdateGenero.setEnabled(false);
+        DefaultTableModel dados = (DefaultTableModel) generoTable.getModel();
+        dados.setNumRows(0);
+        
+        GeneroDAO dao = new GeneroDAO();
+        List<Genero> lista = dao.listarGeneros();
+        
+        lista.forEach((genero) -> {
+            dados.addRow(new Object[]{
+                genero.getIdcategoria(),
+                genero.getNome()
+            });
+        });
+    }
+    private void ListarGeneros(String s){
+        btnExcluirGenero.setEnabled(false);
+        btnUpdateGenero.setEnabled(false);
+        DefaultTableModel dados = (DefaultTableModel) generoTable.getModel();
+        dados.setNumRows(0);
+        
+        GeneroDAO dao = new GeneroDAO();
+        List<Genero> lista = dao.BuscarGenero(s);
+
+        lista.forEach((genero) -> {
+            dados.addRow(new Object[]{
+                genero.getIdcategoria(),
+                genero.getNome()
+            });
+        });
+    }
     /**
      * @param args the command line arguments
      */
@@ -161,6 +337,7 @@ public class GerenciaGenero extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(GerenciaGenero.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -172,13 +349,14 @@ public class GerenciaGenero extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastraGenero;
-    private javax.swing.JButton btnToHomeGender;
-    private javax.swing.JButton btnUpdateGender;
-    private javax.swing.JLabel digiteGenderLabel;
-    private javax.swing.JLabel genderLabel;
-    private javax.swing.JTable genderTable;
+    private javax.swing.JButton btnExcluirGenero;
+    private javax.swing.JButton btnToHomeEstudio;
+    private javax.swing.JButton btnUpdateGenero;
+    private javax.swing.JLabel digitaEstudioLabel;
+    private javax.swing.JLabel estudioLabel;
+    private javax.swing.JTable generoTable;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField txtDigiteGender;
-    private javax.swing.JTextField txtGender;
+    private javax.swing.JTextField txtDigitaGenero;
+    private javax.swing.JTextField txtGenero;
     // End of variables declaration//GEN-END:variables
 }
