@@ -45,6 +45,7 @@ public class GerenciaGenero extends javax.swing.JFrame {
         txtDigitaGenero = new javax.swing.JTextField();
         estudioLabel = new javax.swing.JLabel();
         txtGenero = new javax.swing.JTextField();
+        btnUpdateGenero = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,6 +57,7 @@ public class GerenciaGenero extends javax.swing.JFrame {
         });
 
         btnExcluirGenero.setText("Excluir");
+        btnExcluirGenero.setEnabled(false);
         btnExcluirGenero.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExcluirGeneroActionPerformed(evt);
@@ -78,6 +80,11 @@ public class GerenciaGenero extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        generoTable.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                generoTableFocusGained(evt);
             }
         });
         jScrollPane1.setViewportView(generoTable);
@@ -112,6 +119,14 @@ public class GerenciaGenero extends javax.swing.JFrame {
             }
         });
 
+        btnUpdateGenero.setText("Atualizar");
+        btnUpdateGenero.setEnabled(false);
+        btnUpdateGenero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateGeneroActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -133,6 +148,8 @@ public class GerenciaGenero extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(btnToHomeEstudio)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnUpdateGenero)
+                        .addGap(36, 36, 36)
                         .addComponent(btnExcluirGenero)))
                 .addContainerGap())
         );
@@ -154,7 +171,8 @@ public class GerenciaGenero extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnToHomeEstudio)
-                    .addComponent(btnExcluirGenero))
+                    .addComponent(btnExcluirGenero)
+                    .addComponent(btnUpdateGenero))
                 .addContainerGap())
         );
 
@@ -176,13 +194,16 @@ public class GerenciaGenero extends javax.swing.JFrame {
             return;
         }
         try{
-            GeneroDAO dao = new GeneroDAO();
-            dao.cadastrarGenero(txtGenero.getText());
-            LimparCampoCadastro();
-            if (!txtDigitaGenero.getText().isEmpty()){
-                ListarGeneros(txtDigitaGenero.getText());
-            }else{
-                ListarGeneros();
+            int a = JOptionPane.showConfirmDialog(null, "Deseja Cadastrar?\nGenero: "+txtGenero.getText());
+            if (a == 0){
+                GeneroDAO dao = new GeneroDAO();
+                dao.cadastrarGenero(txtGenero.getText());
+                LimparCampoCadastro();
+                if (!txtDigitaGenero.getText().isEmpty()){
+                    ListarGeneros(txtDigitaGenero.getText());
+                }else{
+                    ListarGeneros();
+                }
             }
         }catch(Exception e){
             
@@ -204,12 +225,11 @@ public class GerenciaGenero extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDigitaGeneroKeyReleased
 
     private void btnExcluirGeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirGeneroActionPerformed
-        if (generoTable.getSelectedRow() == -1){
-            JOptionPane.showMessageDialog(null, "Selecione Algum Estudio Para Excluir!");
-        }else{
+        int a = JOptionPane.showConfirmDialog(null, "Deseja Excluir?\nGenero: "+generoTable.getValueAt(generoTable.getSelectedRow(), 1).toString());
+        if (a == 0){
             Genero genero = new Genero(Integer.valueOf(generoTable.getValueAt(generoTable.getSelectedRow(), 0).toString()), generoTable.getValueAt(generoTable.getSelectedRow(), 1).toString());
             GeneroDAO dao = new GeneroDAO();
-            
+
             dao.excluirGenero(genero);
             if (!txtDigitaGenero.getText().isEmpty()){
                 ListarGeneros(txtDigitaGenero.getText());
@@ -219,13 +239,39 @@ public class GerenciaGenero extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnExcluirGeneroActionPerformed
 
+    private void generoTableFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_generoTableFocusGained
+        btnExcluirGenero.setEnabled(true);
+        btnUpdateGenero.setEnabled(true);
+    }//GEN-LAST:event_generoTableFocusGained
+
+    private void btnUpdateGeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateGeneroActionPerformed
+        Genero genero = new Genero(Integer.valueOf(generoTable.getValueAt(generoTable.getSelectedRow(), 0).toString()), generoTable.getValueAt(generoTable.getSelectedRow(), 1).toString());
+        GeneroDAO dao = new GeneroDAO();
+        Genero oldgenero = dao.BuscarGeneroById(Integer.valueOf(generoTable.getValueAt(generoTable.getSelectedRow(), 0).toString()));
+        if (oldgenero.getNome().equals(genero.getNome())){
+            JOptionPane.showMessageDialog(null, "Faça uma alteração na tabela para atualizar!");
+        }else{
+            int a = JOptionPane.showConfirmDialog(null, "Deseja Atualizar?\nDe: "+oldgenero.getNome()+"\nPara: "+genero.getNome());
+            if (a == 0){
+                dao.atualizarGenero(genero);
+                if (!txtDigitaGenero.getText().isEmpty()){
+                    ListarGeneros(txtDigitaGenero.getText());
+                }else{
+                    ListarGeneros();
+                }
+            }
+        }
+        
+    }//GEN-LAST:event_btnUpdateGeneroActionPerformed
+
     private void LimparCampoCadastro(){
         txtGenero.setText("");
         
     }
     
     private void ListarGeneros(){
-        
+        btnExcluirGenero.setEnabled(false);
+        btnUpdateGenero.setEnabled(false);
         DefaultTableModel dados = (DefaultTableModel) generoTable.getModel();
         dados.setNumRows(0);
         
@@ -240,6 +286,8 @@ public class GerenciaGenero extends javax.swing.JFrame {
         });
     }
     private void ListarGeneros(String s){
+        btnExcluirGenero.setEnabled(false);
+        btnUpdateGenero.setEnabled(false);
         DefaultTableModel dados = (DefaultTableModel) generoTable.getModel();
         dados.setNumRows(0);
         
@@ -293,6 +341,7 @@ public class GerenciaGenero extends javax.swing.JFrame {
     private javax.swing.JButton btnCadastraGenero;
     private javax.swing.JButton btnExcluirGenero;
     private javax.swing.JButton btnToHomeEstudio;
+    private javax.swing.JButton btnUpdateGenero;
     private javax.swing.JLabel digitaEstudioLabel;
     private javax.swing.JLabel estudioLabel;
     private javax.swing.JTable generoTable;

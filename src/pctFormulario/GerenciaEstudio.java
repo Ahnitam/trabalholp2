@@ -9,7 +9,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import pctControle.Estudio;
-import pctControle.Usuario;
+import pctControle.Genero;
 import pctDAO.EstudioDAO;
 
 /**
@@ -46,6 +46,7 @@ public class GerenciaEstudio extends javax.swing.JFrame {
         txtDigitaEstudio = new javax.swing.JTextField();
         estudioLabel = new javax.swing.JLabel();
         txtEstudio = new javax.swing.JTextField();
+        btnUpdateEstudio = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -57,6 +58,7 @@ public class GerenciaEstudio extends javax.swing.JFrame {
         });
 
         btnExcluirEstudio.setText("Excluir");
+        btnExcluirEstudio.setEnabled(false);
         btnExcluirEstudio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExcluirEstudioActionPerformed(evt);
@@ -79,6 +81,11 @@ public class GerenciaEstudio extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        estudioTable.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                estudioTableFocusGained(evt);
             }
         });
         jScrollPane1.setViewportView(estudioTable);
@@ -113,35 +120,38 @@ public class GerenciaEstudio extends javax.swing.JFrame {
             }
         });
 
+        btnUpdateEstudio.setText("Atualizar");
+        btnUpdateEstudio.setEnabled(false);
+        btnUpdateEstudio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateEstudioActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(digitaEstudioLabel)
                             .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(digitaEstudioLabel))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txtEstudio, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(btnCadastraEstudio))
-                                    .addComponent(estudioLabel))))
+                                .addComponent(txtEstudio, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnCadastraEstudio))
+                            .addComponent(estudioLabel))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtDigitaEstudio)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 731, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(btnToHomeEstudio)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnExcluirEstudio)))))
+                    .addComponent(txtDigitaEstudio)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 731, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(btnToHomeEstudio)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnUpdateEstudio)
+                        .addGap(31, 31, 31)
+                        .addComponent(btnExcluirEstudio)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -162,7 +172,8 @@ public class GerenciaEstudio extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnToHomeEstudio)
-                    .addComponent(btnExcluirEstudio))
+                    .addComponent(btnExcluirEstudio)
+                    .addComponent(btnUpdateEstudio))
                 .addContainerGap())
         );
 
@@ -184,13 +195,16 @@ public class GerenciaEstudio extends javax.swing.JFrame {
             return;
         }
         try{
-            EstudioDAO dao = new EstudioDAO();
-            dao.cadastrarEstudio(txtEstudio.getText());
-            LimparCampoCadastro();
-            if (!txtDigitaEstudio.getText().isEmpty()){
-                ListarEstudios(txtDigitaEstudio.getText());
-            }else{
-                ListarEstudios();
+            int a = JOptionPane.showConfirmDialog(null, "Deseja Cadastrar?\nGenero: "+txtEstudio.getText());
+            if (a == 0){
+                EstudioDAO dao = new EstudioDAO();
+                dao.cadastrarEstudio(txtEstudio.getText());
+                LimparCampoCadastro();
+                if (!txtDigitaEstudio.getText().isEmpty()){
+                    ListarEstudios(txtDigitaEstudio.getText());
+                }else{
+                    ListarEstudios();
+                }
             }
         }catch(Exception e){
             
@@ -212,12 +226,11 @@ public class GerenciaEstudio extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDigitaEstudioKeyReleased
 
     private void btnExcluirEstudioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirEstudioActionPerformed
-        if (estudioTable.getSelectedRow() == -1){
-            JOptionPane.showMessageDialog(null, "Selecione Algum Estudio Para Excluir!");
-        }else{
+        int a = JOptionPane.showConfirmDialog(null, "Deseja Excluir?\nGenero: "+estudioTable.getValueAt(estudioTable.getSelectedRow(), 1).toString());
+        if (a == 0){
             Estudio estudio = new Estudio(Integer.valueOf(estudioTable.getValueAt(estudioTable.getSelectedRow(), 0).toString()), estudioTable.getValueAt(estudioTable.getSelectedRow(), 1).toString());
             EstudioDAO dao = new EstudioDAO();
-            
+
             dao.excluirEstudio(estudio);
             if (!txtDigitaEstudio.getText().isEmpty()){
                 ListarEstudios(txtDigitaEstudio.getText());
@@ -227,13 +240,38 @@ public class GerenciaEstudio extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnExcluirEstudioActionPerformed
 
+    private void btnUpdateEstudioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateEstudioActionPerformed
+        Estudio estudio = new Estudio(Integer.valueOf(estudioTable.getValueAt(estudioTable.getSelectedRow(), 0).toString()), estudioTable.getValueAt(estudioTable.getSelectedRow(), 1).toString());
+        EstudioDAO dao = new EstudioDAO();
+        Estudio oldestudio = dao.BuscarEstudioById(Integer.valueOf(estudioTable.getValueAt(estudioTable.getSelectedRow(), 0).toString()));
+        if (oldestudio.getNome().equals(estudio.getNome())){
+            JOptionPane.showMessageDialog(null, "Faça uma alteração na tabela para atualizar!");
+        }else{
+            int a = JOptionPane.showConfirmDialog(null, "Deseja Atualizar?\nDe: "+oldestudio.getNome()+"\nPara: "+estudio.getNome());
+            if (a == 0){
+                dao.atualizarEstudio(estudio);
+                if (!txtDigitaEstudio.getText().isEmpty()){
+                    ListarEstudios(txtDigitaEstudio.getText());
+                }else{
+                    ListarEstudios();
+                }
+            }
+        }
+    }//GEN-LAST:event_btnUpdateEstudioActionPerformed
+
+    private void estudioTableFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_estudioTableFocusGained
+        btnExcluirEstudio.setEnabled(true);
+        btnUpdateEstudio.setEnabled(true);
+    }//GEN-LAST:event_estudioTableFocusGained
+
     private void LimparCampoCadastro(){
         txtEstudio.setText("");
         
     }
     
     private void ListarEstudios(){
-        
+        btnExcluirEstudio.setEnabled(false);
+        btnUpdateEstudio.setEnabled(false);
         DefaultTableModel dados = (DefaultTableModel) estudioTable.getModel();
         dados.setNumRows(0);
         
@@ -248,6 +286,8 @@ public class GerenciaEstudio extends javax.swing.JFrame {
         });
     }
     private void ListarEstudios(String s){
+        btnExcluirEstudio.setEnabled(false);
+        btnUpdateEstudio.setEnabled(false);
         DefaultTableModel dados = (DefaultTableModel) estudioTable.getModel();
         dados.setNumRows(0);
         
@@ -300,6 +340,7 @@ public class GerenciaEstudio extends javax.swing.JFrame {
     private javax.swing.JButton btnCadastraEstudio;
     private javax.swing.JButton btnExcluirEstudio;
     private javax.swing.JButton btnToHomeEstudio;
+    private javax.swing.JButton btnUpdateEstudio;
     private javax.swing.JLabel digitaEstudioLabel;
     private javax.swing.JLabel estudioLabel;
     private javax.swing.JTable estudioTable;

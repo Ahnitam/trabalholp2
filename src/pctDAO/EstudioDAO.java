@@ -144,5 +144,25 @@ public class EstudioDAO {
         }
         return lista;
     }
+    
+    public Estudio BuscarEstudioById(int id) {
+        Estudio estudio = null;
+        String sql = "select idestudio, nome from estudio where idestudio = ?";
+        
+        try {
+            //Segundo  passo - conectar o banco de dados e organizar o comando sql
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                estudio = new Estudio(rs.getInt("idestudio"), rs.getString("nome"));
+            }
+            stmt.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(EstudioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return estudio;
+    }
 
 }

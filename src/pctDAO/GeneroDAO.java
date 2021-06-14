@@ -144,5 +144,25 @@ public class GeneroDAO {
         }
         return lista;
     }
+    
+    public Genero BuscarGeneroById(int id) {
+        Genero genero = null;
+        String sql = "select idcategoria, nome from genero where idcategoria = ?";
+        
+        try {
+            //Segundo  passo - conectar o banco de dados e organizar o comando sql
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                genero = new Genero(rs.getInt("idcategoria"), rs.getString("nome"));
+            }
+            stmt.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(GeneroDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return genero;
+    }
 
 }

@@ -43,6 +43,8 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="btnToHomeEstudio" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
+                      <Component id="btnUpdateGenero" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                       <Component id="btnExcluirGenero" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -70,6 +72,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnToHomeEstudio" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnExcluirGenero" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnUpdateGenero" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
@@ -88,6 +91,7 @@
     <Component class="javax.swing.JButton" name="btnExcluirGenero">
       <Properties>
         <Property name="text" type="java.lang.String" value="Excluir"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExcluirGeneroActionPerformed"/>
@@ -131,6 +135,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="generoTableFocusGained"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -154,6 +161,15 @@
     <Component class="javax.swing.JTextField" name="txtGenero">
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtGeneroActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnUpdateGenero">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Atualizar"/>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateGeneroActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
