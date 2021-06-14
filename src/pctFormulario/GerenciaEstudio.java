@@ -66,6 +66,11 @@ public class GerenciaEstudio extends javax.swing.JFrame {
         });
 
         btnToHomeEstudio.setText("Voltar pra Home");
+        btnToHomeEstudio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnToHomeEstudioActionPerformed(evt);
+            }
+        });
 
         estudioTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -263,6 +268,11 @@ public class GerenciaEstudio extends javax.swing.JFrame {
         btnExcluirEstudio.setEnabled(true);
         btnUpdateEstudio.setEnabled(true);
     }//GEN-LAST:event_estudioTableFocusGained
+
+    private void btnToHomeEstudioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToHomeEstudioActionPerformed
+        this.setVisible(false);
+        new HomeAdm().setVisible(true);
+    }//GEN-LAST:event_btnToHomeEstudioActionPerformed
 
     private void LimparCampoCadastro(){
         txtEstudio.setText("");
