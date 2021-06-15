@@ -53,9 +53,6 @@ public class EstudioDAO {
         }
 
     }
-
-    ;
-;
 // Método para exclusão de registro
 
     public void excluirEstudio(Estudio estudio) {
