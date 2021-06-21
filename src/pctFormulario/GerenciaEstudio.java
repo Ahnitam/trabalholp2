@@ -9,7 +9,6 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import pctControle.Estudio;
-import pctControle.Genero;
 import pctDAO.EstudioDAO;
 
 /**
@@ -21,7 +20,9 @@ public class GerenciaEstudio extends javax.swing.JFrame {
     /**
      * Creates new form GerenciaEstudio
      */
+    
     private String comp = "";
+    private List<Estudio> lista = null;
     
     public GerenciaEstudio() {
         initComponents();
@@ -88,6 +89,7 @@ public class GerenciaEstudio extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        estudioTable.getTableHeader().setReorderingAllowed(false);
         estudioTable.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 estudioTableFocusGained(evt);
@@ -103,15 +105,17 @@ public class GerenciaEstudio extends javax.swing.JFrame {
 
         digitaEstudioLabel.setText("Digite o nome do Estudio:");
 
+        txtDigitaEstudio.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtDigitaEstudioFocusGained(evt);
+            }
+        });
         txtDigitaEstudio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtDigitaEstudioActionPerformed(evt);
             }
         });
         txtDigitaEstudio.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtDigitaEstudioKeyTyped(evt);
-            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtDigitaEstudioKeyReleased(evt);
             }
@@ -119,6 +123,11 @@ public class GerenciaEstudio extends javax.swing.JFrame {
 
         estudioLabel.setText("Estudio");
 
+        txtEstudio.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtEstudioFocusGained(evt);
+            }
+        });
         txtEstudio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEstudioActionPerformed(evt);
@@ -194,7 +203,6 @@ public class GerenciaEstudio extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDigitaEstudioActionPerformed
 
     private void btnCadastraEstudioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastraEstudioActionPerformed
-        
         if (txtEstudio.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Campo vazio!");
             return;
@@ -205,11 +213,7 @@ public class GerenciaEstudio extends javax.swing.JFrame {
                 EstudioDAO dao = new EstudioDAO();
                 dao.cadastrarEstudio(txtEstudio.getText());
                 LimparCampoCadastro();
-                if (!txtDigitaEstudio.getText().isEmpty()){
-                    ListarEstudios(txtDigitaEstudio.getText());
-                }else{
-                    ListarEstudios();
-                }
+                ListarEstudios();
             }
         }catch(Exception e){
             
@@ -218,26 +222,26 @@ public class GerenciaEstudio extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnCadastraEstudioActionPerformed
 
-    private void txtDigitaEstudioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDigitaEstudioKeyTyped
-        
-    }//GEN-LAST:event_txtDigitaEstudioKeyTyped
-
     private void txtDigitaEstudioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDigitaEstudioKeyReleased
-        if (!txtDigitaEstudio.getText().equals(this.comp)){
-            ListarEstudios(txtDigitaEstudio.getText());
-        }else if(txtDigitaEstudio.getText().isEmpty()){
+        if(!txtDigitaEstudio.getText().equals(this.comp) && txtDigitaEstudio.getText().isEmpty()){
             ListarEstudios();
+        }else if(!txtDigitaEstudio.getText().equals(this.comp)){
+            ListarEstudios(txtDigitaEstudio.getText());
         }
+        this.comp = txtDigitaEstudio.getText();
     }//GEN-LAST:event_txtDigitaEstudioKeyReleased
 
     private void btnExcluirEstudioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirEstudioActionPerformed
-        int a = JOptionPane.showConfirmDialog(null, "Deseja Excluir?\nGenero: "+estudioTable.getValueAt(estudioTable.getSelectedRow(), 1).toString());
+        int a = JOptionPane.showConfirmDialog(null, "Deseja Excluir?\nEstudio: "+estudioTable.getValueAt(estudioTable.getSelectedRow(), 1).toString());
         if (a == 0){
+            DefaultTableModel dados = (DefaultTableModel) estudioTable.getModel();
             Estudio estudio = new Estudio(Integer.valueOf(estudioTable.getValueAt(estudioTable.getSelectedRow(), 0).toString()), estudioTable.getValueAt(estudioTable.getSelectedRow(), 1).toString());
             EstudioDAO dao = new EstudioDAO();
-
+           
             dao.excluirEstudio(estudio);
             if (!txtDigitaEstudio.getText().isEmpty()){
+                lista.remove((Estudio) estudioTable.getValueAt(estudioTable.getSelectedRow(), 1));
+                dados.removeRow(estudioTable.getSelectedRow());
                 ListarEstudios(txtDigitaEstudio.getText());
             }else{
                 ListarEstudios();
@@ -255,11 +259,8 @@ public class GerenciaEstudio extends javax.swing.JFrame {
             int a = JOptionPane.showConfirmDialog(null, "Deseja Atualizar?\nDe: "+oldestudio.getNome()+"\nPara: "+estudio.getNome());
             if (a == 0){
                 dao.atualizarEstudio(estudio);
-                if (!txtDigitaEstudio.getText().isEmpty()){
-                    ListarEstudios(txtDigitaEstudio.getText());
-                }else{
-                    ListarEstudios();
-                }
+                txtDigitaEstudio.setText("");
+                ListarEstudios();
             }
         }
     }//GEN-LAST:event_btnUpdateEstudioActionPerformed
@@ -274,41 +275,51 @@ public class GerenciaEstudio extends javax.swing.JFrame {
         new HomeAdm().setVisible(true);
     }//GEN-LAST:event_btnToHomeEstudioActionPerformed
 
+    private void txtDigitaEstudioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDigitaEstudioFocusGained
+        BloquearButtons();
+    }//GEN-LAST:event_txtDigitaEstudioFocusGained
+
+    private void txtEstudioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEstudioFocusGained
+        BloquearButtons();
+    }//GEN-LAST:event_txtEstudioFocusGained
+
     private void LimparCampoCadastro(){
         txtEstudio.setText("");
-        
+    }
+    
+    private void BloquearButtons(){
+        btnExcluirEstudio.setEnabled(false);
+        btnUpdateEstudio.setEnabled(false);
+        estudioTable.clearSelection();
     }
     
     private void ListarEstudios(){
-        btnExcluirEstudio.setEnabled(false);
-        btnUpdateEstudio.setEnabled(false);
+        BloquearButtons();
         DefaultTableModel dados = (DefaultTableModel) estudioTable.getModel();
         dados.setNumRows(0);
         
         EstudioDAO dao = new EstudioDAO();
-        List<Estudio> lista = dao.listarEstudios();
+        lista = dao.listarEstudios();
         
         lista.forEach((estudio) -> {
             dados.addRow(new Object[]{
                 estudio.getIdestudio(),
-                estudio.getNome()
+                estudio
             });
         });
     }
     private void ListarEstudios(String s){
-        btnExcluirEstudio.setEnabled(false);
-        btnUpdateEstudio.setEnabled(false);
+        BloquearButtons();
         DefaultTableModel dados = (DefaultTableModel) estudioTable.getModel();
         dados.setNumRows(0);
         
-        EstudioDAO dao = new EstudioDAO();
-        List<Estudio> lista = dao.BuscarEstudio(s);
-
         lista.forEach((estudio) -> {
-            dados.addRow(new Object[]{
+            if (estudio.getNome().toLowerCase().contains(s.toLowerCase())){
+                dados.addRow(new Object[]{
                 estudio.getIdestudio(),
-                estudio.getNome()
-            });
+                estudio
+                });
+            }
         });
     }
     /**
