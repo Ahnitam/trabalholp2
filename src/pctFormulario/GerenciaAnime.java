@@ -10,6 +10,8 @@ import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import pctControle.Anime;
 import pctControle.Estudio;
 import pctControle.Genero;
 import pctDAO.AnimeDAO;
@@ -28,6 +30,7 @@ public class GerenciaAnime extends javax.swing.JFrame {
     
     public GerenciaAnime() {
         initComponents();
+        ListarAnimes();
         BuscarEstudios();
         BuscarGeneros();
     }
@@ -105,17 +108,48 @@ public class GerenciaAnime extends javax.swing.JFrame {
 
         ConsultAnimeTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "IdAnime", "Nome", "Faixa Etária", "Gênero", "Estudio"
+                "IdAnime", "Nome", "Faixa Etária", "Media", "Gênero", "Estudio"
             }
-        ));
-        jScrollPane2.setViewportView(ConsultAnimeTable);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
 
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        ConsultAnimeTable.getTableHeader().setReorderingAllowed(false);
+        ConsultAnimeTable.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ConsultAnimeTableFocusGained(evt);
+            }
+        });
+        ConsultAnimeTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ConsultAnimeTableMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(ConsultAnimeTable);
+        if (ConsultAnimeTable.getColumnModel().getColumnCount() > 0) {
+            ConsultAnimeTable.getColumnModel().getColumn(0).setResizable(false);
+            ConsultAnimeTable.getColumnModel().getColumn(0).setPreferredWidth(10);
+            ConsultAnimeTable.getColumnModel().getColumn(1).setResizable(false);
+            ConsultAnimeTable.getColumnModel().getColumn(1).setPreferredWidth(180);
+            ConsultAnimeTable.getColumnModel().getColumn(2).setResizable(false);
+            ConsultAnimeTable.getColumnModel().getColumn(2).setPreferredWidth(10);
+            ConsultAnimeTable.getColumnModel().getColumn(3).setResizable(false);
+            ConsultAnimeTable.getColumnModel().getColumn(3).setPreferredWidth(20);
+            ConsultAnimeTable.getColumnModel().getColumn(4).setResizable(false);
+            ConsultAnimeTable.getColumnModel().getColumn(4).setPreferredWidth(20);
+            ConsultAnimeTable.getColumnModel().getColumn(5).setResizable(false);
+            ConsultAnimeTable.getColumnModel().getColumn(5).setPreferredWidth(100);
+        }
+
+        bigtxtConsultAnimeSin.setEditable(false);
         jScrollPane3.setViewportView(bigtxtConsultAnimeSin);
 
         ConsultAnimeSinLabel.setText("Sinopse:");
@@ -131,15 +165,10 @@ public class GerenciaAnime extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(14, 14, 14)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(consultAnimeLabel)
-                                    .addComponent(txtConsultAnime, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(consultAnimeLabel))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,7 +179,12 @@ public class GerenciaAnime extends javax.swing.JFrame {
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(btnUpdate)
                                             .addComponent(btnUpdate1))))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtConsultAnime, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 718, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -241,13 +275,12 @@ public class GerenciaAnime extends javax.swing.JFrame {
                                 .addGap(28, 28, 28)
                                 .addComponent(boxEstudio, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(faixaLabel)
-                            .addComponent(boxFaixa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(88, 88, 88)
-                        .addComponent(btnCadastraAnime)
-                        .addGap(79, 79, 79)
-                        .addComponent(btnClearAnime)
+                            .addComponent(boxFaixa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(88, 88, 88)
+                                .addComponent(btnCadastraAnime)
+                                .addGap(79, 79, 79)
+                                .addComponent(btnClearAnime)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -366,9 +399,21 @@ public class GerenciaAnime extends javax.swing.JFrame {
             }
 
             dao.cadastrarAnime(txtNameAnime.getText(), bigtxtSinopse.getText(), boxFaixa.getItemAt(boxFaixa.getSelectedIndex()), estudio.getIdestudio(), generos);
+            ListarAnimes();
         }
         
     }//GEN-LAST:event_btnCadastraAnimeActionPerformed
+
+    private void ConsultAnimeTableFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ConsultAnimeTableFocusGained
+        
+    }//GEN-LAST:event_ConsultAnimeTableFocusGained
+
+    private void ConsultAnimeTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ConsultAnimeTableMouseClicked
+        Anime anime = (Anime) ConsultAnimeTable.getValueAt(ConsultAnimeTable.getSelectedRow(), 1);
+        
+        bigtxtConsultAnimeSin.setText(anime.getSinopse());
+        
+    }//GEN-LAST:event_ConsultAnimeTableMouseClicked
 
     private void BuscarEstudios(){
         EstudioDAO dao = new EstudioDAO();
@@ -393,6 +438,41 @@ public class GerenciaAnime extends javax.swing.JFrame {
         });
         
     }
+    
+    private void ListarAnimes(){
+        DefaultTableModel dados = (DefaultTableModel) ConsultAnimeTable.getModel();
+        dados.setNumRows(0);
+        
+        AnimeDAO dao = new AnimeDAO();
+        List<Anime> lista = dao.listarAnimes();
+        
+        for (Anime anime : lista){
+            dados.addRow(new Object[]{
+                anime.getIdanime(),
+                anime,
+                anime.getF_etaria(),
+                anime.getMedia(),
+                anime.Generos(),
+                anime.getEstudio().getNome()
+            });
+        }
+    }
+    /*
+    private void ListarAnimes(String s){
+        DefaultTableModel dados = (DefaultTableModel) estudioTable.getModel();
+        dados.setNumRows(0);
+        
+        EstudioDAO dao = new EstudioDAO();
+        List<Estudio> lista = dao.BuscarEstudio(s);
+
+        lista.forEach((estudio) -> {
+            dados.addRow(new Object[]{
+                estudio.getIdestudio(),
+                estudio.getNome()
+            });
+        });
+    }
+    */
     /**
      * @param args the command line arguments
      */
