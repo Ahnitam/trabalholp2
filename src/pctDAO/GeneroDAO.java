@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import pctConexao.Conexao;
+import pctControle.Anime;
 import pctControle.Genero;
 
 /**
@@ -163,6 +164,26 @@ public class GeneroDAO {
             Logger.getLogger(GeneroDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return genero;
+    }
+    
+    public ArrayList<Genero> BuscarGeneroByAnimeId(int id) {
+        ArrayList<Genero> lista = new ArrayList<>();
+        String sql = "SELECT genero.idcategoria, genero.nome FROM genero INNER JOIN anime_has_genero ON anime_has_genero.genero_idcategoria = genero.idcategoria WHERE anime_has_genero.anime_idanime = ?";
+        
+        try {
+            //Segundo  passo - conectar o banco de dados e organizar o comando sql
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                lista.add(new Genero(rs.getInt("idcategoria"), rs.getString("nome")));
+            }
+            stmt.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(GeneroDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lista;
     }
 
 }
