@@ -31,6 +31,8 @@ public class GerenciaAnime extends javax.swing.JFrame {
     public GerenciaAnime() {
         initComponents();
         ListarAnimes();
+        BuscarEstudios();
+        BuscarGeneros();
     }
 
     /**
@@ -147,6 +149,7 @@ public class GerenciaAnime extends javax.swing.JFrame {
             ConsultAnimeTable.getColumnModel().getColumn(5).setPreferredWidth(100);
         }
 
+        bigtxtConsultAnimeSin.setEditable(false);
         jScrollPane3.setViewportView(bigtxtConsultAnimeSin);
 
         ConsultAnimeSinLabel.setText("Sinopse:");
@@ -396,6 +399,7 @@ public class GerenciaAnime extends javax.swing.JFrame {
             }
 
             dao.cadastrarAnime(txtNameAnime.getText(), bigtxtSinopse.getText(), boxFaixa.getItemAt(boxFaixa.getSelectedIndex()), estudio.getIdestudio(), generos);
+            ListarAnimes();
         }
         
     }//GEN-LAST:event_btnCadastraAnimeActionPerformed
@@ -406,7 +410,9 @@ public class GerenciaAnime extends javax.swing.JFrame {
 
     private void ConsultAnimeTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ConsultAnimeTableMouseClicked
         Anime anime = (Anime) ConsultAnimeTable.getValueAt(ConsultAnimeTable.getSelectedRow(), 1);
-        System.out.println(anime.Generos());
+        
+        bigtxtConsultAnimeSin.setText(anime.getSinopse());
+        
     }//GEN-LAST:event_ConsultAnimeTableMouseClicked
 
     private void BuscarEstudios(){
