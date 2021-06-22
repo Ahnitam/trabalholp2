@@ -7,16 +7,26 @@ import java.util.List;
  * @author Luis Henrique
  */
 public class Anime {
-int idanime;
-String name;
-String sinopse;
-String f_etaria;
-double media;
-Estudio estudio;
-List<Genero> generos;
+private int idanime;
+private String name;
+private String sinopse;
+private String f_etaria;
+private double media;
+private Estudio estudio;
+private List<Genero> generos;
+
 
     public Anime(int idanime, String name, String sinopse, String f_etaria, double media, Estudio estudio, List<Genero> generos) {
         this.idanime = idanime;
+        this.name = name;
+        this.sinopse = sinopse;
+        this.f_etaria = f_etaria;
+        this.media = media;
+        this.estudio = estudio;
+        this.generos = generos;
+    }
+    
+    public Anime(String name, String sinopse, String f_etaria, double media, Estudio estudio, List<Genero> generos) {
         this.name = name;
         this.sinopse = sinopse;
         this.f_etaria = f_etaria;
