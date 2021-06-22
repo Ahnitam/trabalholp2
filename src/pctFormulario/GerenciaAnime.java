@@ -64,7 +64,8 @@ public class GerenciaAnime extends javax.swing.JFrame {
         bigtxtConsultAnimeSin = new javax.swing.JTextPane();
         ConsultAnimeSinLabel = new javax.swing.JLabel();
         btnUpdate = new javax.swing.JButton();
-        btnUpdate1 = new javax.swing.JButton();
+        btnExcluir = new javax.swing.JButton();
+        btnHome = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         nameAnimeLabel = new javax.swing.JLabel();
         txtNameAnime = new javax.swing.JTextField();
@@ -205,10 +206,18 @@ public class GerenciaAnime extends javax.swing.JFrame {
             }
         });
 
-        btnUpdate1.setText("Home");
-        btnUpdate1.addActionListener(new java.awt.event.ActionListener() {
+        btnExcluir.setText("Excluir");
+        btnExcluir.setEnabled(false);
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdate1ActionPerformed(evt);
+                btnExcluirActionPerformed(evt);
+            }
+        });
+
+        btnHome.setText("Home");
+        btnHome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHomeActionPerformed(evt);
             }
         });
 
@@ -231,7 +240,8 @@ public class GerenciaAnime extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnUpdate1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnHome, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(56, 56, 56))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
@@ -247,18 +257,18 @@ public class GerenciaAnime extends javax.swing.JFrame {
                 .addComponent(txtConsultAnime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ConsultAnimeSinLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ConsultAnimeSinLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnUpdate)
-                        .addGap(32, 32, 32)
-                        .addComponent(btnUpdate1)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnExcluir)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnHome))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Consultar Animes", jPanel1);
@@ -284,6 +294,11 @@ public class GerenciaAnime extends javax.swing.JFrame {
         jScrollPane1.setViewportView(bigtxtSinopse);
 
         btnClearAnime.setText("Limpar");
+        btnClearAnime.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearAnimeActionPerformed(evt);
+            }
+        });
 
         btnCadastraAnime.setText("Cadatrar");
         btnCadastraAnime.addActionListener(new java.awt.event.ActionListener() {
@@ -381,7 +396,7 @@ public class GerenciaAnime extends javax.swing.JFrame {
                             .addComponent(btnCadastraAnime)
                             .addComponent(btnClearAnime)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Cadastrar Animes", jPanel2);
@@ -401,6 +416,11 @@ public class GerenciaAnime extends javax.swing.JFrame {
         jScrollPane7.setViewportView(bigtxtSinopseUpdate);
 
         btnCancelarAnime.setText("Cancelar");
+        btnCancelarAnime.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarAnimeActionPerformed(evt);
+            }
+        });
 
         btnUpdateAnime.setText("Atualizar");
         btnUpdateAnime.addActionListener(new java.awt.event.ActionListener() {
@@ -505,7 +525,7 @@ public class GerenciaAnime extends javax.swing.JFrame {
                             .addComponent(btnUpdateAnime)
                             .addComponent(btnCancelarAnime)))
                     .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Editar Anime", null, jPanel6, "");
@@ -548,6 +568,7 @@ public class GerenciaAnime extends javax.swing.JFrame {
 
     private void ConsultAnimeTableFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ConsultAnimeTableFocusGained
         btnUpdate.setEnabled(true);
+        btnExcluir.setEnabled(true);
     }//GEN-LAST:event_ConsultAnimeTableFocusGained
 
     private void ConsultAnimeTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ConsultAnimeTableMouseClicked
@@ -562,7 +583,7 @@ public class GerenciaAnime extends javax.swing.JFrame {
        bigtxtSinopseUpdate.setText(this.selectedAnime.getSinopse());
        
        DefaultListModel lista = (DefaultListModel) listGenerosUpdate.getModel();
-       lista.removeAllElements();
+       
        for (Genero genero : this.selectedAnime.getGeneros()){
             lista.addElement(genero);
        }
@@ -577,10 +598,13 @@ public class GerenciaAnime extends javax.swing.JFrame {
            }
        }
        jTabbedPane1.setSelectedIndex(2);
+       jTabbedPane1.setEnabledAt(2, true);
+       jTabbedPane1.setEnabledAt(0, false);
+       jTabbedPane1.setEnabledAt(1, false);
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnUpdateAnimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateAnimeActionPerformed
-        // TODO add your handling code here:
+        AtualizarAnime();
     }//GEN-LAST:event_btnUpdateAnimeActionPerformed
 
     private void btnAdicionarGeneroUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarGeneroUpdateActionPerformed
@@ -597,6 +621,7 @@ public class GerenciaAnime extends javax.swing.JFrame {
 
     private void txtConsultAnimeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtConsultAnimeFocusGained
         btnUpdate.setEnabled(false);
+        btnExcluir.setEnabled(false);
         bigtxtConsultAnimeSin.setText("");
         ConsultAnimeTable.clearSelection();
         this.selectedAnime = null;
@@ -618,10 +643,43 @@ public class GerenciaAnime extends javax.swing.JFrame {
         this.comp = txtConsultAnime.getText();
     }//GEN-LAST:event_txtConsultAnimeKeyReleased
 
-    private void btnUpdate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdate1ActionPerformed
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        int a = JOptionPane.showConfirmDialog(null, "Deseja Excluir?\nAnime: "+ConsultAnimeTable.getValueAt(ConsultAnimeTable.getSelectedRow(), 1).toString());
+        if (a == 0){
+            DefaultTableModel dados = (DefaultTableModel) ConsultAnimeTable.getModel();
+            AnimeDAO dao = new AnimeDAO();
+            dao.ExcluirAnime(selectedAnime);
+            if (!txtConsultAnime.getText().isEmpty()){
+                AnimeList.remove(selectedAnime);
+                dados.removeRow(ConsultAnimeTable.getSelectedRow());
+                ListarAnimes(txtConsultAnime.getText());
+            }else{
+                ListarAnimes();
+            }
+            btnUpdate.setEnabled(false);
+            btnExcluir.setEnabled(false);
+            bigtxtConsultAnimeSin.setText("");
+            ConsultAnimeTable.clearSelection();
+            this.selectedAnime = null;
+        }
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void btnCancelarAnimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarAnimeActionPerformed
+        LimparEditar();
+        jTabbedPane1.setSelectedIndex(0);
+        jTabbedPane1.setEnabledAt(2, false);
+        jTabbedPane1.setEnabledAt(0, true);
+        jTabbedPane1.setEnabledAt(1, true);
+    }//GEN-LAST:event_btnCancelarAnimeActionPerformed
+
+    private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
         this.setVisible(false);
         new HomeAdm().setVisible(true);
-    }//GEN-LAST:event_btnUpdate1ActionPerformed
+    }//GEN-LAST:event_btnHomeActionPerformed
+
+    private void btnClearAnimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearAnimeActionPerformed
+        LimparCadastro();
+    }//GEN-LAST:event_btnClearAnimeActionPerformed
 
     private void CadastrarAnimes(){
         DefaultComboBoxModel lista = (DefaultComboBoxModel) boxEstudio.getModel();
@@ -650,8 +708,79 @@ public class GerenciaAnime extends javax.swing.JFrame {
             }
 
             dao.cadastrarAnime(txtNameAnime.getText(), bigtxtSinopse.getText(), boxFaixa.getItemAt(boxFaixa.getSelectedIndex()), estudio.getIdestudio(), generos);
+            LimparCadastro();
+            jTabbedPane1.setSelectedIndex(0);
             ListarAnimes();
         }
+    }
+    
+    private void AtualizarAnime(){
+        DefaultComboBoxModel lista = (DefaultComboBoxModel) boxEstudioUpdate.getModel();
+        DefaultListModel listageneros = (DefaultListModel) listGenerosUpdate.getModel();
+        
+        if (txtNameAnimeUpdate.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Digite o nome do anime!");
+        }else if(boxEstudioUpdate.getSelectedIndex() == 0 || boxEstudioUpdate.getSelectedIndex() == -1){
+            JOptionPane.showMessageDialog(null, "Selecione um estudio!");
+        }else if(listageneros.getSize() == 0){
+            JOptionPane.showMessageDialog(null, "Adicione algum gênero!");
+        }else if(bigtxtSinopseUpdate.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Adicione uma sinopse!");
+        }else if(boxFaixaUpdate.getSelectedIndex() == 0 || boxFaixaUpdate.getSelectedIndex() == -1){
+            JOptionPane.showMessageDialog(null, "Selecione uma faixa etaria!");
+        }
+        else{
+            AnimeDAO dao = new AnimeDAO();
+            Estudio estudio = (Estudio) lista.getSelectedItem();
+            
+            List<Genero> oldGens = new ArrayList<>();
+            List<Genero> newGens = new ArrayList<>();
+            for (int i = 0; i < listageneros.getSize(); i++){
+                newGens.add((Genero) listageneros.get(i));
+            }
+            
+            for (int i = 0; i < selectedAnime.getGeneros().size(); i++){
+                boolean v = true;
+                for (int j = 0; j < newGens.size();j++){
+                    if (selectedAnime.getGeneros().get(i).getIdcategoria() == newGens.get(j).getIdcategoria()){
+                        newGens.remove(newGens.get(j));
+                        v = false;
+                        break;
+                    }
+                }
+                if (v){
+                    oldGens.add(selectedAnime.getGeneros().get(i));
+                }
+            }
+            if (txtNameAnimeUpdate.getText().equals(selectedAnime.getName()) && bigtxtSinopseUpdate.getText().equals(selectedAnime.getSinopse()) && boxFaixaUpdate.getItemAt(boxFaixaUpdate.getSelectedIndex()).equals(selectedAnime.getF_etaria()) && estudio.getIdestudio() == selectedAnime.getEstudio().getIdestudio() && oldGens.isEmpty() && newGens.isEmpty()){
+                JOptionPane.showMessageDialog(null, "Faça Alguma Alteração Para Atualizar!");
+            }else{
+                Anime newAnime = new Anime(selectedAnime.getIdanime(), txtNameAnimeUpdate.getText(), bigtxtSinopseUpdate.getText(), boxFaixa.getItemAt(boxFaixa.getSelectedIndex()), selectedAnime.getMedia(), estudio, newGens);
+                dao.AtualizarAnime(oldGens, newAnime);
+                ListarAnimes();
+                jTabbedPane1.setSelectedIndex(0);
+                jTabbedPane1.setEnabledAt(2, false);
+                jTabbedPane1.setEnabledAt(0, true);
+                jTabbedPane1.setEnabledAt(1, true);
+            }
+        }
+    }
+    
+    private void LimparCadastro(){
+        txtNameAnime.setText("");
+        bigtxtSinopse.setText("");
+        boxEstudio.setSelectedIndex(-1);
+        boxFaixa.setSelectedIndex(-1);
+        DefaultListModel lista = (DefaultListModel) listGeneros.getModel();
+        lista.removeAllElements();
+    }
+    private void LimparEditar(){
+        txtNameAnimeUpdate.setText("");
+        bigtxtSinopseUpdate.setText("");
+        boxEstudioUpdate.setSelectedIndex(-1);
+        boxFaixaUpdate.setSelectedIndex(-1);
+        DefaultListModel lista = (DefaultListModel) listGenerosUpdate.getModel();
+        lista.removeAllElements();
     }
     private void BuscarEstudios(){
         EstudioDAO dao = new EstudioDAO();
@@ -743,22 +872,7 @@ public class GerenciaAnime extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Selecione um genero para remover!");
         }
     }
-    /*
-    private void ListarAnimes(String s){
-        DefaultTableModel dados = (DefaultTableModel) estudioTable.getModel();
-        dados.setNumRows(0);
-        
-        EstudioDAO dao = new EstudioDAO();
-        List<Estudio> lista = dao.BuscarEstudio(s);
-
-        lista.forEach((estudio) -> {
-            dados.addRow(new Object[]{
-                estudio.getIdestudio(),
-                estudio.getNome()
-            });
-        });
-    }
-    */
+    
     /**
      * @param args the command line arguments
      */
@@ -811,10 +925,11 @@ public class GerenciaAnime extends javax.swing.JFrame {
     private javax.swing.JButton btnCadastraAnime;
     private javax.swing.JButton btnCancelarAnime;
     private javax.swing.JButton btnClearAnime;
+    private javax.swing.JButton btnExcluir;
+    private javax.swing.JButton btnHome;
     private javax.swing.JButton btnRemoverGenero;
     private javax.swing.JButton btnRemoverGeneroUpdate;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JButton btnUpdate1;
     private javax.swing.JButton btnUpdateAnime;
     private javax.swing.JLabel consultAnimeLabel;
     private javax.swing.JLabel estudioLabel;

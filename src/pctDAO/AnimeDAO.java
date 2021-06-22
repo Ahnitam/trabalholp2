@@ -117,5 +117,73 @@ public class AnimeDAO {
         return lista;
     }
     
+    public void AtualizarAnime(List<Genero> animeOld, Anime animeUp){
+        try {
+            if (animeOld.size() > 0){
+                for (Genero gen : animeOld){
+                    ExcluirAnime_has_Genero(animeUp.getIdanime(), gen.getIdcategoria());
+                }
+            }
+            if (animeUp.getGeneros().size() > 0){
+                for (Genero gen : animeUp.getGeneros()){
+                    anime_has_genero(animeUp.getIdanime(), gen.getIdcategoria());
+                }
+            }
+            //Primeiro  passo  - criar o comando sql
+            String sql = "update anime set nome=?, sinopse=?, f_etaria=?, estudio_idestudio=? where idanime=?";
+            
+            //Segundo  passo - conectar o banco de dados e organizar o comando sql
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, animeUp.getName());
+            stmt.setString(2, animeUp.getSinopse());
+            stmt.setString(3, animeUp.getF_etaria());
+            stmt.setInt(4, animeUp.getEstudio().getIdestudio());
+            stmt.setString(5, animeUp.getF_etaria());
+            
+            //Terceiro  passo - executar o comando sql
+            stmt.executeUpdate();
+            stmt.close();
+            
+            JOptionPane.showMessageDialog(null, "atualizado com Sucesso!");
+
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Erro no banco de dados: " + erro);
+        }
+    }
+    
+    private void ExcluirAnime_has_Genero(int idanime, int idgen){
+        try{
+            String sql = "DELETE FROM anime_has_genero WHERE anime_idanime=? and genero_idcategoria=?";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, idanime);
+            stmt.setInt(2, idgen);
+
+            //Teceiro passo - executar o comando sql
+            stmt.execute();
+            stmt.close();
+
+        } catch (SQLException erro) {
+            System.err.println(erro.getMessage());
+        }
+        
+    }
+    
+    public void ExcluirAnime(Anime anime){
+        try{
+            String sql = "DELETE FROM anime WHERE idanime=?";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, anime.getIdanime());
+
+            //Teceiro passo - executar o comando sql
+            stmt.execute();
+            stmt.close();
+            
+            JOptionPane.showMessageDialog(null, "Excluido com Sucesso!");
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Erro no banco de dados: " + erro);
+        }
+        
+    }
+    
 
 }
