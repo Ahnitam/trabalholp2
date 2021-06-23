@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import pctControle.Estudio;
+import pctControle.Usuario;
 import pctDAO.EstudioDAO;
 
 /**
@@ -23,8 +24,10 @@ public class GerenciaEstudio extends javax.swing.JFrame {
     
     private String comp = "";
     private List<Estudio> lista = null;
+    private Usuario user;
     
-    public GerenciaEstudio() {
+    public GerenciaEstudio(Usuario user) {
+        this.user = user;
         initComponents();
         ListarEstudios();
     }
@@ -50,6 +53,7 @@ public class GerenciaEstudio extends javax.swing.JFrame {
         btnUpdateEstudio = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         btnCadastraEstudio.setText("Cadatrar Estudio");
         btnCadastraEstudio.addActionListener(new java.awt.event.ActionListener() {
@@ -192,6 +196,7 @@ public class GerenciaEstudio extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtEstudioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEstudioActionPerformed
@@ -271,8 +276,8 @@ public class GerenciaEstudio extends javax.swing.JFrame {
     }//GEN-LAST:event_estudioTableFocusGained
 
     private void btnToHomeEstudioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToHomeEstudioActionPerformed
-        this.setVisible(false);
-        new HomeAdm().setVisible(true);
+        new HomeAdm(this.user).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnToHomeEstudioActionPerformed
 
     private void txtDigitaEstudioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDigitaEstudioFocusGained
@@ -352,7 +357,7 @@ public class GerenciaEstudio extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GerenciaEstudio().setVisible(true);
+                new GerenciaEstudio(null).setVisible(true);
             }
         });
     }

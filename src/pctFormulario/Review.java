@@ -39,6 +39,7 @@ public class Review extends javax.swing.JFrame {
         btnCreateReview = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         selectLabel.setText("Selecionar Anime:");
 
@@ -131,6 +132,7 @@ public class Review extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void selectNotaBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectNotaBoxActionPerformed

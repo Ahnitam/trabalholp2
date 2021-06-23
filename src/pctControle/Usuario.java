@@ -10,6 +10,18 @@ public class Usuario {
     String password;
     int permission;
 
+    public Usuario() {
+    }
+
+    
+    public Usuario(int iduser, String username, String email, String password, int permission) {
+        this.iduser = iduser;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.permission = permission;
+    }
+
     public int getPermission() {
         return permission;
     }
