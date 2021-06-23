@@ -19,7 +19,10 @@ public class GerenciaUsuario extends javax.swing.JFrame {
     /**
      * Creates new form GerenciaAdm
      */
-    public GerenciaUsuario() {
+    private Usuario user;
+    
+    public GerenciaUsuario(Usuario user) {
+        this.user = user;
         initComponents();
         Tabela();
     }
@@ -61,13 +64,11 @@ public class GerenciaUsuario extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gerenciar Usuários");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setResizable(false);
 
         userTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "IdUsuário", "Usuário", "Email", "Permissão"
@@ -132,6 +133,7 @@ public class GerenciaUsuario extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtDigitaUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDigitaUsernameActionPerformed
@@ -139,8 +141,8 @@ public class GerenciaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDigitaUsernameActionPerformed
 
     private void btnToHomeUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToHomeUserActionPerformed
-        this.setVisible(false);
-        new HomeAdm().setVisible(true);
+        new HomeAdm(this.user).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnToHomeUserActionPerformed
 
     /**
@@ -176,7 +178,7 @@ public class GerenciaUsuario extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GerenciaUsuario().setVisible(true);
+                new GerenciaUsuario(null).setVisible(true);
             }
         });
     }

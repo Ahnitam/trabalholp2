@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import pctControle.Genero;
+import pctControle.Usuario;
 import pctDAO.GeneroDAO;
 
 /**
@@ -22,8 +23,10 @@ public class GerenciaGenero extends javax.swing.JFrame {
      */
     private String comp = "";
     private List<Genero> lista = null;
+    private Usuario user;
     
-    public GerenciaGenero() {
+    public GerenciaGenero(Usuario user) {
+        this.user = user;
         initComponents();
         ListarGeneros();
     }
@@ -49,6 +52,7 @@ public class GerenciaGenero extends javax.swing.JFrame {
         btnUpdateGenero = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         btnCadastraGenero.setText("Cadatrar Gênero");
         btnCadastraGenero.addActionListener(new java.awt.event.ActionListener() {
@@ -190,6 +194,7 @@ public class GerenciaGenero extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtGeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGeneroActionPerformed
@@ -270,8 +275,8 @@ public class GerenciaGenero extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUpdateGeneroActionPerformed
 
     private void btnToHomeEstudioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToHomeEstudioActionPerformed
-        this.setVisible(false);
-        new HomeAdm().setVisible(true);
+        new HomeAdm(this.user).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnToHomeEstudioActionPerformed
 
     private void txtDigitaGeneroFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDigitaGeneroFocusGained
@@ -350,7 +355,7 @@ public class GerenciaGenero extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GerenciaGenero().setVisible(true);
+                new GerenciaGenero(null).setVisible(true);
             }
         });
     }

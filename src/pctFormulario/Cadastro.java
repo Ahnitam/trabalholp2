@@ -47,6 +47,7 @@ public class Cadastro extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cadastrar");
         setLocation(new java.awt.Point(0, 0));
+        setResizable(false);
 
         txtUserReg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,6 +141,7 @@ public class Cadastro extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtUserRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserRegActionPerformed
@@ -164,8 +166,8 @@ public class Cadastro extends javax.swing.JFrame {
                 
                 dao.cadastrarUsuario(usuario);
                 // Voltar para a tela de login caso for um sucesso
-                this.setVisible(false);
                 new Login().setVisible(true);
+                this.dispose();
             }
             else{
                 JOptionPane.showMessageDialog(null, "Senhas Diferentes!");
@@ -177,8 +179,8 @@ public class Cadastro extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegRegActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        this.setVisible(false);
         new Login().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void txtEmailRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailRegActionPerformed

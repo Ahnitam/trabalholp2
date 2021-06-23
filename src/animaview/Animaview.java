@@ -1,6 +1,6 @@
 package animaview;
 
-import pctDAO.AnimeDAO;
+import pctFormulario.Login;
 
 /**
  *
@@ -8,6 +8,7 @@ import pctDAO.AnimeDAO;
  */
 public class Animaview {
     public static void main(String[] args) {
+        new Login().setVisible(true);
     }
     
 }

@@ -5,6 +5,8 @@
  */
 package pctFormulario;
 
+import pctControle.Usuario;
+
 /**
  *
  * @author Luis Henrique
@@ -14,8 +16,12 @@ public class HomeAdm extends javax.swing.JFrame {
     /**
      * Creates new form HomeAdm
      */
-    public HomeAdm() {
+    private Usuario user;
+    
+    public HomeAdm(Usuario user) {
+        this.user = user;
         initComponents();
+        WelcomeADM();
     }
 
     /**
@@ -39,6 +45,7 @@ public class HomeAdm extends javax.swing.JFrame {
         btnLogoutAdm = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         btnGenGen.setText("Gerenciar Genêros");
         btnGenGen.addActionListener(new java.awt.event.ActionListener() {
@@ -68,7 +75,7 @@ public class HomeAdm extends javax.swing.JFrame {
             }
         });
 
-        welcomeLabel.setText("Bem Vindo ADM!");
+        welcomeLabel.setText("Bem Vindo, ");
 
         btnLogoutAdm.setText("Logout");
         btnLogoutAdm.addActionListener(new java.awt.event.ActionListener() {
@@ -117,36 +124,45 @@ public class HomeAdm extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLogoutAdmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutAdmActionPerformed
-        this.setVisible(false);
         new Login().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnLogoutAdmActionPerformed
 
     private void btnGenUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenUsersActionPerformed
-        this.setVisible(false);
-        new GerenciaUsuario().setVisible(true);
+        new GerenciaUsuario(this.user).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnGenUsersActionPerformed
 
     private void btnGenAnimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenAnimeActionPerformed
-        this.setVisible(false);
-        new GerenciaAnime().setVisible(true);
+        new GerenciaAnime(this.user).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnGenAnimeActionPerformed
 
     private void btnGenGenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenGenActionPerformed
-        this.setVisible(false);
-        new GerenciaGenero().setVisible(true);
+        new GerenciaGenero(this.user).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnGenGenActionPerformed
 
     private void btnGenEstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenEstActionPerformed
-        this.setVisible(false);
-        new GerenciaEstudio().setVisible(true);
+        new GerenciaEstudio(this.user).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnGenEstActionPerformed
 
     /**
      * @param args the command line arguments
      */
+    
+    private void WelcomeADM(){
+        try {
+            welcomeLabel.setText("Bem Vindo, "+user.getUsername()+"!");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -170,11 +186,11 @@ public class HomeAdm extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(HomeAdm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new HomeAdm().setVisible(true);
+                new HomeAdm(null).setVisible(true);
             }
         });
     }

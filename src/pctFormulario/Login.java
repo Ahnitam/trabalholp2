@@ -8,7 +8,6 @@ package pctFormulario;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import javax.swing.JOptionPane;
 import pctControle.Usuario;
 import pctDAO.UsuarioDAO;
@@ -44,6 +43,7 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Faça seu login");
+        setResizable(false);
 
         userLabel.setText("Usuário:");
 
@@ -112,6 +112,7 @@ public class Login extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed
@@ -144,20 +145,20 @@ public class Login extends javax.swing.JFrame {
         else{
             if (usuario.getPermission() == 0) {
                 JOptionPane.showMessageDialog(null, "Logado com sucesso.  Seja bem vindo: " + usuario.getUsername());
-                this.setVisible(false);
-                new Review().setVisible(true);
+                new ConsultaReview(usuario).setVisible(true);
+                this.dispose();
             }
             else{
                 JOptionPane.showMessageDialog(null, "Logado com sucesso.  Seja bem vindo ADM: " + usuario.getUsername());
-                this.setVisible(false);
-                new HomeAdm().setVisible(true);
+                new HomeAdm(usuario).setVisible(true);
+                this.dispose();
             }
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
-        this.setVisible(false);
         new Cadastro().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRegisterActionPerformed
 
     /**

@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import pctControle.Anime;
 import pctControle.Estudio;
 import pctControle.Genero;
+import pctControle.Usuario;
 import pctDAO.AnimeDAO;
 import pctDAO.EstudioDAO;
 import pctDAO.GeneroDAO;
@@ -32,8 +33,10 @@ public class GerenciaAnime extends javax.swing.JFrame {
     private Anime selectedAnime = null;
     List<Anime> AnimeList = null;
     private String comp = "";
+    private Usuario user;
     
-    public GerenciaAnime() {
+    public GerenciaAnime(Usuario user) {
+        this.user = user;
         initComponents();
         ListarAnimes();
         BuscarEstudios();
@@ -673,8 +676,8 @@ public class GerenciaAnime extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarAnimeActionPerformed
 
     private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
-        this.setVisible(false);
-        new HomeAdm().setVisible(true);
+        new HomeAdm(this.user).setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnHomeActionPerformed
 
     private void btnClearAnimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearAnimeActionPerformed
@@ -903,7 +906,7 @@ public class GerenciaAnime extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GerenciaAnime().setVisible(true);
+                new GerenciaAnime(null).setVisible(true);
             }
         });
     }

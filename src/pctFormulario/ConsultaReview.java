@@ -5,6 +5,8 @@
  */
 package pctFormulario;
 
+import pctControle.Usuario;
+
 /**
  *
  * @author Luis Henrique
@@ -14,7 +16,10 @@ public class ConsultaReview extends javax.swing.JFrame {
     /**
      * Creates new form ConsultaReview
      */
-    public ConsultaReview() {
+    private Usuario user;
+    
+    public ConsultaReview(Usuario user) {
+        this.user = user;
         initComponents();
     }
 
@@ -37,6 +42,7 @@ public class ConsultaReview extends javax.swing.JFrame {
         reviewLabel = new javax.swing.JLabel();
         btnLogoutUser = new javax.swing.JButton();
         btnCreateReview = new javax.swing.JButton();
+        boxAnimes = new javax.swing.JComboBox<>();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -50,27 +56,34 @@ public class ConsultaReview extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         consultTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Usuário", "Nome do Anime", "Nota", "Genêro"
+                "Usuário", "Nota", "Review"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        consultTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(consultTable);
+        if (consultTable.getColumnModel().getColumnCount() > 0) {
+            consultTable.getColumnModel().getColumn(0).setResizable(false);
+            consultTable.getColumnModel().getColumn(0).setPreferredWidth(75);
+            consultTable.getColumnModel().getColumn(1).setResizable(false);
+            consultTable.getColumnModel().getColumn(1).setPreferredWidth(5);
+            consultTable.getColumnModel().getColumn(2).setResizable(false);
+            consultTable.getColumnModel().getColumn(2).setPreferredWidth(450);
+        }
 
         digiteAnimeLabel.setText("Digite o nome do Anime:");
 
@@ -99,27 +112,27 @@ public class ConsultaReview extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1))
+                        .addComponent(btnCreateReview, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnLogoutUser))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(digiteAnimeLabel)
-                            .addComponent(txtDigiteAnime, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(digiteAnimeLabel)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txtDigiteAnime))
+                        .addGap(18, 18, 18)
+                        .addComponent(boxAnimes, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 712, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(reviewLabel))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(21, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(reviewLabel)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 703, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnCreateReview)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnLogoutUser)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,21 +140,24 @@ public class ConsultaReview extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addComponent(digiteAnimeLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtDigiteAnime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtDigiteAnime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(boxAnimes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(reviewLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLogoutUser)
                     .addComponent(btnCreateReview))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtDigiteAnimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDigiteAnimeActionPerformed
@@ -182,13 +198,14 @@ public class ConsultaReview extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ConsultaReview().setVisible(true);
+                new ConsultaReview(null).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextPane bigtxtReview;
+    private javax.swing.JComboBox<String> boxAnimes;
     private javax.swing.JButton btnCreateReview;
     private javax.swing.JButton btnLogoutUser;
     private javax.swing.JTable consultTable;
