@@ -5,6 +5,12 @@
  */
 package pctFormulario;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import pctControle.Anime;
+import pctControle.Usuario;
+import pctDAO.ReviewDAO;
+
 /**
  *
  * @author Luis Henrique
@@ -14,8 +20,22 @@ public class Review extends javax.swing.JFrame {
     /**
      * Creates new form Review
      */
-    public Review() {
-        initComponents();
+    private Usuario user;
+    private Anime anime;
+    private JFrame parent;
+    
+    public Review(Usuario user, Anime anime, JFrame parent) {
+        if (user == null || parent == null || anime == null){
+            JOptionPane.showMessageDialog(null, "Faça Login!");
+            System.exit(0);
+        }else{
+            this.user = user;
+            this.anime = anime;
+            this.parent = parent;
+            initComponents();
+            selectLabel.setText("Anime: "+this.anime.getName());
+            userLabel.setText("Usuário: "+this.user.getUsername());
+        }
     }
 
     /**
@@ -34,16 +54,19 @@ public class Review extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         btxtDescricao = new javax.swing.JTextPane();
         descricaoLabel = new javax.swing.JLabel();
-        txtSelectAnime = new javax.swing.JTextField();
-        selectAnimeBox = new javax.swing.JComboBox<>();
         btnCreateReview = new javax.swing.JButton();
+        userLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        selectLabel.setText("Selecionar Anime:");
+        selectLabel.setFont(new java.awt.Font("Noto Sans Mono SemiCondensed Black", 1, 24)); // NOI18N
+        selectLabel.setText("Anime:");
 
-        selectNotaBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        selectNotaBox.setMaximumRowCount(5);
+        selectNotaBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "9", "8", "7", "6", "5", "4", "3", "2", "1" }));
+        selectNotaBox.setSelectedIndex(-1);
+        selectNotaBox.setToolTipText("Selecione Uma Nota");
         selectNotaBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 selectNotaBoxActionPerformed(evt);
@@ -61,15 +84,7 @@ public class Review extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(btxtDescricao);
 
-        descricaoLabel.setText("Descrição:");
-
-        txtSelectAnime.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSelectAnimeActionPerformed(evt);
-            }
-        });
-
-        selectAnimeBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        descricaoLabel.setText("Review:");
 
         btnCreateReview.setText("Criar Review");
         btnCreateReview.addActionListener(new java.awt.event.ActionListener() {
@@ -78,57 +93,55 @@ public class Review extends javax.swing.JFrame {
             }
         });
 
+        userLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        userLabel.setText("Usuário: ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(127, 127, 127)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(descricaoLabel)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtSelectAnime, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(selectAnimeBox, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(selectNotaBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(selectLabel)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnCreateReview)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCancelRev)))
-                .addContainerGap(129, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(559, 559, 559)
-                    .addComponent(notaLabel)
-                    .addContainerGap(159, Short.MAX_VALUE)))
+                        .addComponent(selectLabel)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(descricaoLabel)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnCreateReview)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnCancelRev)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(userLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(notaLabel)
+                            .addComponent(selectNotaBox, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(68, 68, 68)
+                .addGap(27, 27, 27)
                 .addComponent(selectLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(45, 45, 45)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(descricaoLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(notaLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(selectNotaBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSelectAnime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(selectAnimeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(selectNotaBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addComponent(descricaoLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCreateReview)
                     .addComponent(btnCancelRev)
-                    .addComponent(btnCreateReview))
-                .addGap(62, 62, 62))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(67, 67, 67)
-                    .addComponent(notaLabel)
-                    .addContainerGap(270, Short.MAX_VALUE)))
+                    .addComponent(userLabel))
+                .addContainerGap())
         );
 
         pack();
@@ -140,17 +153,27 @@ public class Review extends javax.swing.JFrame {
     }//GEN-LAST:event_selectNotaBoxActionPerformed
 
     private void btnCancelRevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelRevActionPerformed
-        // TODO add your handling code here:
+        this.parent.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCancelRevActionPerformed
 
-    private void txtSelectAnimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSelectAnimeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSelectAnimeActionPerformed
-
     private void btnCreateReviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateReviewActionPerformed
-        // TODO add your handling code here:
+        Cadastrar();
     }//GEN-LAST:event_btnCreateReviewActionPerformed
 
+    protected void Cadastrar(){
+        if (btxtDescricao.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Digite uma review!");
+        }else if(selectNotaBox.getSelectedIndex() == -1){
+            JOptionPane.showMessageDialog(null, "Selecione uma nota!");
+        }else{
+            ReviewDAO dao = new ReviewDAO();
+            dao.cadastrarReview(this.user, this.anime, btxtDescricao.getText(), Integer.valueOf(selectNotaBox.getItemAt(selectNotaBox.getSelectedIndex())));
+            this.parent.dispose();
+            new ConsultaReview(this.user).setVisible(true);
+            this.dispose();
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -181,7 +204,7 @@ public class Review extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Review().setVisible(true);
+                new Review(null, null, null).setVisible(true);
             }
         });
     }
@@ -193,9 +216,8 @@ public class Review extends javax.swing.JFrame {
     private javax.swing.JLabel descricaoLabel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel notaLabel;
-    private javax.swing.JComboBox<String> selectAnimeBox;
     private javax.swing.JLabel selectLabel;
     private javax.swing.JComboBox<String> selectNotaBox;
-    private javax.swing.JTextField txtSelectAnime;
+    private javax.swing.JLabel userLabel;
     // End of variables declaration//GEN-END:variables
 }
