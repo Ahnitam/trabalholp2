@@ -5,7 +5,15 @@
  */
 package pctFormulario;
 
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import pctControle.Anime;
 import pctControle.Usuario;
+import pctDAO.AnimeDAO;
+import pctDAO.ReviewDAO;
+import pctControle.Review;
 
 /**
  *
@@ -17,10 +25,18 @@ public class ConsultaReview extends javax.swing.JFrame {
      * Creates new form ConsultaReview
      */
     private Usuario user;
+    private String comp = "";
+    List<Anime> AnimeList = null;
+    
+    protected boolean a = false;
     
     public ConsultaReview(Usuario user) {
-        this.user = user;
-        initComponents();
+        if (user != null){
+            initComponents();
+            this.user = user;
+            ListarAnimes();
+            userLabel.setText("Usuário: "+user.getUsername());
+        }
     }
 
     /**
@@ -43,6 +59,7 @@ public class ConsultaReview extends javax.swing.JFrame {
         btnLogoutUser = new javax.swing.JButton();
         btnCreateReview = new javax.swing.JButton();
         boxAnimes = new javax.swing.JComboBox<>();
+        userLabel = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -75,6 +92,16 @@ public class ConsultaReview extends javax.swing.JFrame {
             }
         });
         consultTable.getTableHeader().setReorderingAllowed(false);
+        consultTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                consultTableMouseClicked(evt);
+            }
+        });
+        consultTable.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                consultTableKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(consultTable);
         if (consultTable.getColumnModel().getColumnCount() > 0) {
             consultTable.getColumnModel().getColumn(0).setResizable(false);
@@ -87,9 +114,14 @@ public class ConsultaReview extends javax.swing.JFrame {
 
         digiteAnimeLabel.setText("Digite o nome do Anime:");
 
-        txtDigiteAnime.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDigiteAnimeActionPerformed(evt);
+        txtDigiteAnime.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtDigiteAnimeFocusGained(evt);
+            }
+        });
+        txtDigiteAnime.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtDigiteAnimeKeyReleased(evt);
             }
         });
 
@@ -99,13 +131,37 @@ public class ConsultaReview extends javax.swing.JFrame {
         reviewLabel.setText("Review:");
 
         btnLogoutUser.setText("Logout");
+        btnLogoutUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutUserActionPerformed(evt);
+            }
+        });
 
         btnCreateReview.setText("Criar Review");
+        btnCreateReview.setEnabled(false);
         btnCreateReview.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCreateReviewActionPerformed(evt);
             }
         });
+
+        boxAnimes.setToolTipText("Selecione um Anime");
+        boxAnimes.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                boxAnimesItemStateChanged(evt);
+            }
+        });
+        boxAnimes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                boxAnimesMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                boxAnimesMouseReleased(evt);
+            }
+        });
+
+        userLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        userLabel.setText("Usuário: ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -116,22 +172,23 @@ public class ConsultaReview extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnCreateReview, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnLogoutUser))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(digiteAnimeLabel)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(digiteAnimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addGap(290, 290, 290))
                             .addComponent(txtDigiteAnime))
                         .addGap(18, 18, 18)
                         .addComponent(boxAnimes, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 712, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(reviewLabel))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(btnCreateReview, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(userLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnLogoutUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(reviewLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(666, 666, 666)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -152,7 +209,8 @@ public class ConsultaReview extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLogoutUser)
-                    .addComponent(btnCreateReview))
+                    .addComponent(btnCreateReview)
+                    .addComponent(userLabel))
                 .addContainerGap())
         );
 
@@ -160,47 +218,120 @@ public class ConsultaReview extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtDigiteAnimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDigiteAnimeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDigiteAnimeActionPerformed
-
     private void btnCreateReviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateReviewActionPerformed
-        // TODO add your handling code here:
+        new pctFormulario.Review(this.user, (Anime) boxAnimes.getSelectedItem(), this).setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnCreateReviewActionPerformed
 
+    private void txtDigiteAnimeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDigiteAnimeKeyReleased
+        if(!txtDigiteAnime.getText().equals(this.comp) && txtDigiteAnime.getText().isEmpty()){
+            ListarAnimes();
+        }else if(!txtDigiteAnime.getText().equals(this.comp)){
+            ListarAnimes(txtDigiteAnime.getText());
+        }
+        this.comp = txtDigiteAnime.getText();
+    }//GEN-LAST:event_txtDigiteAnimeKeyReleased
+
+    private void boxAnimesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boxAnimesMouseReleased
+        
+    }//GEN-LAST:event_boxAnimesMouseReleased
+
+    private void boxAnimesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boxAnimesMousePressed
+        
+    }//GEN-LAST:event_boxAnimesMousePressed
+
+    private void boxAnimesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_boxAnimesItemStateChanged
+        if (boxAnimes.getSelectedIndex() != -1 && this.a){
+            btnCreateReview.setEnabled(true);
+            ListarReviews();
+        }else{
+            DefaultTableModel dados = (DefaultTableModel) consultTable.getModel();
+            dados.setNumRows(0);
+        }
+    }//GEN-LAST:event_boxAnimesItemStateChanged
+
+    private void consultTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_consultTableMouseClicked
+        Review r = (Review) consultTable.getValueAt(consultTable.getSelectedRow(), 2);
+        bigtxtReview.setText(r.getDescricao());
+    }//GEN-LAST:event_consultTableMouseClicked
+
+    private void consultTableKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_consultTableKeyReleased
+        if (evt.getKeyCode()== 40 || evt.getKeyCode() == 38){
+            Review r = (Review) consultTable.getValueAt(consultTable.getSelectedRow(), 2);
+            bigtxtReview.setText(r.getDescricao());
+        }
+    }//GEN-LAST:event_consultTableKeyReleased
+
+    private void txtDigiteAnimeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDigiteAnimeFocusGained
+        bigtxtReview.setText("");
+        consultTable.clearSelection();
+    }//GEN-LAST:event_txtDigiteAnimeFocusGained
+
+    private void btnLogoutUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutUserActionPerformed
+        new Login().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnLogoutUserActionPerformed
+
+    private void ListarAnimes(){
+        DefaultComboBoxModel dados = (DefaultComboBoxModel) boxAnimes.getModel();
+        dados.removeAllElements();
+        
+        AnimeDAO dao = new AnimeDAO();
+        this.AnimeList = dao.listarAnimes();
+        boolean c = true;
+        for (Anime anime : this.AnimeList){
+            if (c){
+                this.a = false;
+                c = false;
+            }else{
+                boxAnimes.setSelectedIndex(-1);
+                this.a = true;
+            }
+            dados.addElement(anime);
+        }
+        
+        btnCreateReview.setEnabled(false);
+    }
+    private void ListarAnimes(String s){
+        DefaultComboBoxModel dados = (DefaultComboBoxModel) boxAnimes.getModel();
+        dados.removeAllElements();
+        
+        boolean c = true;
+        for (Anime anime : this.AnimeList){
+            if (anime.getName().toLowerCase().contains(s.toLowerCase())){
+                if (c){
+                    this.a = false;
+                    c = false;
+                }else{
+                    boxAnimes.setSelectedIndex(-1);
+                    this.a = true;
+                }
+                dados.addElement(anime);
+            }
+        }
+        
+        btnCreateReview.setEnabled(false);
+    }
+    private void ListarReviews(){
+        DefaultTableModel dados = (DefaultTableModel) consultTable.getModel();
+        dados.setNumRows(0);
+        
+        ReviewDAO dao = new ReviewDAO();
+        List<Review> lista = dao.listarReviews((Anime) boxAnimes.getSelectedItem());
+        for (Review review : lista){
+            dados.addRow(new Object[]{
+                review.getUser(),
+                review.getNota(),
+                review
+            });
+        }
+    }
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ConsultaReview.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ConsultaReview.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ConsultaReview.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ConsultaReview.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ConsultaReview(null).setVisible(true);
-            }
-        });
+        JOptionPane.showMessageDialog(null, "Faça Login!");
+        new Login().setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -215,5 +346,6 @@ public class ConsultaReview extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel reviewLabel;
     private javax.swing.JTextField txtDigiteAnime;
+    private javax.swing.JLabel userLabel;
     // End of variables declaration//GEN-END:variables
 }
