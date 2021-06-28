@@ -101,7 +101,7 @@ public class AnimeDAO {
     public List<Anime> listarAnimes() {
         ArrayList<Anime> lista = new ArrayList<>();
 
-        String sql = "SELECT anime.idanime, anime.nome, anime.sinopse, anime.f_etaria, anime.media, estudio.idestudio, estudio.nome as estudio FROM anime INNER JOIN estudio ON anime.estudio_idestudio = estudio.idestudio";
+        String sql = "SELECT * FROM ANIME_ESTUDIO";
         try {
             //Segundo  passo - conectar o banco de dados e organizar o comando sql
             PreparedStatement stmt = con.prepareStatement(sql);
@@ -109,7 +109,7 @@ public class AnimeDAO {
             
             GeneroDAO generodao = new GeneroDAO();
             while (rs.next()) {   
-                Anime anime = new Anime(rs.getInt("idanime"), rs.getString("nome"), rs.getString("sinopse"), rs.getString("f_etaria"), rs.getDouble("media"), new Estudio(rs.getInt("idestudio"), rs.getString("estudio")), generodao.BuscarGeneroByAnimeId(rs.getInt("idanime")));
+                Anime anime = new Anime(rs.getInt("idanime"), rs.getString("nome"), rs.getString("sinopse"), rs.getString("f_etaria"), rs.getDouble("media"), new Estudio(rs.getInt("idestudio"), rs.getString("estudio")), rs.getDate("data"),generodao.BuscarGeneroByAnimeId(rs.getInt("idanime")));
                 lista.add(anime);
             }
             stmt.close();
@@ -132,7 +132,7 @@ public class AnimeDAO {
                 }
             }
             //Primeiro  passo  - criar o comando sql
-            String sql = "update anime set nome=?, sinopse=?, f_etaria=?, estudio_idestudio=? where idanime=?";
+            String sql = "update anime set nome=?, sinopse=?, f_etaria=?, estudio_idestudio=?, data=? where idanime=?";
             
             //Segundo  passo - conectar o banco de dados e organizar o comando sql
             PreparedStatement stmt = con.prepareStatement(sql);
@@ -140,13 +140,14 @@ public class AnimeDAO {
             stmt.setString(2, animeUp.getSinopse());
             stmt.setString(3, animeUp.getF_etaria());
             stmt.setInt(4, animeUp.getEstudio().getIdestudio());
-            stmt.setString(5, animeUp.getF_etaria());
+            stmt.setDate(5, new Date(animeUp.getData().getTimeInMillis()));
+            stmt.setInt(6, animeUp.getIdanime());
             
             //Terceiro  passo - executar o comando sql
             stmt.executeUpdate();
             stmt.close();
             
-            JOptionPane.showMessageDialog(null, "atualizado com Sucesso!");
+            JOptionPane.showMessageDialog(null, "Atualizado com Sucesso!");
 
         } catch (SQLException erro) {
             JOptionPane.showMessageDialog(null, "Erro no banco de dados: " + erro);
