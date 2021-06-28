@@ -6,7 +6,6 @@
 package pctFormulario;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -14,6 +13,7 @@ import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import pctControle.Anime;
 import pctControle.Estudio;
 import pctControle.Genero;
@@ -288,6 +288,8 @@ public class GerenciaAnime extends javax.swing.JFrame {
 
         genderLabel.setText("Gênero:");
 
+        boxEstudio.setEditable(true);
+
         estudioLabel.setText("Estudio:");
 
         faixaLabel.setText("Faixa Etária:");
@@ -342,8 +344,6 @@ public class GerenciaAnime extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nameAnimeLabel)
-                            .addComponent(txtNameAnime, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -356,17 +356,31 @@ public class GerenciaAnime extends javax.swing.JFrame {
                                     .addComponent(genderLabel)
                                     .addComponent(faixaLabel)
                                     .addComponent(boxFaixa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(28, 28, 28)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(boxEstudio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(28, 28, 28)
+                                        .addComponent(jXCollapsiblePane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(estudioLabel)
-                                            .addComponent(jXCollapsiblePane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(DataLabel))
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(animeData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(41, 41, 41)
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addComponent(DataLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addGap(90, 90, 90))
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(animeData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(boxEstudio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addGap(15, 15, 15))
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addComponent(estudioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                                                .addGap(158, 158, 158))))))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(nameAnimeLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(txtNameAnime)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(sinopseLabel)))
@@ -418,7 +432,7 @@ public class GerenciaAnime extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(boxFaixa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCadastraAnime)
                     .addComponent(btnClearAnime))
@@ -430,6 +444,8 @@ public class GerenciaAnime extends javax.swing.JFrame {
         nameAnimeLabel1.setText("Nome:");
 
         genderLabel1.setText("Gênero:");
+
+        boxEstudioUpdate.setEditable(true);
 
         estudioLabel1.setText("Estudio:");
 
@@ -753,6 +769,11 @@ public class GerenciaAnime extends javax.swing.JFrame {
 
             dao.cadastrarAnime(txtNameAnime.getText(), bigtxtSinopse.getText(), boxFaixa.getItemAt(boxFaixa.getSelectedIndex()), estudio.getIdestudio(), animeData.getDate().getTime(),generos);
             LimparCadastro();
+            btnUpdate.setEnabled(false);
+            btnExcluir.setEnabled(false);
+            bigtxtConsultAnimeSin.setText("");
+            ConsultAnimeTable.clearSelection();
+            this.selectedAnime = null;
             jTabbedPane1.setSelectedIndex(0);
             ListarAnimes();
         }
@@ -804,6 +825,11 @@ public class GerenciaAnime extends javax.swing.JFrame {
             }else{
                 Anime newAnime = new Anime(selectedAnime.getIdanime(), txtNameAnimeUpdate.getText(), bigtxtSinopseUpdate.getText(), boxFaixaUpdate.getItemAt(boxFaixaUpdate.getSelectedIndex()), selectedAnime.getMedia(), estudio, animeDataUpdate.getDate(),newGens);
                 dao.AtualizarAnime(oldGens, newAnime);
+                btnUpdate.setEnabled(false);
+                btnExcluir.setEnabled(false);
+                bigtxtConsultAnimeSin.setText("");
+                ConsultAnimeTable.clearSelection();
+                this.selectedAnime = null;
                 ListarAnimes();
                 jTabbedPane1.setSelectedIndex(0);
                 jTabbedPane1.setEnabledAt(2, false);
@@ -837,7 +863,10 @@ public class GerenciaAnime extends javax.swing.JFrame {
         DefaultComboBoxModel lista = (DefaultComboBoxModel) boxEstudio.getModel();
         DefaultComboBoxModel lista2 = (DefaultComboBoxModel) boxEstudioUpdate.getModel();
         
-        lista.addElement("");
+        AutoCompleteDecorator.decorate(boxEstudio);
+        AutoCompleteDecorator.decorate(boxEstudioUpdate);
+        
+        lista.setSelectedItem("");
         estudios.forEach((estudio) -> {
             lista.addElement(estudio);
             lista2.addElement(estudio);
