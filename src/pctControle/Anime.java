@@ -1,5 +1,7 @@
 package pctControle;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,26 +15,39 @@ private String sinopse;
 private String f_etaria;
 private double media;
 private Estudio estudio;
+private Calendar data = Calendar.getInstance();
 private List<Genero> generos;
 
-
-    public Anime(int idanime, String name, String sinopse, String f_etaria, double media, Estudio estudio, List<Genero> generos) {
+    
+    public Anime(int idanime, String name, String sinopse, String f_etaria, double media, Estudio estudio, Date data,List<Genero> generos) {
         this.idanime = idanime;
         this.name = name;
         this.sinopse = sinopse;
         this.f_etaria = f_etaria;
         this.media = media;
         this.estudio = estudio;
+        this.data.setTime(data);
         this.generos = generos;
     }
     
-    public Anime(String name, String sinopse, String f_etaria, double media, Estudio estudio, List<Genero> generos) {
-        this.name = name;
-        this.sinopse = sinopse;
-        this.f_etaria = f_etaria;
-        this.media = media;
-        this.estudio = estudio;
-        this.generos = generos;
+    public Calendar getData() {
+        return data;
+    }
+    
+    public String getDataString() {
+        String dia = String.valueOf(this.data.get(Calendar.DAY_OF_MONTH));
+        String mes = String.valueOf(this.data.get(Calendar.MONTH)+1);
+        if (dia.length() == 1){
+            dia = "0"+dia;
+        }
+        if (mes.length() == 1){
+            mes = "0"+mes;
+        }
+        return dia+"/"+mes+"/"+this.data.get(Calendar.YEAR);
+    }
+
+    public void setData(Calendar data) {
+        this.data = data;
     }
 
     public Estudio getEstudio() {
