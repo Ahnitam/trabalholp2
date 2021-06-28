@@ -6,7 +6,6 @@
 package pctFormulario;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -14,6 +13,7 @@ import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import pctControle.Anime;
 import pctControle.Estudio;
 import pctControle.Genero;
@@ -42,6 +42,7 @@ public class GerenciaAnime extends javax.swing.JFrame {
         ListarAnimes();
         BuscarEstudios();
         BuscarGeneros();
+        FilterJComboBox();
     }
 
     /**
@@ -288,11 +289,16 @@ public class GerenciaAnime extends javax.swing.JFrame {
 
         genderLabel.setText("Gênero:");
 
+        boxGender.setEditable(true);
+
+        boxEstudio.setEditable(true);
+
         estudioLabel.setText("Estudio:");
 
         faixaLabel.setText("Faixa Etária:");
 
-        boxFaixa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "+18", "+16", "+14", "+12", "+10", "L" }));
+        boxFaixa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "+18", "+16", "+14", "+12", "+10", "L" }));
+        boxFaixa.setSelectedIndex(-1);
 
         sinopseLabel.setText("Sinopse:");
 
@@ -342,31 +348,44 @@ public class GerenciaAnime extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nameAnimeLabel)
-                            .addComponent(txtNameAnime, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(boxGender, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(boxGender, 0, 0, Short.MAX_VALUE)
                                             .addComponent(btnAdicionarGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(btnRemoverGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(26, 26, 26)
-                                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE))
                                     .addComponent(genderLabel)
-                                    .addComponent(faixaLabel)
-                                    .addComponent(boxFaixa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(28, 28, 28)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(boxFaixa, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(faixaLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(boxEstudio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(28, 28, 28)
+                                        .addComponent(jXCollapsiblePane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(estudioLabel)
-                                            .addComponent(jXCollapsiblePane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(DataLabel))
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(animeData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(41, 41, 41)
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addComponent(DataLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addGap(90, 90, 90))
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(animeData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(boxEstudio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addGap(15, 15, 15))
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addComponent(estudioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                                                .addGap(158, 158, 158))))))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(nameAnimeLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(txtNameAnime)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(sinopseLabel)))
@@ -395,30 +414,30 @@ public class GerenciaAnime extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(boxEstudio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(boxEstudio)
                                 .addGap(18, 18, 18)
                                 .addComponent(DataLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(animeData, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                    .addComponent(boxGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btnAdicionarGenero)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btnRemoverGenero))))
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(boxGender)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnAdicionarGenero)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnRemoverGenero)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addComponent(jXCollapsiblePane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(faixaLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(boxFaixa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(faixaLabel)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(boxFaixa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(53, 53, 53))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCadastraAnime)
                     .addComponent(btnClearAnime))
@@ -430,6 +449,10 @@ public class GerenciaAnime extends javax.swing.JFrame {
         nameAnimeLabel1.setText("Nome:");
 
         genderLabel1.setText("Gênero:");
+
+        boxGenderUpdate.setEditable(true);
+
+        boxEstudioUpdate.setEditable(true);
 
         estudioLabel1.setText("Estudio:");
 
@@ -489,13 +512,11 @@ public class GerenciaAnime extends javax.swing.JFrame {
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addComponent(nameAnimeLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(416, 416, 416))
-                            .addComponent(faixaLabel1)
-                            .addComponent(boxFaixaUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(boxGenderUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(boxGenderUpdate, 0, 0, Short.MAX_VALUE)
                                             .addComponent(btnAdicionarGeneroUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(btnRemoverGeneroUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(26, 26, 26)
@@ -512,7 +533,10 @@ public class GerenciaAnime extends javax.swing.JFrame {
                                     .addComponent(animeDataUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(boxEstudioUpdate, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(3, 3, 3))
-                            .addComponent(txtNameAnimeUpdate))
+                            .addComponent(txtNameAnimeUpdate)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(boxFaixaUpdate, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(faixaLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -544,16 +568,16 @@ public class GerenciaAnime extends javax.swing.JFrame {
                             .addComponent(genderLabel1)
                             .addComponent(estudioLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(boxGenderUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(boxGenderUpdate)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnAdicionarGeneroUpdate)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnRemoverGeneroUpdate))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                                .addComponent(boxEstudioUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(boxEstudioUpdate)
+                                .addGap(18, 18, 18)
                                 .addComponent(estudioLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(animeDataUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -561,9 +585,10 @@ public class GerenciaAnime extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(faixaLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(boxFaixaUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(boxFaixaUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(53, 53, 53))
                     .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addGap(11, 11, 11)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnUpdateAnime)
                     .addComponent(btnCancelarAnime))
@@ -722,20 +747,26 @@ public class GerenciaAnime extends javax.swing.JFrame {
     private void btnClearAnimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearAnimeActionPerformed
         LimparCadastro();
     }//GEN-LAST:event_btnClearAnimeActionPerformed
-
+    
+    private void FilterJComboBox(){
+        AutoCompleteDecorator.decorate(boxEstudio);
+        AutoCompleteDecorator.decorate(boxEstudioUpdate);
+        AutoCompleteDecorator.decorate(boxGender);
+        AutoCompleteDecorator.decorate(boxGenderUpdate);
+    }
     private void CadastrarAnimes(){
         DefaultComboBoxModel lista = (DefaultComboBoxModel) boxEstudio.getModel();
         DefaultListModel listageneros = (DefaultListModel) listGeneros.getModel();
        
         if (txtNameAnime.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Digite o nome do anime!");
-        }else if(boxEstudio.getSelectedIndex() == 0 || boxEstudio.getSelectedIndex() == -1){
+        }else if(boxEstudio.getSelectedIndex() == -1){
             JOptionPane.showMessageDialog(null, "Selecione um estudio!");
         }else if(listageneros.getSize() == 0){
             JOptionPane.showMessageDialog(null, "Adicione algum gênero!");
         }else if(bigtxtSinopse.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Adicione uma sinopse!");
-        }else if(boxFaixa.getSelectedIndex() == 0 || boxFaixa.getSelectedIndex() == -1){
+        }else if(boxFaixa.getSelectedIndex() == -1){
             JOptionPane.showMessageDialog(null, "Selecione uma faixa etaria!");
         }else if(animeData.getDate() == null){
             JOptionPane.showMessageDialog(null, "Selecione uma Data de Lançamento!");
@@ -753,6 +784,11 @@ public class GerenciaAnime extends javax.swing.JFrame {
 
             dao.cadastrarAnime(txtNameAnime.getText(), bigtxtSinopse.getText(), boxFaixa.getItemAt(boxFaixa.getSelectedIndex()), estudio.getIdestudio(), animeData.getDate().getTime(),generos);
             LimparCadastro();
+            btnUpdate.setEnabled(false);
+            btnExcluir.setEnabled(false);
+            bigtxtConsultAnimeSin.setText("");
+            ConsultAnimeTable.clearSelection();
+            this.selectedAnime = null;
             jTabbedPane1.setSelectedIndex(0);
             ListarAnimes();
         }
@@ -764,13 +800,13 @@ public class GerenciaAnime extends javax.swing.JFrame {
         
         if (txtNameAnimeUpdate.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Digite o nome do anime!");
-        }else if(boxEstudioUpdate.getSelectedIndex() == 0 || boxEstudioUpdate.getSelectedIndex() == -1){
+        }else if(boxEstudioUpdate.getSelectedIndex() == -1){
             JOptionPane.showMessageDialog(null, "Selecione um estudio!");
         }else if(listageneros.getSize() == 0){
             JOptionPane.showMessageDialog(null, "Adicione algum gênero!");
         }else if(bigtxtSinopseUpdate.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Adicione uma sinopse!");
-        }else if(boxFaixaUpdate.getSelectedIndex() == 0 || boxFaixaUpdate.getSelectedIndex() == -1){
+        }else if(boxFaixaUpdate.getSelectedIndex() == -1){
             JOptionPane.showMessageDialog(null, "Selecione uma faixa etaria!");
         }else if(animeDataUpdate.getDate() == null){
             JOptionPane.showMessageDialog(null, "Selecione uma Data de Lançamento!");
@@ -804,6 +840,11 @@ public class GerenciaAnime extends javax.swing.JFrame {
             }else{
                 Anime newAnime = new Anime(selectedAnime.getIdanime(), txtNameAnimeUpdate.getText(), bigtxtSinopseUpdate.getText(), boxFaixaUpdate.getItemAt(boxFaixaUpdate.getSelectedIndex()), selectedAnime.getMedia(), estudio, animeDataUpdate.getDate(),newGens);
                 dao.AtualizarAnime(oldGens, newAnime);
+                btnUpdate.setEnabled(false);
+                btnExcluir.setEnabled(false);
+                bigtxtConsultAnimeSin.setText("");
+                ConsultAnimeTable.clearSelection();
+                this.selectedAnime = null;
                 ListarAnimes();
                 jTabbedPane1.setSelectedIndex(0);
                 jTabbedPane1.setEnabledAt(2, false);
@@ -837,12 +878,12 @@ public class GerenciaAnime extends javax.swing.JFrame {
         DefaultComboBoxModel lista = (DefaultComboBoxModel) boxEstudio.getModel();
         DefaultComboBoxModel lista2 = (DefaultComboBoxModel) boxEstudioUpdate.getModel();
         
-        lista.addElement("");
         estudios.forEach((estudio) -> {
             lista.addElement(estudio);
             lista2.addElement(estudio);
         });
-        
+        boxEstudio.setSelectedIndex(-1);
+        boxEstudioUpdate.setSelectedIndex(-1);
     }
     
     private void BuscarGeneros(){
@@ -856,7 +897,8 @@ public class GerenciaAnime extends javax.swing.JFrame {
             lista.addElement(genero);
             lista2.addElement(genero);
         });
-        
+        boxGender.setSelectedIndex(-1);
+        boxGenderUpdate.setSelectedIndex(-1);
     }
     
     private void ListarAnimes(){
@@ -897,22 +939,27 @@ public class GerenciaAnime extends javax.swing.JFrame {
     }
     
     private void AddGenero(JList listaG, JComboBox selectG){
-        DefaultListModel lista = (DefaultListModel) listaG.getModel();
-        int tam = lista.getSize();
-        boolean v = false;
-        Genero select = (Genero) selectG.getSelectedItem();
-        for (int i = 0; i < tam; i++){
-            Genero temp = (Genero) lista.get(i);
-            if (temp.getIdcategoria() == select.getIdcategoria()){
-                v = true;
-                break;
+        try {
+            DefaultListModel lista = (DefaultListModel) listaG.getModel();
+            int tam = lista.getSize();
+            boolean v = false;
+            Genero select = (Genero) selectG.getSelectedItem();
+            for (int i = 0; i < tam; i++){
+                Genero temp = (Genero) lista.get(i);
+                if (temp.getIdcategoria() == select.getIdcategoria()){
+                    v = true;
+                    break;
+                }
             }
+            if (v){
+                JOptionPane.showMessageDialog(null, "Gênero já adicionado!");
+            }else{
+                lista.addElement(select);
+            }    
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-        if (v){
-            JOptionPane.showMessageDialog(null, "Gênero já adicionado!");
-        }else{
-            lista.addElement(select);
-        }
+        
     }
     private void RemoveGenero(JList lista){
         DefaultListModel model = (DefaultListModel) lista.getModel();
