@@ -153,6 +153,7 @@ public class GerenciaAnime extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        ConsultAnimeTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         ConsultAnimeTable.getTableHeader().setReorderingAllowed(false);
         ConsultAnimeTable.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {

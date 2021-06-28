@@ -93,6 +93,7 @@ public class GerenciaEstudio extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        estudioTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         estudioTable.getTableHeader().setReorderingAllowed(false);
         estudioTable.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
