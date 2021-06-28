@@ -92,6 +92,7 @@ public class GerenciaGenero extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        generoTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         generoTable.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 generoTableFocusGained(evt);

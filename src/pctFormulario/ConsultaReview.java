@@ -91,6 +91,7 @@ public class ConsultaReview extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        consultTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         consultTable.getTableHeader().setReorderingAllowed(false);
         consultTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

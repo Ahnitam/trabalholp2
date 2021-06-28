@@ -88,14 +88,15 @@ public class UsuarioDAO {
         try {
 
             //Primeiro  passo  - criar o comando sql
-            String sql = "update usuario set username=?, email=?, password=? where iduser=?";
+            String sql = "update usuario set username=?, email=?, password=?, permission=? where iduser=?";
 
             //Segundo  passo - conectar o banco de dados e organizar o comando sql
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, usuario.getUsername());
             stmt.setString(2, usuario.getEmail());
             stmt.setString(3, usuario.getPassword());
-            stmt.setInt(4, usuario.getIduser());
+            stmt.setInt(4, usuario.getPermission());
+            stmt.setInt(5, usuario.getIduser());
 
             //Terceiro  passo - executar o comando sql
             stmt.executeUpdate();
