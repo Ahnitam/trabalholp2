@@ -121,7 +121,7 @@ public class Login extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         if (txtUser.getText().isEmpty() || String.valueOf(txtPass.getPassword()).isEmpty()) {
-            JOptionPane.showConfirmDialog(null, "Não deixe campos vazios!");
+            JOptionPane.showMessageDialog(null, "Não deixe campos vazios!");
             return;
         }
         String senha = String.valueOf(txtPass.getPassword());
@@ -145,7 +145,7 @@ public class Login extends javax.swing.JFrame {
         else{
             if (usuario.getPermission() == 0) {
                 JOptionPane.showMessageDialog(null, "Logado com sucesso.  Seja bem vindo: " + usuario.getUsername());
-                new ConsultaReview(usuario).setVisible(true);
+                new HomeUsuario(usuario).setVisible(true);
                 this.dispose();
             }
             else{
