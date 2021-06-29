@@ -7,6 +7,7 @@ package pctFormulario;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import pctControle.Usuario;
 import pctDAO.UsuarioDAO;
@@ -48,12 +49,6 @@ public class Cadastro extends javax.swing.JFrame {
         setTitle("Cadastrar");
         setLocation(new java.awt.Point(0, 0));
         setResizable(false);
-
-        txtUserReg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtUserRegActionPerformed(evt);
-            }
-        });
 
         PassRegLabel.setText("Senha:");
 
@@ -144,21 +139,17 @@ public class Cadastro extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtUserRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserRegActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtUserRegActionPerformed
-
     private void btnRegRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegRegActionPerformed
-
+        //Verificar se os campos estão vazios
         if (txtEmailReg.getText().isEmpty() || String.valueOf(txtRegPass.getPassword()).isEmpty() || txtUserReg.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Não deixe campos vazios!");
-            return;
-        }
-        //Verificar se os campos estão vazios
-
-        //Cadastrar usuário
-        try {
-            if (String.valueOf(txtRegPass.getPassword()).equals(String.valueOf(txtRegPassConfirm.getPassword()))) {
+        }else if (!ValidarEmail(txtEmailReg.getText())){
+            JOptionPane.showMessageDialog(null, "Digite um email válido!");
+        }else if (!String.valueOf(txtRegPass.getPassword()).equals(String.valueOf(txtRegPassConfirm.getPassword()))){
+            JOptionPane.showMessageDialog(null, "Senhas Diferentes!");
+        }else{
+            //Cadastrar usuário
+            try {
                 UsuarioDAO dao = new UsuarioDAO();
                 Usuario usuario = new Usuario();
                 usuario.setUsername(txtUserReg.getText());
@@ -172,12 +163,9 @@ public class Cadastro extends javax.swing.JFrame {
                 // Ir para a tela de Home caso o registro obteve sucesso
                 new HomeUsuario(usuario).setVisible(true);
                 this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, "Senhas Diferentes!");
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
             }
-
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
         }
     }//GEN-LAST:event_btnRegRegActionPerformed
 
@@ -190,6 +178,11 @@ public class Cadastro extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmailRegActionPerformed
 
+    private boolean ValidarEmail(String email){
+        Pattern pattern = Pattern.compile("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");
+        return pattern.matcher(email).matches();
+    }
+    
     /**
      * @param args the command line arguments
      */
