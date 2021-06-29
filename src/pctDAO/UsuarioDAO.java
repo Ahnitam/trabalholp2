@@ -5,7 +5,7 @@
  */
 package pctDAO;
 
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,7 +31,7 @@ public class UsuarioDAO {
     }
 
     // método  para salvar os registros
-    public void cadastrarUsuario(Usuario usuario) {
+    public boolean cadastrarUsuario(Usuario usuario) {
         try {
 
             //Primeiro  passo  - criar o comando sql
@@ -50,13 +50,13 @@ public class UsuarioDAO {
             stmt.close();
 
             JOptionPane.showMessageDialog(null, "Cadastrado realizado com Sucesso!");
-
+            return true;
         } catch (MySQLIntegrityConstraintViolationException erro){
             JOptionPane.showMessageDialog(null, "O Email ou Usuário Digitados Já Está Cadastrado, Troque e Tente Novamente");
         } catch (SQLException erro) {
             JOptionPane.showMessageDialog(null, "Erro no banco de dados: " + erro);
         }
-
+        return false;
     }
 
     ;

@@ -158,11 +158,12 @@ public class Cadastro extends javax.swing.JFrame {
                 MessageDigest md = MessageDigest.getInstance("MD5");
                 BigInteger hash = new BigInteger(1, md.digest(String.valueOf(txtRegPass.getPassword()).getBytes()));
                 usuario.setPassword(hash.toString(16));
-
-                dao.cadastrarUsuario(usuario);
-                // Ir para a tela de Home caso o registro obteve sucesso
-                new HomeUsuario(usuario).setVisible(true);
-                this.dispose();
+                
+                if (dao.cadastrarUsuario(usuario)){
+                    // Ir para a tela de Home caso o registro obteve sucesso
+                    new HomeUsuario(usuario).setVisible(true);
+                    this.dispose();
+                }
             } catch (Exception e) {
                 System.err.println(e.getMessage());
             }
