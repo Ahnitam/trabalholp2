@@ -487,6 +487,7 @@ public class GerenciaAnime extends javax.swing.JFrame {
             }
         });
 
+        labelAnimeName.setFont(new java.awt.Font("Dialog", 3, 12)); // NOI18N
         labelAnimeName.setText("Anime: ");
 
         btnRemoverGeneroUpdate.setText("Remover");
