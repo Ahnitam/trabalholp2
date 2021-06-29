@@ -7,7 +7,6 @@ package pctFormulario;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import pctControle.Usuario;
@@ -50,12 +49,6 @@ public class Cadastro extends javax.swing.JFrame {
         setTitle("Cadastrar");
         setLocation(new java.awt.Point(0, 0));
         setResizable(false);
-
-        txtUserReg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtUserRegActionPerformed(evt);
-            }
-        });
 
         PassRegLabel.setText("Senha:");
 
@@ -146,10 +139,6 @@ public class Cadastro extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtUserRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserRegActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtUserRegActionPerformed
-
     private void btnRegRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegRegActionPerformed
         //Verificar se os campos estão vazios
         if (txtEmailReg.getText().isEmpty() || String.valueOf(txtRegPass.getPassword()).isEmpty() || txtUserReg.getText().isEmpty()) {
@@ -191,8 +180,7 @@ public class Cadastro extends javax.swing.JFrame {
 
     private boolean ValidarEmail(String email){
         Pattern pattern = Pattern.compile("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
+        return pattern.matcher(email).matches();
     }
     
     /**
