@@ -56,7 +56,7 @@ public class ConsultaReview extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         bigtxtReview = new javax.swing.JTextPane();
         reviewLabel = new javax.swing.JLabel();
-        btnLogoutUser = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
         btnCreateReview = new javax.swing.JButton();
         boxAnimes = new javax.swing.JComboBox<>();
         userLabel = new javax.swing.JLabel();
@@ -131,10 +131,10 @@ public class ConsultaReview extends javax.swing.JFrame {
 
         reviewLabel.setText("Review:");
 
-        btnLogoutUser.setText("Logout");
-        btnLogoutUser.addActionListener(new java.awt.event.ActionListener() {
+        btnBack.setText("Retornar");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLogoutUserActionPerformed(evt);
+                btnBackActionPerformed(evt);
             }
         });
 
@@ -185,7 +185,7 @@ public class ConsultaReview extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(userLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnLogoutUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnBack, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(reviewLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -209,7 +209,7 @@ public class ConsultaReview extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnLogoutUser)
+                    .addComponent(btnBack)
                     .addComponent(btnCreateReview)
                     .addComponent(userLabel))
                 .addContainerGap())
@@ -268,10 +268,10 @@ public class ConsultaReview extends javax.swing.JFrame {
         consultTable.clearSelection();
     }//GEN-LAST:event_txtDigiteAnimeFocusGained
 
-    private void btnLogoutUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutUserActionPerformed
-        new Login().setVisible(true);
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        new HomeUsuario(this.user).setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_btnLogoutUserActionPerformed
+    }//GEN-LAST:event_btnBackActionPerformed
 
     private void ListarAnimes(){
         DefaultComboBoxModel dados = (DefaultComboBoxModel) boxAnimes.getModel();
@@ -338,8 +338,8 @@ public class ConsultaReview extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextPane bigtxtReview;
     private javax.swing.JComboBox<String> boxAnimes;
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnCreateReview;
-    private javax.swing.JButton btnLogoutUser;
     private javax.swing.JTable consultTable;
     private javax.swing.JLabel digiteAnimeLabel;
     private javax.swing.JPanel jPanel1;
