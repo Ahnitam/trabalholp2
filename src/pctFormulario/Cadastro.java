@@ -150,29 +150,32 @@ public class Cadastro extends javax.swing.JFrame {
 
     private void btnRegRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegRegActionPerformed
 
+        if (txtEmailReg.getText().isEmpty() || String.valueOf(txtRegPass.getPassword()).isEmpty() || txtUserReg.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Não deixe campos vazios!");
+            return;
+        }
         //Verificar se os campos estão vazios
-        
+
         //Cadastrar usuário
         try {
-            if(String.valueOf(txtRegPass.getPassword()).equals(String.valueOf(txtRegPassConfirm.getPassword()))){
+            if (String.valueOf(txtRegPass.getPassword()).equals(String.valueOf(txtRegPassConfirm.getPassword()))) {
                 UsuarioDAO dao = new UsuarioDAO();
                 Usuario usuario = new Usuario();
                 usuario.setUsername(txtUserReg.getText());
                 usuario.setEmail(txtEmailReg.getText());
-                
+
                 MessageDigest md = MessageDigest.getInstance("MD5");
                 BigInteger hash = new BigInteger(1, md.digest(String.valueOf(txtRegPass.getPassword()).getBytes()));
                 usuario.setPassword(hash.toString(16));
-                
+
                 dao.cadastrarUsuario(usuario);
-                // Voltar para a tela de login caso for um sucesso
-                new Login().setVisible(true);
+                // Ir para a tela de Home caso o registro obteve sucesso
+                new HomeUsuario(usuario).setVisible(true);
                 this.dispose();
-            }
-            else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Senhas Diferentes!");
             }
-            
+
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
