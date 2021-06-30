@@ -179,7 +179,7 @@ public class Review extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Faça uma alteração para atualizar!");
         }else{
             ReviewDAO dao = new ReviewDAO();
-            dao.atualizarReview(new pctControle.Review(this.review.getIdReview(), btxtDescricao.getText(), Integer.valueOf(selectNotaBox.getSelectedItem().toString()), this.review.getUser(), this.review.getId_Anime(), this.review.getId_user()));
+            dao.atualizarReview(new pctControle.Review(this.review.getIdReview(), btxtDescricao.getText(), Integer.valueOf(selectNotaBox.getSelectedItem().toString()), this.review.getUser(), this.review.getId_Anime(), this.review.getId_user(), this.review.getData()));
             this.parent.dispose();
             new ConsultaReview(this.user).setVisible(true);
             this.dispose();

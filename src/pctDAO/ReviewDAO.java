@@ -7,10 +7,12 @@ package pctDAO;
 
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,8 +33,8 @@ public class ReviewDAO {
         try {
 
             //Primeiro  passo  - criar o comando sql
-            String sql = "insert into review (descricao, nota, usuario_iduser, anime_idanime) "
-                    + " values (?, ?, ?, ?)";
+            String sql = "insert into review (descricao, nota, usuario_iduser, anime_idanime, data) "
+                    + " values (?, ?, ?, ?, ?)";
 
             //Segundo  passo - conectar o banco de dados e organizar o comando sql
             PreparedStatement stmt = con.prepareStatement(sql);
@@ -41,6 +43,7 @@ public class ReviewDAO {
             stmt.setInt(2, nota);
             stmt.setInt(3, user.getIduser());
             stmt.setInt(4, anime.getIdanime());
+            stmt.setDate(5, new Date(System.currentTimeMillis()));
             
 
             //Terceiro  passo - executar o comando sql
@@ -101,39 +104,55 @@ public class ReviewDAO {
 
         }
     }
-    public List<Review> listarReviews(Anime anime) {
+    public List<Review> listarReviews(Anime anime, int iduser) {
         ArrayList<Review> lista = new ArrayList<>();
 
-        String sql = "Select * FROM REVIEW_U WHERE anime_idanime = ?";
+        String sql = "Select * FROM REVIEW_U WHERE anime_idanime = ? ORDER BY data ASC, idreview ASC";
         try {
             //Segundo  passo - conectar o banco de dados e organizar o comando sql
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, anime.getIdanime());
             ResultSet rs = stmt.executeQuery();
             
-            GeneroDAO generodao = new GeneroDAO();
+            Review user_review = null;
             while (rs.next()) {
-                lista.add(new Review(rs.getInt("idreview"), rs.getString("descricao"), rs.getInt("nota"), rs.getString("username"), rs.getInt("anime_idanime"), rs.getInt("iduser")));
+                if (iduser == rs.getInt("iduser")){
+                    user_review = new Review(rs.getInt("idreview"), rs.getString("descricao"), rs.getInt("nota"), rs.getString("username"), rs.getInt("anime_idanime"), rs.getInt("iduser"), rs.getDate("data").getTime());
+                }else{
+                    lista.add(new Review(rs.getInt("idreview"), rs.getString("descricao"), rs.getInt("nota"), rs.getString("username"), rs.getInt("anime_idanime"), rs.getInt("iduser"), rs.getDate("data").getTime()));
+                }
             }
             stmt.close();
+            if (user_review != null){
+                lista.add(user_review);
+            }
+            Collections.reverse(lista);
         } catch (SQLException ex) {
             Logger.getLogger(GeneroDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return lista;
     }
-    public List<Review> listarAllReviews() {
+    public List<Review> listarAllReviews(int iduser) {
         ArrayList<Review> lista = new ArrayList<>();
 
-        String sql = "Select * FROM REVIEW_U";
+        String sql = "Select * FROM REVIEW_U ORDER BY data ASC, idreview ASC";
         try {
             //Segundo  passo - conectar o banco de dados e organizar o comando sql
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
-            
+            Review user_review = null;
             while (rs.next()) {
-                lista.add(new Review(rs.getInt("idreview"), rs.getString("descricao"), rs.getInt("nota"), rs.getString("username"), rs.getInt("anime_idanime"), rs.getInt("iduser")));
+                if (iduser == rs.getInt("iduser")){
+                    user_review = new Review(rs.getInt("idreview"), rs.getString("descricao"), rs.getInt("nota"), rs.getString("username"), rs.getInt("anime_idanime"), rs.getInt("iduser"), rs.getDate("data").getTime());
+                }else{
+                    lista.add(new Review(rs.getInt("idreview"), rs.getString("descricao"), rs.getInt("nota"), rs.getString("username"), rs.getInt("anime_idanime"), rs.getInt("iduser"), rs.getDate("data").getTime()));
+                }
             }
             stmt.close();
+            if (user_review != null){
+                lista.add(user_review);
+            }
+            Collections.reverse(lista);
         } catch (SQLException ex) {
             Logger.getLogger(ReviewDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

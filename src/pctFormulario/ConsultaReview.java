@@ -85,11 +85,11 @@ public class ConsultaReview extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Usuário", "Nota", "Review"
+                "Usuário", "Nota", "Review", "Data"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -115,7 +115,9 @@ public class ConsultaReview extends javax.swing.JFrame {
             consultTable.getColumnModel().getColumn(1).setResizable(false);
             consultTable.getColumnModel().getColumn(1).setPreferredWidth(5);
             consultTable.getColumnModel().getColumn(2).setResizable(false);
-            consultTable.getColumnModel().getColumn(2).setPreferredWidth(450);
+            consultTable.getColumnModel().getColumn(2).setPreferredWidth(400);
+            consultTable.getColumnModel().getColumn(3).setResizable(false);
+            consultTable.getColumnModel().getColumn(3).setPreferredWidth(100);
         }
 
         digiteAnimeLabel.setText("Digite o nome do Anime:");
@@ -280,7 +282,6 @@ public class ConsultaReview extends javax.swing.JFrame {
     private void btnexcluirReviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnexcluirReviewActionPerformed
         int a = JOptionPane.showConfirmDialog(null, "Deseja Excluir?");
         if (a == 0){
-            DefaultTableModel dados = (DefaultTableModel) consultTable.getModel();
             pctControle.Review review = (Review) consultTable.getValueAt(consultTable.getSelectedRow(), 2);
             ReviewDAO dao = new ReviewDAO();
            
@@ -312,7 +313,7 @@ public class ConsultaReview extends javax.swing.JFrame {
     }
     private void GetReviews(){
         ReviewDAO dao = new ReviewDAO();
-        this.reviews = dao.listarAllReviews();
+        this.reviews = dao.listarAllReviews(this.user.getIduser());
     }
     private void ListarReviews(Anime anime){
         DefaultTableModel dados = (DefaultTableModel) consultTable.getModel();
@@ -325,7 +326,8 @@ public class ConsultaReview extends javax.swing.JFrame {
                 dados.addRow(new Object[]{
                     review.getUser(),
                     review.getNota(),
-                    review
+                    review,
+                    review.getDataString()
                 });
                 if (review.getId_user() == this.user.getIduser()){
                     btnCreateReview.setEnabled(false);

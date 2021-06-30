@@ -105,7 +105,7 @@ public class EstudioDAO {
     public List<Estudio> listarEstudios() {
         List<Estudio> lista = new ArrayList<>();
 
-        String sql = "select idestudio, nome from estudio";
+        String sql = "select idestudio, nome from estudio ORDER BY nome ASC";
         try {
             //Segundo  passo - conectar o banco de dados e organizar o comando sql
             PreparedStatement stmt = con.prepareStatement(sql);

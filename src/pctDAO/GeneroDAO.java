@@ -108,7 +108,7 @@ public class GeneroDAO {
     public List<Genero> listarGeneros() {
         List<Genero> lista = new ArrayList<>();
 
-        String sql = "select idcategoria, nome from genero";
+        String sql = "select idcategoria, nome from genero ORDER BY nome ASC";
         try {
             //Segundo  passo - conectar o banco de dados e organizar o comando sql
             PreparedStatement stmt = con.prepareStatement(sql);
@@ -167,7 +167,7 @@ public class GeneroDAO {
     
     public ArrayList<Genero> BuscarGeneroByAnimeId(int id) {
         ArrayList<Genero> lista = new ArrayList<>();
-        String sql = "SELECT genero.idcategoria, genero.nome FROM genero INNER JOIN anime_has_genero ON anime_has_genero.genero_idcategoria = genero.idcategoria WHERE anime_has_genero.anime_idanime = ?";
+        String sql = "SELECT * FROM GENERO_ANIME WHERE anime_idanime = ?";
         
         try {
             //Segundo  passo - conectar o banco de dados e organizar o comando sql

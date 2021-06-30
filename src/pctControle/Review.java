@@ -1,4 +1,7 @@
 package pctControle;
+
+import java.util.Calendar;
+
 /**
  *
  * @author Luis Henrique
@@ -10,14 +13,46 @@ public class Review {
     private String user;
     private int id_Anime;
     private int id_user;
+    private Calendar data;
 
-    public Review(int idreview, String descricao, int nota, String user, int id_Anime, int id_user) {
+    public Review(int idreview, String descricao, int nota, String user, int id_Anime, int id_user, long data) {
         this.idreview = idreview;
         this.descricao = descricao;
         this.nota = nota;
         this.user = user;
         this.id_Anime = id_Anime;
         this.id_user = id_user;
+        this.data = Calendar.getInstance();
+        this.data.setTimeInMillis(data);
+    }
+    public Review(int idreview, String descricao, int nota, String user, int id_Anime, int id_user, Calendar data) {
+        this.idreview = idreview;
+        this.descricao = descricao;
+        this.nota = nota;
+        this.user = user;
+        this.id_Anime = id_Anime;
+        this.id_user = id_user;
+        this.data = data;
+    }
+
+    public Calendar getData() {
+        return data;
+    }
+    
+    public String getDataString() {
+        String dia = String.valueOf(this.data.get(Calendar.DAY_OF_MONTH));
+        String mes = String.valueOf(this.data.get(Calendar.MONTH)+1);
+        if (dia.length() == 1){
+            dia = "0"+dia;
+        }
+        if (mes.length() == 1){
+            mes = "0"+mes;
+        }
+        return dia+"/"+mes+"/"+this.data.get(Calendar.YEAR);
+    }
+
+    public void setData(Calendar data) {
+        this.data = data;
     }
 
     public int getId_user() {
