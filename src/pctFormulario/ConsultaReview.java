@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import pctControle.Anime;
 import pctControle.Usuario;
 import pctDAO.AnimeDAO;
@@ -27,6 +28,7 @@ public class ConsultaReview extends javax.swing.JFrame {
     private Usuario user;
     private String comp = "";
     List<Anime> AnimeList = null;
+    private List<Review> reviews = null;
     
     protected boolean a = false;
     
@@ -36,6 +38,8 @@ public class ConsultaReview extends javax.swing.JFrame {
             this.user = user;
             ListarAnimes();
             userLabel.setText("Usuário: "+user.getUsername());
+            FilterJComboBox();
+            GetReviews();
         }
     }
 
@@ -52,7 +56,6 @@ public class ConsultaReview extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         consultTable = new javax.swing.JTable();
         digiteAnimeLabel = new javax.swing.JLabel();
-        txtDigiteAnime = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         bigtxtReview = new javax.swing.JTextPane();
         reviewLabel = new javax.swing.JLabel();
@@ -60,6 +63,8 @@ public class ConsultaReview extends javax.swing.JFrame {
         btnCreateReview = new javax.swing.JButton();
         boxAnimes = new javax.swing.JComboBox<>();
         userLabel = new javax.swing.JLabel();
+        btnUpdateReview = new javax.swing.JButton();
+        btnexcluirReview = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -80,11 +85,11 @@ public class ConsultaReview extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Usuário", "Nota", "Review"
+                "Usuário", "Nota", "Review", "Data"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -110,28 +115,19 @@ public class ConsultaReview extends javax.swing.JFrame {
             consultTable.getColumnModel().getColumn(1).setResizable(false);
             consultTable.getColumnModel().getColumn(1).setPreferredWidth(5);
             consultTable.getColumnModel().getColumn(2).setResizable(false);
-            consultTable.getColumnModel().getColumn(2).setPreferredWidth(450);
+            consultTable.getColumnModel().getColumn(2).setPreferredWidth(400);
+            consultTable.getColumnModel().getColumn(3).setResizable(false);
+            consultTable.getColumnModel().getColumn(3).setPreferredWidth(100);
         }
 
         digiteAnimeLabel.setText("Digite o nome do Anime:");
-
-        txtDigiteAnime.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtDigiteAnimeFocusGained(evt);
-            }
-        });
-        txtDigiteAnime.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtDigiteAnimeKeyReleased(evt);
-            }
-        });
 
         bigtxtReview.setEditable(false);
         jScrollPane2.setViewportView(bigtxtReview);
 
         reviewLabel.setText("Review:");
 
-        btnBack.setText("Retornar");
+        btnBack.setText("Home");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBackActionPerformed(evt);
@@ -146,23 +142,32 @@ public class ConsultaReview extends javax.swing.JFrame {
             }
         });
 
+        boxAnimes.setEditable(true);
         boxAnimes.setToolTipText("Selecione um Anime");
         boxAnimes.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 boxAnimesItemStateChanged(evt);
             }
         });
-        boxAnimes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                boxAnimesMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                boxAnimesMouseReleased(evt);
-            }
-        });
 
         userLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         userLabel.setText("Usuário: ");
+
+        btnUpdateReview.setText("Editar");
+        btnUpdateReview.setEnabled(false);
+        btnUpdateReview.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateReviewActionPerformed(evt);
+            }
+        });
+
+        btnexcluirReview.setText("Excluir");
+        btnexcluirReview.setEnabled(false);
+        btnexcluirReview.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnexcluirReviewActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -173,23 +178,23 @@ public class ConsultaReview extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(digiteAnimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                .addGap(290, 290, 290))
-                            .addComponent(txtDigiteAnime))
-                        .addGap(18, 18, 18)
-                        .addComponent(boxAnimes, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(digiteAnimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGap(565, 565, 565))
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnBack, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnCreateReview, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(67, 67, 67)
+                        .addComponent(userLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(74, 74, 74)
+                        .addComponent(btnUpdateReview)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(userLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBack, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnexcluirReview))
                     .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(reviewLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(666, 666, 666)))
+                        .addComponent(reviewLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+                        .addGap(666, 666, 666))
+                    .addComponent(boxAnimes, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -197,11 +202,9 @@ public class ConsultaReview extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addComponent(digiteAnimeLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtDigiteAnime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(boxAnimes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
+                .addGap(4, 4, 4)
+                .addComponent(boxAnimes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(reviewLabel)
@@ -211,7 +214,9 @@ public class ConsultaReview extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBack)
                     .addComponent(btnCreateReview)
-                    .addComponent(userLabel))
+                    .addComponent(userLabel)
+                    .addComponent(btnUpdateReview)
+                    .addComponent(btnexcluirReview))
                 .addContainerGap())
         );
 
@@ -224,27 +229,14 @@ public class ConsultaReview extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btnCreateReviewActionPerformed
 
-    private void txtDigiteAnimeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDigiteAnimeKeyReleased
-        if(!txtDigiteAnime.getText().equals(this.comp) && txtDigiteAnime.getText().isEmpty()){
-            ListarAnimes();
-        }else if(!txtDigiteAnime.getText().equals(this.comp)){
-            ListarAnimes(txtDigiteAnime.getText());
-        }
-        this.comp = txtDigiteAnime.getText();
-    }//GEN-LAST:event_txtDigiteAnimeKeyReleased
-
-    private void boxAnimesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boxAnimesMouseReleased
-        
-    }//GEN-LAST:event_boxAnimesMouseReleased
-
-    private void boxAnimesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boxAnimesMousePressed
-        
-    }//GEN-LAST:event_boxAnimesMousePressed
-
     private void boxAnimesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_boxAnimesItemStateChanged
         if (boxAnimes.getSelectedIndex() != -1 && this.a){
             btnCreateReview.setEnabled(true);
-            ListarReviews();
+            consultTable.clearSelection();
+            btnUpdateReview.setEnabled(false);
+            btnexcluirReview.setEnabled(false);
+            bigtxtReview.setText("");
+            ListarReviews((Anime) boxAnimes.getSelectedItem());
         }else{
             DefaultTableModel dados = (DefaultTableModel) consultTable.getModel();
             dados.setNumRows(0);
@@ -254,24 +246,50 @@ public class ConsultaReview extends javax.swing.JFrame {
     private void consultTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_consultTableMouseClicked
         Review r = (Review) consultTable.getValueAt(consultTable.getSelectedRow(), 2);
         bigtxtReview.setText(r.getDescricao());
+        if (r.getId_user() == this.user.getIduser()){
+            btnUpdateReview.setEnabled(true);
+            btnexcluirReview.setEnabled(true);
+        }else{
+            btnUpdateReview.setEnabled(false);
+            btnexcluirReview.setEnabled(false);
+        }
     }//GEN-LAST:event_consultTableMouseClicked
 
     private void consultTableKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_consultTableKeyReleased
         if (evt.getKeyCode()== 40 || evt.getKeyCode() == 38){
             Review r = (Review) consultTable.getValueAt(consultTable.getSelectedRow(), 2);
             bigtxtReview.setText(r.getDescricao());
+            if (r.getId_user() == this.user.getIduser()){
+                btnUpdateReview.setEnabled(true);
+                btnexcluirReview.setEnabled(true);
+            }else{
+                btnUpdateReview.setEnabled(false);
+                btnexcluirReview.setEnabled(false);
+            }
         }
     }//GEN-LAST:event_consultTableKeyReleased
-
-    private void txtDigiteAnimeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDigiteAnimeFocusGained
-        bigtxtReview.setText("");
-        consultTable.clearSelection();
-    }//GEN-LAST:event_txtDigiteAnimeFocusGained
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         new HomeUsuario(this.user).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnUpdateReviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateReviewActionPerformed
+        new pctFormulario.Review(this.user, (Anime) boxAnimes.getSelectedItem(), this, (Review) consultTable.getValueAt(consultTable.getSelectedRow(), 2)).setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnUpdateReviewActionPerformed
+
+    private void btnexcluirReviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnexcluirReviewActionPerformed
+        int a = JOptionPane.showConfirmDialog(null, "Deseja Excluir?");
+        if (a == 0){
+            pctControle.Review review = (Review) consultTable.getValueAt(consultTable.getSelectedRow(), 2);
+            ReviewDAO dao = new ReviewDAO();
+           
+            dao.excluirReview(review);
+            GetReviews();
+            ListarReviews((Anime) boxAnimes.getSelectedItem());
+        }        
+    }//GEN-LAST:event_btnexcluirReviewActionPerformed
 
     private void ListarAnimes(){
         DefaultComboBoxModel dados = (DefaultComboBoxModel) boxAnimes.getModel();
@@ -282,8 +300,8 @@ public class ConsultaReview extends javax.swing.JFrame {
         boolean c = true;
         for (Anime anime : this.AnimeList){
             if (c){
-                this.a = false;
                 c = false;
+                this.a = false;
             }else{
                 boxAnimes.setSelectedIndex(-1);
                 this.a = true;
@@ -293,39 +311,32 @@ public class ConsultaReview extends javax.swing.JFrame {
         
         btnCreateReview.setEnabled(false);
     }
-    private void ListarAnimes(String s){
-        DefaultComboBoxModel dados = (DefaultComboBoxModel) boxAnimes.getModel();
-        dados.removeAllElements();
-        
-        boolean c = true;
-        for (Anime anime : this.AnimeList){
-            if (anime.getName().toLowerCase().contains(s.toLowerCase())){
-                if (c){
-                    this.a = false;
-                    c = false;
-                }else{
-                    boxAnimes.setSelectedIndex(-1);
-                    this.a = true;
-                }
-                dados.addElement(anime);
-            }
-        }
-        
-        btnCreateReview.setEnabled(false);
+    private void GetReviews(){
+        ReviewDAO dao = new ReviewDAO();
+        this.reviews = dao.listarAllReviews(this.user.getIduser());
     }
-    private void ListarReviews(){
+    private void ListarReviews(Anime anime){
         DefaultTableModel dados = (DefaultTableModel) consultTable.getModel();
         dados.setNumRows(0);
-        
-        ReviewDAO dao = new ReviewDAO();
-        List<Review> lista = dao.listarReviews((Anime) boxAnimes.getSelectedItem());
-        for (Review review : lista){
-            dados.addRow(new Object[]{
-                review.getUser(),
-                review.getNota(),
-                review
-            });
+        //ReviewDAO dao = new ReviewDAO();
+        //List<Review> lista = dao.listarReviews(anime);
+        //for (Review review : lista){
+        for (Review review : this.reviews){
+            if (review.getId_Anime() == anime.getIdanime()){
+                dados.addRow(new Object[]{
+                    review.getUser(),
+                    review.getNota(),
+                    review,
+                    review.getDataString()
+                });
+                if (review.getId_user() == this.user.getIduser()){
+                    btnCreateReview.setEnabled(false);
+                }
+            }
         }
+    }
+    private void FilterJComboBox(){
+        AutoCompleteDecorator.decorate(boxAnimes);
     }
     /**
      * @param args the command line arguments
@@ -340,13 +351,14 @@ public class ConsultaReview extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> boxAnimes;
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnCreateReview;
+    private javax.swing.JButton btnUpdateReview;
+    private javax.swing.JButton btnexcluirReview;
     private javax.swing.JTable consultTable;
     private javax.swing.JLabel digiteAnimeLabel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel reviewLabel;
-    private javax.swing.JTextField txtDigiteAnime;
     private javax.swing.JLabel userLabel;
     // End of variables declaration//GEN-END:variables
 }

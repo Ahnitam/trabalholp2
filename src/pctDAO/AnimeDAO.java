@@ -101,7 +101,7 @@ public class AnimeDAO {
     public List<Anime> listarAnimes() {
         ArrayList<Anime> lista = new ArrayList<>();
 
-        String sql = "SELECT * FROM ANIME_ESTUDIO";
+        String sql = "SELECT * FROM ANIME_ESTUDIO ORDER BY nome ASC";
         try {
             //Segundo  passo - conectar o banco de dados e organizar o comando sql
             PreparedStatement stmt = con.prepareStatement(sql);
