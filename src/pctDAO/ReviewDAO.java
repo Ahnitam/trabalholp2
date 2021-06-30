@@ -85,13 +85,14 @@ public class ReviewDAO {
         try {
 
             //Primeiro  passo  - criar o comando sql
-            String sql = "update review set descricao=?, nota=? where idreview=?";
+            String sql = "update review set descricao=?, nota=?, data=? where idreview=?";
 
             //Segundo  passo - conectar o banco de dados e organizar o comando sql
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, review.getDescricao());
             stmt.setInt(2, review.getNota());
-            stmt.setInt(3, review.getIdReview());
+            stmt.setDate(3, new Date(System.currentTimeMillis()));
+            stmt.setInt(4, review.getIdReview());
 
             //Terceiro  passo - executar o comando sql
             stmt.executeUpdate();
