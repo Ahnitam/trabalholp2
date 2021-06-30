@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -58,10 +57,54 @@ public class ReviewDAO {
         }
 
     }
+    public void excluirReview(Review review) {
+        try {
+
+            // Primeiro  passo  - criar o comando sql
+            String sql = "delete from review where idreview = ?";
+
+            //Segundo passo - conectar o banco de dados e organizar o comando sql
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, review.getIdReview());
+
+            //Teceiro passo - executar o comando sql
+            stmt.execute();
+            stmt.close();
+
+            JOptionPane.showMessageDialog(null, "Dados Excluido com Sucesso!");
+
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Erro no banco de dados: " + erro);
+
+        }
+    }
+    public void atualizarReview(Review review) {
+        try {
+
+            //Primeiro  passo  - criar o comando sql
+            String sql = "update review set descricao=?, nota=? where idreview=?";
+
+            //Segundo  passo - conectar o banco de dados e organizar o comando sql
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, review.getDescricao());
+            stmt.setInt(2, review.getNota());
+            stmt.setInt(3, review.getIdReview());
+
+            //Terceiro  passo - executar o comando sql
+            stmt.executeUpdate();
+            stmt.close();
+
+            JOptionPane.showMessageDialog(null, "atualizado com Sucesso!");
+
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Erro no banco de dados: " + erro);
+
+        }
+    }
     public List<Review> listarReviews(Anime anime) {
         ArrayList<Review> lista = new ArrayList<>();
 
-        String sql = "Select idreview, username, nota, descricao FROM REVIEW_U WHERE anime_idanime = ?";
+        String sql = "Select * FROM REVIEW_U WHERE anime_idanime = ?";
         try {
             //Segundo  passo - conectar o banco de dados e organizar o comando sql
             PreparedStatement stmt = con.prepareStatement(sql);
@@ -70,11 +113,29 @@ public class ReviewDAO {
             
             GeneroDAO generodao = new GeneroDAO();
             while (rs.next()) {
-                lista.add(new Review(rs.getInt("idreview"), rs.getString("descricao"), rs.getInt("nota"), rs.getString("username")));
+                lista.add(new Review(rs.getInt("idreview"), rs.getString("descricao"), rs.getInt("nota"), rs.getString("username"), rs.getInt("anime_idanime"), rs.getInt("iduser")));
             }
             stmt.close();
         } catch (SQLException ex) {
             Logger.getLogger(GeneroDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lista;
+    }
+    public List<Review> listarAllReviews() {
+        ArrayList<Review> lista = new ArrayList<>();
+
+        String sql = "Select * FROM REVIEW_U";
+        try {
+            //Segundo  passo - conectar o banco de dados e organizar o comando sql
+            PreparedStatement stmt = con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                lista.add(new Review(rs.getInt("idreview"), rs.getString("descricao"), rs.getInt("nota"), rs.getString("username"), rs.getInt("anime_idanime"), rs.getInt("iduser")));
+            }
+            stmt.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ReviewDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return lista;
     }

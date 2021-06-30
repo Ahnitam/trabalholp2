@@ -20,22 +20,29 @@ public class Review extends javax.swing.JFrame {
     /**
      * Creates new form Review
      */
-    private Usuario user;
-    private Anime anime;
-    private JFrame parent;
+    private final Usuario user;
+    private final Anime anime;
+    private final JFrame parent;
+    private final pctControle.Review review; 
     
     public Review(Usuario user, Anime anime, JFrame parent) {
-        if (user == null || parent == null || anime == null){
-            JOptionPane.showMessageDialog(null, "Faça Login!");
-            System.exit(0);
-        }else{
-            this.user = user;
-            this.anime = anime;
-            this.parent = parent;
-            initComponents();
-            selectLabel.setText("Anime: "+this.anime.getName());
-            userLabel.setText("Usuário: "+this.user.getUsername());
-        }
+        this.user = user;
+        this.anime = anime;
+        this.parent = parent;
+        this.review = null;
+        initComponents();
+        selectLabel.setText("Anime: "+this.anime.getName());
+        userLabel.setText("Usuário: "+this.user.getUsername());
+    }
+    public Review(Usuario user, Anime anime, JFrame parent, pctControle.Review review) {
+        this.user = user;
+        this.anime = anime;
+        this.parent = parent;
+        this.review = review;
+        initComponents();
+        selectLabel.setText("Anime: "+this.anime.getName());
+        userLabel.setText("Usuário: "+this.user.getUsername());
+        EditarInit();
     }
 
     /**
@@ -67,11 +74,6 @@ public class Review extends javax.swing.JFrame {
         selectNotaBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "9", "8", "7", "6", "5", "4", "3", "2", "1" }));
         selectNotaBox.setSelectedIndex(-1);
         selectNotaBox.setToolTipText("Selecione Uma Nota");
-        selectNotaBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectNotaBoxActionPerformed(evt);
-            }
-        });
 
         notaLabel.setText("Nota:");
 
@@ -86,7 +88,7 @@ public class Review extends javax.swing.JFrame {
 
         descricaoLabel.setText("Review:");
 
-        btnCreateReview.setText("Criar Review");
+        btnCreateReview.setText("Criar");
         btnCreateReview.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCreateReviewActionPerformed(evt);
@@ -148,19 +150,42 @@ public class Review extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void selectNotaBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectNotaBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_selectNotaBoxActionPerformed
-
     private void btnCancelRevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelRevActionPerformed
         this.parent.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCancelRevActionPerformed
 
     private void btnCreateReviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateReviewActionPerformed
-        Cadastrar();
+        if (btnCreateReview.getText().equals("Atualizar")){
+            Editar();
+        }else{
+            Cadastrar();
+        }
+        
     }//GEN-LAST:event_btnCreateReviewActionPerformed
-
+    
+    protected void EditarInit(){
+        btnCreateReview.setText("Atualizar");
+        this.setTitle("Editar Review");
+        btxtDescricao.setText(this.review.getDescricao());
+        selectNotaBox.setSelectedItem(String.valueOf(this.review.getNota()));
+    }
+    protected void Editar(){
+        if (btxtDescricao.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Digite uma review!");
+        }else if (selectNotaBox.getSelectedIndex() == -1){
+            JOptionPane.showMessageDialog(null, "Selecione uma nota!");
+        }else if (this.review.getDescricao().equals(btxtDescricao.getText()) && selectNotaBox.getSelectedItem().toString().equals(String.valueOf(this.review.getNota()))){
+            JOptionPane.showMessageDialog(null, "Faça uma alteração para atualizar!");
+        }else{
+            ReviewDAO dao = new ReviewDAO();
+            dao.atualizarReview(new pctControle.Review(this.review.getIdReview(), btxtDescricao.getText(), Integer.valueOf(selectNotaBox.getSelectedItem().toString()), this.review.getUser(), this.review.getId_Anime(), this.review.getId_user()));
+            this.parent.dispose();
+            new ConsultaReview(this.user).setVisible(true);
+            this.dispose();
+        }
+    }
+    
     protected void Cadastrar(){
         if (btxtDescricao.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Digite uma review!");
@@ -178,35 +203,8 @@ public class Review extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Review.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Review.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Review.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Review.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Review(null, null, null).setVisible(true);
-            }
-        });
+        JOptionPane.showMessageDialog(null, "Faça Login!");
+        System.exit(0);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

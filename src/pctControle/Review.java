@@ -8,12 +8,33 @@ public class Review {
     private String descricao;
     private int nota;
     private String user;
+    private int id_Anime;
+    private int id_user;
 
-    public Review(int idreview, String descricao, int nota, String user) {
+    public Review(int idreview, String descricao, int nota, String user, int id_Anime, int id_user) {
         this.idreview = idreview;
         this.descricao = descricao;
         this.nota = nota;
         this.user = user;
+        this.id_Anime = id_Anime;
+        this.id_user = id_user;
+    }
+
+    public int getId_user() {
+        return id_user;
+    }
+
+    public void setId_user(int id_user) {
+        this.id_user = id_user;
+    }
+
+    
+    public int getId_Anime() {
+        return id_Anime;
+    }
+
+    public void setId_Anime(int id_Anime) {
+        this.id_Anime = id_Anime;
     }
 
     public String getUser() {
