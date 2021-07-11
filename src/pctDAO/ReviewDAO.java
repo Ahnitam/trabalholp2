@@ -141,17 +141,18 @@ public class ReviewDAO {
             //Segundo  passo - conectar o banco de dados e organizar o comando sql
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
-            Review user_review = null;
+            
+            ArrayList<Review> user_reviews = new ArrayList<>();
             while (rs.next()) {
                 if (iduser == rs.getInt("iduser")){
-                    user_review = new Review(rs.getInt("idreview"), rs.getString("descricao"), rs.getInt("nota"), rs.getString("username"), rs.getInt("anime_idanime"), rs.getInt("iduser"), rs.getDate("data").getTime());
+                    user_reviews.add(new Review(rs.getInt("idreview"), rs.getString("descricao"), rs.getInt("nota"), rs.getString("username"), rs.getInt("anime_idanime"), rs.getInt("iduser"), rs.getDate("data").getTime()));
                 }else{
                     lista.add(new Review(rs.getInt("idreview"), rs.getString("descricao"), rs.getInt("nota"), rs.getString("username"), rs.getInt("anime_idanime"), rs.getInt("iduser"), rs.getDate("data").getTime()));
                 }
             }
             stmt.close();
-            if (user_review != null){
-                lista.add(user_review);
+            if (!user_reviews.isEmpty()){
+                lista.addAll(user_reviews);
             }
             Collections.reverse(lista);
         } catch (SQLException ex) {
