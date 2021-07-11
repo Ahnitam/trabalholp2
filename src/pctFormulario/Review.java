@@ -207,13 +207,6 @@ public class Review extends javax.swing.JFrame {
             this.dispose();
         }
     }
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        JOptionPane.showMessageDialog(null, "Faça Login!");
-        System.exit(0);
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelRev;

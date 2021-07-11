@@ -26,7 +26,6 @@ public class ConsultaReview extends javax.swing.JFrame {
      * Creates new form ConsultaReview
      */
     private Usuario user;
-    private String comp = "";
     List<Anime> AnimeList = null;
     private List<Review> reviews = null;
     
@@ -288,6 +287,11 @@ public class ConsultaReview extends javax.swing.JFrame {
            
             dao.excluirReview(review);
             GetReviews();
+            btnCreateReview.setEnabled(true);
+            consultTable.clearSelection();
+            btnUpdateReview.setEnabled(false);
+            btnexcluirReview.setEnabled(false);
+            bigtxtReview.setText("");
             ListarReviews((Anime) boxAnimes.getSelectedItem());
         }        
     }//GEN-LAST:event_btnexcluirReviewActionPerformed
@@ -338,13 +342,6 @@ public class ConsultaReview extends javax.swing.JFrame {
     }
     private void FilterJComboBox(){
         AutoCompleteDecorator.decorate(boxAnimes);
-    }
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        JOptionPane.showMessageDialog(null, "Faça Login!");
-        new Login().setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
