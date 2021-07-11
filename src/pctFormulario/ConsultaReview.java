@@ -78,6 +78,7 @@ public class ConsultaReview extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Reviews");
         setResizable(false);
 
         consultTable.setModel(new javax.swing.table.DefaultTableModel(
