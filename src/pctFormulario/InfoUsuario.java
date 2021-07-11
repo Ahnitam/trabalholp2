@@ -39,6 +39,7 @@ public class InfoUsuario extends javax.swing.JFrame {
         btnBack = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Informações Usuário");
         setResizable(false);
 
         btnBack.setText("Retornar");

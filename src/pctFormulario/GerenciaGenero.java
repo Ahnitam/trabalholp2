@@ -52,6 +52,7 @@ public class GerenciaGenero extends javax.swing.JFrame {
         btnUpdateGenero = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Gerenciar Genero");
         setResizable(false);
 
         btnCadastraGenero.setText("Cadatrar Gênero");

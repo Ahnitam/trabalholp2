@@ -53,6 +53,7 @@ public class GerenciaEstudio extends javax.swing.JFrame {
         btnUpdateEstudio = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Gerenciar Estudio");
         setResizable(false);
 
         btnCadastraEstudio.setText("Cadatrar Estudio");

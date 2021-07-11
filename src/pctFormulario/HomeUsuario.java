@@ -43,6 +43,7 @@ public class HomeUsuario extends javax.swing.JFrame {
         btnLogoutUser = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Home");
         setResizable(false);
 
         btnInfoUser.setText("Suas Informações");

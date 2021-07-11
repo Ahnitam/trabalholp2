@@ -45,6 +45,7 @@ public class HomeAdm extends javax.swing.JFrame {
         btnLogoutAdm = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Administrador");
         setPreferredSize(new java.awt.Dimension(333, 333));
         setResizable(false);
 
