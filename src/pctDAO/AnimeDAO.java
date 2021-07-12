@@ -29,12 +29,12 @@ public class AnimeDAO {
     public AnimeDAO() {
         this.con = new Conexao().getConnection();
     }
-    public void cadastrarAnime(String nome,String sinopse, String f_etaria, int idestudio, long data,List<Genero> generos) {
+    public void cadastrarAnime(String nome,String sinopse, String f_etaria, int idestudio, long data,List<Genero> generos, String urlImagem) {
         try {
 
             //Primeiro  passo  - criar o comando sql
-            String sql = "insert into anime (nome, sinopse, f_etaria, media, estudio_idestudio, data) "
-                    + " values (?, ?, ?, ?, ?, ?)";
+            String sql = "insert into anime (nome, sinopse, f_etaria, media, estudio_idestudio, data, urlImagem) "
+                    + " values (?, ?, ?, ?, ?, ?, ?)";
 
             //Segundo  passo - conectar o banco de dados e organizar o comando sql
             PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -45,6 +45,7 @@ public class AnimeDAO {
             stmt.setDouble(4, 0);
             stmt.setInt(5, idestudio);
             stmt.setDate(6, new Date(data));
+            stmt.setString(7, urlImagem);
 
             //Terceiro  passo - executar o comando sql
             stmt.execute();
@@ -74,6 +75,13 @@ public class AnimeDAO {
             System.out.println(e.getMessage());
         }
 
+    }
+    public void close(){
+        try {
+            this.con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(AnimeDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     protected Boolean anime_has_genero(int idanime, int idgenero){
@@ -109,7 +117,7 @@ public class AnimeDAO {
             
             GeneroDAO generodao = new GeneroDAO();
             while (rs.next()) {   
-                Anime anime = new Anime(rs.getInt("idanime"), rs.getString("nome"), rs.getString("sinopse"), rs.getString("f_etaria"), rs.getDouble("media"), new Estudio(rs.getInt("idestudio"), rs.getString("estudio")), rs.getDate("data"),generodao.BuscarGeneroByAnimeId(rs.getInt("idanime")));
+                Anime anime = new Anime(rs.getInt("idanime"), rs.getString("nome"), rs.getString("sinopse"), rs.getString("f_etaria"), rs.getDouble("media"), new Estudio(rs.getInt("idestudio"), rs.getString("estudio")), rs.getDate("data"),generodao.BuscarGeneroByAnimeId(rs.getInt("idanime")), rs.getString("urlImagem"));
                 lista.add(anime);
             }
             stmt.close();
@@ -132,7 +140,7 @@ public class AnimeDAO {
                 }
             }
             //Primeiro  passo  - criar o comando sql
-            String sql = "update anime set nome=?, sinopse=?, f_etaria=?, estudio_idestudio=?, data=? where idanime=?";
+            String sql = "update anime set nome=?, sinopse=?, f_etaria=?, estudio_idestudio=?, data=?, urlImagem=? where idanime=?";
             
             //Segundo  passo - conectar o banco de dados e organizar o comando sql
             PreparedStatement stmt = con.prepareStatement(sql);
@@ -141,7 +149,8 @@ public class AnimeDAO {
             stmt.setString(3, animeUp.getF_etaria());
             stmt.setInt(4, animeUp.getEstudio().getIdestudio());
             stmt.setDate(5, new Date(animeUp.getData().getTimeInMillis()));
-            stmt.setInt(6, animeUp.getIdanime());
+            stmt.setString(6, animeUp.getUrlImagem());
+            stmt.setInt(7, animeUp.getIdanime());
             
             //Terceiro  passo - executar o comando sql
             stmt.executeUpdate();

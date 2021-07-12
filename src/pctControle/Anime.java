@@ -17,9 +17,9 @@ private double media;
 private Estudio estudio;
 private Calendar data = Calendar.getInstance();
 private List<Genero> generos;
+private String urlImagem;
 
-    
-    public Anime(int idanime, String name, String sinopse, String f_etaria, double media, Estudio estudio, Date data,List<Genero> generos) {
+    public Anime(int idanime, String name, String sinopse, String f_etaria, double media, Estudio estudio, Date data, List<Genero> generos, String urlImagem) {
         this.idanime = idanime;
         this.name = name;
         this.sinopse = sinopse;
@@ -28,6 +28,15 @@ private List<Genero> generos;
         this.estudio = estudio;
         this.data.setTime(data);
         this.generos = generos;
+        this.urlImagem = urlImagem;
+    }
+
+    public String getUrlImagem() {
+        return urlImagem;
+    }
+
+    public void setUrlImagem(String urlImagem) {
+        this.urlImagem = urlImagem;
     }
     
     public Calendar getData() {

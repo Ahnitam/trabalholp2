@@ -125,7 +125,6 @@ public class ConsultaReview extends javax.swing.JFrame {
         });
 
         btnCreateReview.setText("Criar Review");
-        btnCreateReview.setEnabled(false);
         btnCreateReview.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCreateReviewActionPerformed(evt);

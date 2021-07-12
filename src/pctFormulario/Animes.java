@@ -7,10 +7,12 @@ package pctFormulario;
 
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import pctControle.Anime;
 import pctControle.Usuario;
 import pctDAO.AnimeDAO;
+import utils.Imagem;
 
 /**
  *
@@ -79,6 +81,7 @@ public class Animes extends javax.swing.JFrame {
         });
 
         boxAnimes.setEditable(true);
+        boxAnimes.setToolTipText("Escolha um Anime");
         boxAnimes.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 boxAnimesItemStateChanged(evt);
@@ -239,6 +242,12 @@ public class Animes extends javax.swing.JFrame {
             labelData.setText(anime.getDataString());
             labelGeneros.setText(anime.Generos());
             labelNota.setText(String.valueOf(anime.getMedia()));
+            
+            if (anime.getUrlImagem() != null){
+                animeImagem.setIcon(Imagem.resize(anime.getUrlImagem(), 200, 300));
+            }else{
+                animeImagem.setIcon(Imagem.resize(new ImageIcon(getClass().getResource("/imgs/bitmap.png")), 200, 300));
+            }
         }catch (Exception e){
             System.err.println(e.getMessage());
         }

@@ -49,7 +49,6 @@ public class EstudioDAO {
 
         } catch (SQLException erro) {
             JOptionPane.showMessageDialog(null, "Erro no banco de dados: " + erro);
-
         }
 
     }
