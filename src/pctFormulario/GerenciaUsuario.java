@@ -47,6 +47,7 @@ public class GerenciaUsuario extends javax.swing.JFrame {
             });
 
         }
+        dao.close();
     }
     
     private void Tabela(String s) {
@@ -268,6 +269,7 @@ public class GerenciaUsuario extends javax.swing.JFrame {
             btnExcluir.setEnabled(false);
             userTable.clearSelection();
             this.selectedUser = null;
+            dao.close();
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
@@ -294,6 +296,7 @@ public class GerenciaUsuario extends javax.swing.JFrame {
                     userTable.clearSelection();
                     this.selectedUser = null;
                     Tabela();
+                    dao.close();
                 }
             }else{
                 JOptionPane.showMessageDialog(null, "Altere Algum Campo para Atualizar!!");

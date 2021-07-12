@@ -258,6 +258,7 @@ public class ConsultaReview extends javax.swing.JFrame {
             btnexcluirReview.setEnabled(false);
             bigtxtReview.setText("");
             ListarReviews(this.anime);
+            dao.close();
         }        
     }//GEN-LAST:event_btnexcluirReviewActionPerformed
 
@@ -279,6 +280,7 @@ public class ConsultaReview extends javax.swing.JFrame {
                 }
             }
         }
+        dao.close();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

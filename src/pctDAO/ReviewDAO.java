@@ -29,6 +29,13 @@ public class ReviewDAO {
     public ReviewDAO() {
         this.con = new Conexao().getConnection();
     }
+    public void close(){
+        try {
+            this.con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(AnimeDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     public void cadastrarReview(Usuario user,Anime anime, String review, int nota) {
         try {
 

@@ -28,6 +28,13 @@ public class GeneroDAO {
     public GeneroDAO() {
         this.con = new Conexao().getConnection();
     }
+    public void close(){
+        try {
+            this.con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(AnimeDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     // método  para salvar os registros
     public void cadastrarGenero(String genero) {

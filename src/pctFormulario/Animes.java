@@ -231,6 +231,7 @@ public class Animes extends javax.swing.JFrame {
         AnimeList.forEach(anime -> {
             dados.addElement(anime);
         });
+        dao.close();
     }
     
     

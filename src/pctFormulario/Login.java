@@ -171,6 +171,7 @@ public class Login extends javax.swing.JFrame {
                 this.dispose();
             }
         }
+        dao.close();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
