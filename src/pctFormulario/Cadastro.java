@@ -10,6 +10,7 @@ import java.security.MessageDigest;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import pctControle.Usuario;
+import pctDAO.GlobalDAO;
 import pctDAO.UsuarioDAO;
 
 /**
@@ -144,15 +145,13 @@ public class Cadastro extends javax.swing.JFrame {
         //Verificar se os campos estão vazios
         if (txtEmailReg.getText().isEmpty() || String.valueOf(txtRegPass.getPassword()).isEmpty() || txtUserReg.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Não deixe campos vazios!");
-        }else if (!ValidarEmail(txtEmailReg.getText())){
+        } else if (!ValidarEmail(txtEmailReg.getText())) {
             JOptionPane.showMessageDialog(null, "Digite um email válido!");
-        }else if (!String.valueOf(txtRegPass.getPassword()).equals(String.valueOf(txtRegPassConfirm.getPassword()))){
+        } else if (!String.valueOf(txtRegPass.getPassword()).equals(String.valueOf(txtRegPassConfirm.getPassword()))) {
             JOptionPane.showMessageDialog(null, "Senhas Diferentes!");
-        }else{
-            //Cadastrar usuário
-            UsuarioDAO dao = new UsuarioDAO();
+        } else {
             try {
-                
+
                 Usuario usuario = new Usuario();
                 usuario.setUsername(txtUserReg.getText());
                 usuario.setEmail(txtEmailReg.getText());
@@ -160,8 +159,8 @@ public class Cadastro extends javax.swing.JFrame {
                 MessageDigest md = MessageDigest.getInstance("MD5");
                 BigInteger hash = new BigInteger(1, md.digest(String.valueOf(txtRegPass.getPassword()).getBytes()));
                 usuario.setPassword(hash.toString(16));
-                
-                if (dao.cadastrarUsuario(usuario)){
+
+                if (GlobalDAO.getInstance().usuarioDAO.cadastrarUsuario(usuario)) {
                     // Ir para a tela de Home caso o registro obteve sucesso
                     new HomeUsuario(usuario).setVisible(true);
                     this.dispose();
@@ -169,7 +168,6 @@ public class Cadastro extends javax.swing.JFrame {
             } catch (Exception e) {
                 System.err.println(e.getMessage());
             }
-            dao.close();
         }
     }//GEN-LAST:event_btnRegRegActionPerformed
 
@@ -182,7 +180,7 @@ public class Cadastro extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmailRegActionPerformed
 
-    private boolean ValidarEmail(String email){
+    private boolean ValidarEmail(String email) {
         Pattern pattern = Pattern.compile("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");
         return pattern.matcher(email).matches();
     }

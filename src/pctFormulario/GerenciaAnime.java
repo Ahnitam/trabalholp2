@@ -23,9 +23,7 @@ import pctControle.Anime;
 import pctControle.Estudio;
 import pctControle.Genero;
 import pctControle.Usuario;
-import pctDAO.AnimeDAO;
-import pctDAO.EstudioDAO;
-import pctDAO.GeneroDAO;
+import pctDAO.GlobalDAO;
 import utils.Imagem;
 
 /**
@@ -41,7 +39,7 @@ public class GerenciaAnime extends javax.swing.JFrame {
     List<Anime> AnimeList = null;
     private String comp = "";
     private final Usuario user;
-    
+
     public GerenciaAnime(Usuario user) {
         this.user = user;
         initComponents();
@@ -716,32 +714,32 @@ public class GerenciaAnime extends javax.swing.JFrame {
     }//GEN-LAST:event_ConsultAnimeTableMouseClicked
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-       labelAnimeName.setText("Anime: "+this.selectedAnime.getName());
-       
-       txtNameAnimeUpdate.setText(this.selectedAnime.getName());
-       bigtxtSinopseUpdate.setText(this.selectedAnime.getSinopse());
-       
-       DefaultListModel lista = (DefaultListModel) listGenerosUpdate.getModel();
-       
-       for (Genero genero : this.selectedAnime.getGeneros()){
+        labelAnimeName.setText("Anime: " + this.selectedAnime.getName());
+
+        txtNameAnimeUpdate.setText(this.selectedAnime.getName());
+        bigtxtSinopseUpdate.setText(this.selectedAnime.getSinopse());
+
+        DefaultListModel lista = (DefaultListModel) listGenerosUpdate.getModel();
+
+        for (Genero genero : this.selectedAnime.getGeneros()) {
             lista.addElement(genero);
-       }
-       boxFaixaUpdate.setSelectedItem(this.selectedAnime.getF_etaria());
-       animeDataUpdate.setCalendar(this.selectedAnime.getData());
-       DefaultComboBoxModel listaEstudios = (DefaultComboBoxModel) boxEstudioUpdate.getModel();
-       for (int i = 0; i < listaEstudios.getSize() ; i++){
-           Estudio estudio = (Estudio) listaEstudios.getElementAt(i);
-           if (estudio.getIdestudio() == this.selectedAnime.getEstudio().getIdestudio()){
-               boxEstudioUpdate.setSelectedItem(estudio);
-               break;
-           }
-       }
-       txtUrlImageUpdate.setText(this.selectedAnime.getUrlImagem());
-       setImageIcon(this.selectedAnime.getUrlImagem(), imagePreviewUpdate);
-       jTabbedPane1.setSelectedIndex(2);
-       jTabbedPane1.setEnabledAt(2, true);
-       jTabbedPane1.setEnabledAt(0, false);
-       jTabbedPane1.setEnabledAt(1, false);
+        }
+        boxFaixaUpdate.setSelectedItem(this.selectedAnime.getF_etaria());
+        animeDataUpdate.setCalendar(this.selectedAnime.getData());
+        DefaultComboBoxModel listaEstudios = (DefaultComboBoxModel) boxEstudioUpdate.getModel();
+        for (int i = 0; i < listaEstudios.getSize(); i++) {
+            Estudio estudio = (Estudio) listaEstudios.getElementAt(i);
+            if (estudio.getIdestudio() == this.selectedAnime.getEstudio().getIdestudio()) {
+                boxEstudioUpdate.setSelectedItem(estudio);
+                break;
+            }
+        }
+        txtUrlImageUpdate.setText(this.selectedAnime.getUrlImagem());
+        setImageIcon(this.selectedAnime.getUrlImagem(), imagePreviewUpdate);
+        jTabbedPane1.setSelectedIndex(2);
+        jTabbedPane1.setEnabledAt(2, true);
+        jTabbedPane1.setEnabledAt(0, false);
+        jTabbedPane1.setEnabledAt(1, false);
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnUpdateAnimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateAnimeActionPerformed
@@ -769,32 +767,31 @@ public class GerenciaAnime extends javax.swing.JFrame {
     }//GEN-LAST:event_txtConsultAnimeFocusGained
 
     private void ConsultAnimeTableKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ConsultAnimeTableKeyReleased
-        if (evt.getKeyCode()== 40 || evt.getKeyCode() == 38){
+        if (evt.getKeyCode() == 40 || evt.getKeyCode() == 38) {
             this.selectedAnime = (Anime) ConsultAnimeTable.getValueAt(ConsultAnimeTable.getSelectedRow(), 1);
             bigtxtConsultAnimeSin.setText(this.selectedAnime.getSinopse());
         }
     }//GEN-LAST:event_ConsultAnimeTableKeyReleased
 
     private void txtConsultAnimeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtConsultAnimeKeyReleased
-        if(!txtConsultAnime.getText().equals(this.comp) && txtConsultAnime.getText().isEmpty()){
+        if (!txtConsultAnime.getText().equals(this.comp) && txtConsultAnime.getText().isEmpty()) {
             ListarAnimes();
-        }else if(!txtConsultAnime.getText().equals(this.comp)){
+        } else if (!txtConsultAnime.getText().equals(this.comp)) {
             ListarAnimes(txtConsultAnime.getText());
         }
         this.comp = txtConsultAnime.getText();
     }//GEN-LAST:event_txtConsultAnimeKeyReleased
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        int a = JOptionPane.showConfirmDialog(null, "Deseja Excluir?\nAnime: "+ConsultAnimeTable.getValueAt(ConsultAnimeTable.getSelectedRow(), 1).toString());
-        if (a == 0){
+        int a = JOptionPane.showConfirmDialog(null, "Deseja Excluir?\nAnime: " + ConsultAnimeTable.getValueAt(ConsultAnimeTable.getSelectedRow(), 1).toString());
+        if (a == 0) {
             DefaultTableModel dados = (DefaultTableModel) ConsultAnimeTable.getModel();
-            AnimeDAO dao = new AnimeDAO();
-            dao.ExcluirAnime(selectedAnime);
-            if (!txtConsultAnime.getText().isEmpty()){
+            GlobalDAO.getInstance().animeDAO.ExcluirAnime(selectedAnime);
+            if (!txtConsultAnime.getText().isEmpty()) {
                 AnimeList.remove(selectedAnime);
                 dados.removeRow(ConsultAnimeTable.getSelectedRow());
                 ListarAnimes(txtConsultAnime.getText());
-            }else{
+            } else {
                 ListarAnimes();
             }
             btnUpdate.setEnabled(false);
@@ -802,7 +799,6 @@ public class GerenciaAnime extends javax.swing.JFrame {
             bigtxtConsultAnimeSin.setText("");
             ConsultAnimeTable.clearSelection();
             this.selectedAnime = null;
-            dao.close();
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
@@ -824,67 +820,67 @@ public class GerenciaAnime extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClearAnimeActionPerformed
 
     private void btnPreviewUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviewUpdateActionPerformed
-        if(txtUrlImageUpdate.getText().isBlank()){
+        if (txtUrlImageUpdate.getText().isBlank()) {
             JOptionPane.showMessageDialog(null, "Digite uma url!");
-        }else{
+        } else {
             setImageIcon(txtUrlImageUpdate.getText(), imagePreviewUpdate);
         }
     }//GEN-LAST:event_btnPreviewUpdateActionPerformed
 
     private void btnPreviewImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviewImageActionPerformed
-        if(txtUrlImage.getText().isBlank()){
+        if (txtUrlImage.getText().isBlank()) {
             JOptionPane.showMessageDialog(null, "Digite uma url!");
-        }else{
+        } else {
             setImageIcon(txtUrlImage.getText(), imagePreview);
         }
     }//GEN-LAST:event_btnPreviewImageActionPerformed
-    private void setImageIcon(String url, JLabel image){
-        if (url != null){
-           try {
-               image.setIcon(Imagem.resize(url, 66, 100));
-           } catch (MalformedURLException ex) {
-               Logger.getLogger(GerenciaAnime.class.getName()).log(Level.SEVERE, null, ex);
-           }
-       }
+    private void setImageIcon(String url, JLabel image) {
+        if (url != null) {
+            try {
+                image.setIcon(Imagem.resize(url, 66, 100));
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(GerenciaAnime.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
-    private void FilterJComboBox(){
+
+    private void FilterJComboBox() {
         AutoCompleteDecorator.decorate(boxEstudio);
         AutoCompleteDecorator.decorate(boxEstudioUpdate);
         AutoCompleteDecorator.decorate(boxGender);
         AutoCompleteDecorator.decorate(boxGenderUpdate);
     }
-    private void CadastrarAnimes(){
+
+    private void CadastrarAnimes() {
         DefaultComboBoxModel lista = (DefaultComboBoxModel) boxEstudio.getModel();
         DefaultListModel listageneros = (DefaultListModel) listGeneros.getModel();
-       
-        if (txtNameAnime.getText().isEmpty()){
+
+        if (txtNameAnime.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Digite o nome do anime!");
-        }else if(boxEstudio.getSelectedIndex() == -1){
+        } else if (boxEstudio.getSelectedIndex() == -1) {
             JOptionPane.showMessageDialog(null, "Selecione um estudio!");
-        }else if(listageneros.getSize() == 0){
+        } else if (listageneros.getSize() == 0) {
             JOptionPane.showMessageDialog(null, "Adicione algum gênero!");
-        }else if(bigtxtSinopse.getText().isEmpty()){
+        } else if (bigtxtSinopse.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Adicione uma sinopse!");
-        }else if(boxFaixa.getSelectedIndex() == -1){
+        } else if (boxFaixa.getSelectedIndex() == -1) {
             JOptionPane.showMessageDialog(null, "Selecione uma faixa etaria!");
-        }else if(animeData.getDate() == null){
+        } else if (animeData.getDate() == null) {
             JOptionPane.showMessageDialog(null, "Selecione uma Data de Lançamento!");
-        }
-        else{
-            AnimeDAO dao = new AnimeDAO();
+        } else {
             Estudio estudio = (Estudio) lista.getSelectedItem();
 
             int tam = listageneros.getSize();
             ArrayList<Genero> generos = new ArrayList<>();
 
-            for (int i = 0; i < tam; i++){
+            for (int i = 0; i < tam; i++) {
                 generos.add((Genero) listageneros.get(i));
             }
             String imageUrl = txtUrlImage.getText();
-            if (imageUrl.isBlank()){
+            if (imageUrl.isBlank()) {
                 imageUrl = null;
             }
-            dao.cadastrarAnime(txtNameAnime.getText(), bigtxtSinopse.getText(), boxFaixa.getItemAt(boxFaixa.getSelectedIndex()), estudio.getIdestudio(), animeData.getDate().getTime(),generos, imageUrl);
+            GlobalDAO.getInstance().animeDAO.cadastrarAnime(txtNameAnime.getText(), bigtxtSinopse.getText(), boxFaixa.getItemAt(boxFaixa.getSelectedIndex()), estudio.getIdestudio(), animeData.getDate().getTime(), generos, imageUrl);
             LimparCadastro();
             btnUpdate.setEnabled(false);
             btnExcluir.setEnabled(false);
@@ -893,59 +889,56 @@ public class GerenciaAnime extends javax.swing.JFrame {
             this.selectedAnime = null;
             jTabbedPane1.setSelectedIndex(0);
             ListarAnimes();
-            dao.close();
         }
     }
-    
-    private void AtualizarAnime(){
+
+    private void AtualizarAnime() {
         DefaultComboBoxModel lista = (DefaultComboBoxModel) boxEstudioUpdate.getModel();
         DefaultListModel listageneros = (DefaultListModel) listGenerosUpdate.getModel();
-        
-        if (txtNameAnimeUpdate.getText().isEmpty()){
+
+        if (txtNameAnimeUpdate.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Digite o nome do anime!");
-        }else if(boxEstudioUpdate.getSelectedIndex() == -1){
+        } else if (boxEstudioUpdate.getSelectedIndex() == -1) {
             JOptionPane.showMessageDialog(null, "Selecione um estudio!");
-        }else if(listageneros.getSize() == 0){
+        } else if (listageneros.getSize() == 0) {
             JOptionPane.showMessageDialog(null, "Adicione algum gênero!");
-        }else if(bigtxtSinopseUpdate.getText().isEmpty()){
+        } else if (bigtxtSinopseUpdate.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Adicione uma sinopse!");
-        }else if(boxFaixaUpdate.getSelectedIndex() == -1){
+        } else if (boxFaixaUpdate.getSelectedIndex() == -1) {
             JOptionPane.showMessageDialog(null, "Selecione uma faixa etaria!");
-        }else if(animeDataUpdate.getDate() == null){
+        } else if (animeDataUpdate.getDate() == null) {
             JOptionPane.showMessageDialog(null, "Selecione uma Data de Lançamento!");
-        }
-        else{
-            AnimeDAO dao = new AnimeDAO();
+        } else {
             Estudio estudio = (Estudio) lista.getSelectedItem();
-            
+
             List<Genero> oldGens = new ArrayList<>();
             List<Genero> newGens = new ArrayList<>();
-            for (int i = 0; i < listageneros.getSize(); i++){
+            for (int i = 0; i < listageneros.getSize(); i++) {
                 newGens.add((Genero) listageneros.get(i));
             }
-            
-            for (int i = 0; i < selectedAnime.getGeneros().size(); i++){
+
+            for (int i = 0; i < selectedAnime.getGeneros().size(); i++) {
                 boolean v = true;
-                for (int j = 0; j < newGens.size();j++){
-                    if (selectedAnime.getGeneros().get(i).getIdcategoria() == newGens.get(j).getIdcategoria()){
+                for (int j = 0; j < newGens.size(); j++) {
+                    if (selectedAnime.getGeneros().get(i).getIdcategoria() == newGens.get(j).getIdcategoria()) {
                         newGens.remove(newGens.get(j));
                         v = false;
                         break;
                     }
                 }
-                if (v){
+                if (v) {
                     oldGens.add(selectedAnime.getGeneros().get(i));
                 }
             }
             String imageUrl = txtUrlImageUpdate.getText();
-            if (imageUrl.isBlank()){
+            if (imageUrl.isBlank()) {
                 imageUrl = null;
             }
-            if (txtNameAnimeUpdate.getText().equals(selectedAnime.getName()) && bigtxtSinopseUpdate.getText().equals(selectedAnime.getSinopse()) && boxFaixaUpdate.getItemAt(boxFaixaUpdate.getSelectedIndex()).equals(selectedAnime.getF_etaria()) && estudio.getIdestudio() == selectedAnime.getEstudio().getIdestudio() && oldGens.isEmpty() && newGens.isEmpty() && selectedAnime.getData().compareTo(animeDataUpdate.getCalendar()) == 0 && selectedAnime.getUrlImagem() == imageUrl){
+            if (txtNameAnimeUpdate.getText().equals(selectedAnime.getName()) && bigtxtSinopseUpdate.getText().equals(selectedAnime.getSinopse()) && boxFaixaUpdate.getItemAt(boxFaixaUpdate.getSelectedIndex()).equals(selectedAnime.getF_etaria()) && estudio.getIdestudio() == selectedAnime.getEstudio().getIdestudio() && oldGens.isEmpty() && newGens.isEmpty() && selectedAnime.getData().compareTo(animeDataUpdate.getCalendar()) == 0 && selectedAnime.getUrlImagem() == imageUrl) {
                 JOptionPane.showMessageDialog(null, "Faça Alguma Alteração Para Atualizar!");
-            }else{
-                Anime newAnime = new Anime(selectedAnime.getIdanime(), txtNameAnimeUpdate.getText(), bigtxtSinopseUpdate.getText(), boxFaixaUpdate.getItemAt(boxFaixaUpdate.getSelectedIndex()), selectedAnime.getMedia(), estudio, animeDataUpdate.getDate(),newGens, imageUrl);
-                dao.AtualizarAnime(oldGens, newAnime);
+            } else {
+                Anime newAnime = new Anime(selectedAnime.getIdanime(), txtNameAnimeUpdate.getText(), bigtxtSinopseUpdate.getText(), boxFaixaUpdate.getItemAt(boxFaixaUpdate.getSelectedIndex()), selectedAnime.getMedia(), estudio, animeDataUpdate.getDate(), newGens, imageUrl);
+                GlobalDAO.getInstance().animeDAO.AtualizarAnime(oldGens, newAnime);
                 btnUpdate.setEnabled(false);
                 btnExcluir.setEnabled(false);
                 bigtxtConsultAnimeSin.setText("");
@@ -958,11 +951,10 @@ public class GerenciaAnime extends javax.swing.JFrame {
                 jTabbedPane1.setEnabledAt(0, true);
                 jTabbedPane1.setEnabledAt(1, true);
             }
-            dao.close();
         }
     }
-    
-    private void LimparCadastro(){
+
+    private void LimparCadastro() {
         txtNameAnime.setText("");
         bigtxtSinopse.setText("");
         boxEstudio.setSelectedIndex(-1);
@@ -975,8 +967,8 @@ public class GerenciaAnime extends javax.swing.JFrame {
         }
         lista.removeAllElements();
     }
-    
-    private void LimparEditar(){
+
+    private void LimparEditar() {
         txtNameAnimeUpdate.setText("");
         bigtxtSinopseUpdate.setText("");
         boxEstudioUpdate.setSelectedIndex(-1);
@@ -990,45 +982,41 @@ public class GerenciaAnime extends javax.swing.JFrame {
         }
         lista.removeAllElements();
     }
-    private void BuscarEstudios(){
-        EstudioDAO dao = new EstudioDAO();
-        List<Estudio> estudios = dao.listarEstudios();
-        
+
+    private void BuscarEstudios() {
+        List<Estudio> estudios = GlobalDAO.getInstance().estudioDAO.listarEstudios();
+
         DefaultComboBoxModel lista = (DefaultComboBoxModel) boxEstudio.getModel();
         DefaultComboBoxModel lista2 = (DefaultComboBoxModel) boxEstudioUpdate.getModel();
-        
+
         estudios.forEach((estudio) -> {
             lista.addElement(estudio);
             lista2.addElement(estudio);
         });
         boxEstudio.setSelectedIndex(-1);
         boxEstudioUpdate.setSelectedIndex(-1);
-        dao.close();
     }
-    
-    private void BuscarGeneros(){
-        GeneroDAO dao = new GeneroDAO();
-        List<Genero> generos = dao.listarGeneros();
-        
+
+    private void BuscarGeneros() {
+        List<Genero> generos = GlobalDAO.getInstance().generoDAO.listarGeneros();
+
         DefaultComboBoxModel lista = (DefaultComboBoxModel) boxGender.getModel();
         DefaultComboBoxModel lista2 = (DefaultComboBoxModel) boxGenderUpdate.getModel();
-        
+
         generos.forEach((genero) -> {
             lista.addElement(genero);
             lista2.addElement(genero);
         });
         boxGender.setSelectedIndex(-1);
         boxGenderUpdate.setSelectedIndex(-1);
-        dao.close();
     }
-    
-    private void ListarAnimes(){
+
+    private void ListarAnimes() {
         DefaultTableModel dados = (DefaultTableModel) ConsultAnimeTable.getModel();
         dados.setNumRows(0);
-        
-        AnimeDAO dao = new AnimeDAO();
-        this.AnimeList = dao.listarAnimes();
-        for (Anime anime : this.AnimeList){
+
+        this.AnimeList = GlobalDAO.getInstance().animeDAO.listarAnimes();
+        for (Anime anime : this.AnimeList) {
             dados.addRow(new Object[]{
                 anime.getIdanime(),
                 anime,
@@ -1039,14 +1027,14 @@ public class GerenciaAnime extends javax.swing.JFrame {
                 anime.getDataString()
             });
         }
-        dao.close();
     }
-    private void ListarAnimes(String s){
+
+    private void ListarAnimes(String s) {
         DefaultTableModel dados = (DefaultTableModel) ConsultAnimeTable.getModel();
         dados.setNumRows(0);
-        
-        for (Anime anime : this.AnimeList){
-            if (anime.getName().toLowerCase().contains(s.toLowerCase())){
+
+        for (Anime anime : this.AnimeList) {
+            if (anime.getName().toLowerCase().contains(s.toLowerCase())) {
                 dados.addRow(new Object[]{
                     anime.getIdanime(),
                     anime,
@@ -1059,35 +1047,36 @@ public class GerenciaAnime extends javax.swing.JFrame {
             }
         }
     }
-    
-    private void AddGenero(JList listaG, JComboBox selectG){
+
+    private void AddGenero(JList listaG, JComboBox selectG) {
         try {
             DefaultListModel lista = (DefaultListModel) listaG.getModel();
             int tam = lista.getSize();
             boolean v = false;
             Genero select = (Genero) selectG.getSelectedItem();
-            for (int i = 0; i < tam; i++){
+            for (int i = 0; i < tam; i++) {
                 Genero temp = (Genero) lista.get(i);
-                if (temp.getIdcategoria() == select.getIdcategoria()){
+                if (temp.getIdcategoria() == select.getIdcategoria()) {
                     v = true;
                     break;
                 }
             }
-            if (v){
+            if (v) {
                 JOptionPane.showMessageDialog(null, "Gênero já adicionado!");
-            }else{
+            } else {
                 lista.addElement(select);
-            }    
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        
+
     }
-    private void RemoveGenero(JList lista){
+
+    private void RemoveGenero(JList lista) {
         DefaultListModel model = (DefaultListModel) lista.getModel();
-        if (lista.getSelectedIndex() != -1){
+        if (lista.getSelectedIndex() != -1) {
             model.removeElementAt(lista.getSelectedIndex());
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Selecione um genero para remover!");
         }
     }

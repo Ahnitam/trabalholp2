@@ -9,7 +9,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import pctControle.Usuario;
-import pctDAO.UsuarioDAO;
+import pctDAO.GlobalDAO;
 
 /**
  *
@@ -24,16 +24,15 @@ public class GerenciaUsuario extends javax.swing.JFrame {
     private List<Usuario> users;
     private String comp;
     private Usuario selectedUser;
-    
+
     public GerenciaUsuario(Usuario user) {
         this.user = user;
         initComponents();
         Tabela();
     }
-    
+
     private void Tabela() {
-        UsuarioDAO dao = new UsuarioDAO();
-        this.users = dao.listarClientes();
+        this.users = GlobalDAO.getInstance().usuarioDAO.listarClientes();
         DefaultTableModel dados = (DefaultTableModel) userTable.getModel();
 
         dados.setNumRows(0);
@@ -47,15 +46,14 @@ public class GerenciaUsuario extends javax.swing.JFrame {
             });
 
         }
-        dao.close();
     }
-    
+
     private void Tabela(String s) {
         DefaultTableModel dados = (DefaultTableModel) userTable.getModel();
         dados.setNumRows(0);
 
         for (Usuario usuario : this.users) {
-            if (usuario.getUsername().toLowerCase().contains(s.toLowerCase())){
+            if (usuario.getUsername().toLowerCase().contains(s.toLowerCase())) {
                 dados.addRow(new Object[]{
                     usuario.getIduser(),
                     usuario,
@@ -222,9 +220,9 @@ public class GerenciaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnToHomeUserActionPerformed
 
     private void txtDigitaUsernameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDigitaUsernameKeyReleased
-        if(!txtDigitaUsername.getText().equals(this.comp) && txtDigitaUsername.getText().isEmpty()){
+        if (!txtDigitaUsername.getText().equals(this.comp) && txtDigitaUsername.getText().isEmpty()) {
             Tabela();
-        }else if(!txtDigitaUsername.getText().equals(this.comp)){
+        } else if (!txtDigitaUsername.getText().equals(this.comp)) {
             Tabela(txtDigitaUsername.getText());
         }
         this.comp = txtDigitaUsername.getText();
@@ -235,7 +233,7 @@ public class GerenciaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_userTableMouseClicked
 
     private void userTableKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_userTableKeyReleased
-        if (evt.getKeyCode()== 40 || evt.getKeyCode() == 38){
+        if (evt.getKeyCode() == 40 || evt.getKeyCode() == 38) {
             this.selectedUser = (Usuario) userTable.getValueAt(userTable.getSelectedRow(), 1);
         }
     }//GEN-LAST:event_userTableKeyReleased
@@ -253,52 +251,48 @@ public class GerenciaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDigitaUsernameFocusGained
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        int a = JOptionPane.showConfirmDialog(null, "Deseja Excluir?\nUsuário: "+this.selectedUser.getUsername());
-        if (a == 0){
+        int a = JOptionPane.showConfirmDialog(null, "Deseja Excluir?\nUsuário: " + this.selectedUser.getUsername());
+        if (a == 0) {
             DefaultTableModel dados = (DefaultTableModel) userTable.getModel();
-            UsuarioDAO dao = new UsuarioDAO();
-            dao.excluirUsuario(this.selectedUser);
-            if (!txtDigitaUsername.getText().isEmpty()){
+            GlobalDAO.getInstance().usuarioDAO.excluirUsuario(this.selectedUser);
+            if (!txtDigitaUsername.getText().isEmpty()) {
                 this.users.remove(this.selectedUser);
                 dados.removeRow(userTable.getSelectedRow());
                 Tabela(txtDigitaUsername.getText());
-            }else{
+            } else {
                 Tabela();
             }
             btnUpdateUser.setEnabled(false);
             btnExcluir.setEnabled(false);
             userTable.clearSelection();
             this.selectedUser = null;
-            dao.close();
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnUpdateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateUserActionPerformed
-        if (this.userTable.getValueAt(userTable.getSelectedRow(), 2).toString().isEmpty() && this.userTable.getValueAt(userTable.getSelectedRow(), 3).toString().isEmpty()){
+        if (this.userTable.getValueAt(userTable.getSelectedRow(), 2).toString().isEmpty() && this.userTable.getValueAt(userTable.getSelectedRow(), 3).toString().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Não pode deixar valores vázios!!");
-        }else{
+        } else {
             String alteracoes = "";
-            if (!this.selectedUser.getEmail().equals(this.userTable.getValueAt(userTable.getSelectedRow(), 2).toString())){
-                alteracoes += "\n(Email) De: "+this.selectedUser.getEmail()+"\n(Email) Para: "+this.userTable.getValueAt(userTable.getSelectedRow(), 2).toString();
+            if (!this.selectedUser.getEmail().equals(this.userTable.getValueAt(userTable.getSelectedRow(), 2).toString())) {
+                alteracoes += "\n(Email) De: " + this.selectedUser.getEmail() + "\n(Email) Para: " + this.userTable.getValueAt(userTable.getSelectedRow(), 2).toString();
             }
-            if (this.selectedUser.getPermission() != Integer.valueOf(this.userTable.getValueAt(userTable.getSelectedRow(), 3).toString())){
-                alteracoes += "\n(Permissão) De: "+this.selectedUser.getPermission()+"\n(Permissão) Para: "+this.userTable.getValueAt(userTable.getSelectedRow(), 3);
+            if (this.selectedUser.getPermission() != Integer.valueOf(this.userTable.getValueAt(userTable.getSelectedRow(), 3).toString())) {
+                alteracoes += "\n(Permissão) De: " + this.selectedUser.getPermission() + "\n(Permissão) Para: " + this.userTable.getValueAt(userTable.getSelectedRow(), 3);
             }
-            
-            if (!alteracoes.equals("")){
-                int a = JOptionPane.showConfirmDialog(null, "Deseja Atualizar?"+alteracoes);
-                if (a == 0){
-                    UsuarioDAO dao = new UsuarioDAO();
+
+            if (!alteracoes.equals("")) {
+                int a = JOptionPane.showConfirmDialog(null, "Deseja Atualizar?" + alteracoes);
+                if (a == 0) {
                     Usuario UpdatedUser = new Usuario(this.selectedUser.getIduser(), this.selectedUser.getUsername(), this.userTable.getValueAt(userTable.getSelectedRow(), 2).toString(), this.selectedUser.getPassword(), Integer.valueOf(this.userTable.getValueAt(userTable.getSelectedRow(), 3).toString()));
-                    dao.atualizarUsuario(UpdatedUser);
+                    GlobalDAO.getInstance().usuarioDAO.atualizarUsuario(UpdatedUser);
                     btnUpdateUser.setEnabled(false);
                     btnExcluir.setEnabled(false);
                     userTable.clearSelection();
                     this.selectedUser = null;
                     Tabela();
-                    dao.close();
                 }
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Altere Algum Campo para Atualizar!!");
             }
         }

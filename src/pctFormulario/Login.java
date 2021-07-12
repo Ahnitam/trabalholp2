@@ -10,6 +10,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import javax.swing.JOptionPane;
 import pctControle.Usuario;
+import pctDAO.GlobalDAO;
 import pctDAO.UsuarioDAO;
 
 /**
@@ -124,54 +125,48 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegisterActionPerformed
 
     private void txtPassKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPassKeyPressed
-        if (evt.getKeyCode() == 10){
+        if (evt.getKeyCode() == 10) {
             this.Login();
         }
     }//GEN-LAST:event_txtPassKeyPressed
 
     private void txtUserKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUserKeyPressed
-        if (evt.getKeyCode() == 10){
+        if (evt.getKeyCode() == 10) {
             txtUser.transferFocus();
         }
     }//GEN-LAST:event_txtUserKeyPressed
 
-    
-    private void Login(){
+    private void Login() {
         if (txtUser.getText().isEmpty() || String.valueOf(txtPass.getPassword()).isEmpty()) {
             JOptionPane.showMessageDialog(null, "Não deixe campos vazios!");
             return;
         }
         String senha = String.valueOf(txtPass.getPassword());
-        try{
+        try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             BigInteger hash = new BigInteger(1, md.digest(String.valueOf(txtPass.getPassword()).getBytes()));
             senha = hash.toString(16);
-        }catch(NoSuchAlgorithmException e){
+        } catch (NoSuchAlgorithmException e) {
             System.err.println(e.getMessage());
         }
-        
-        UsuarioDAO dao = new UsuarioDAO();
-        Usuario usuario = dao.VerificarUsuario(txtUser.getText());
+
+        Usuario usuario = GlobalDAO.getInstance().usuarioDAO.VerificarUsuario(txtUser.getText());
 
         if (usuario == null) {
             JOptionPane.showMessageDialog(null, "Usuário não encontrado no banco de dados.");
-        }
-        else if (!usuario.getPassword().equals(senha)) {
+        } else if (!usuario.getPassword().equals(senha)) {
             JOptionPane.showMessageDialog(null, "Senha incorreta.");
-        }
-        else{
+        } else {
             if (usuario.getPermission() == 0) {
                 JOptionPane.showMessageDialog(null, "Logado com sucesso.  Seja bem vindo: " + usuario.getUsername());
                 new HomeUsuario(usuario).setVisible(true);
                 this.dispose();
-            }
-            else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Logado com sucesso.  Seja bem vindo ADM: " + usuario.getUsername());
                 new HomeAdm(usuario).setVisible(true);
                 this.dispose();
             }
         }
-        dao.close();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import pctControle.Estudio;
 import pctControle.Usuario;
-import pctDAO.EstudioDAO;
+import pctDAO.GlobalDAO;
 
 /**
  *
@@ -21,11 +21,10 @@ public class GerenciaEstudio extends javax.swing.JFrame {
     /**
      * Creates new form GerenciaEstudio
      */
-    
     private String comp = "";
     private List<Estudio> lista = null;
     private Usuario user;
-    
+
     public GerenciaEstudio(Usuario user) {
         this.user = user;
         initComponents();
@@ -214,65 +213,57 @@ public class GerenciaEstudio extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Campo vazio!");
             return;
         }
-        EstudioDAO dao = new EstudioDAO();
-        try{
-            int a = JOptionPane.showConfirmDialog(null, "Deseja Cadastrar?\nGenero: "+txtEstudio.getText());
-            if (a == 0){
-                dao.cadastrarEstudio(txtEstudio.getText());
+        try {
+            int a = JOptionPane.showConfirmDialog(null, "Deseja Cadastrar?\nGenero: " + txtEstudio.getText());
+            if (a == 0) {
+                GlobalDAO.getInstance().estudioDAO.cadastrarEstudio(txtEstudio.getText());
                 LimparCampoCadastro();
                 ListarEstudios();
             }
-        }catch(Exception e){
-            
+        } catch (Exception e) {
+
         }
-        dao.close();
-        
-        
     }//GEN-LAST:event_btnCadastraEstudioActionPerformed
 
     private void txtDigitaEstudioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDigitaEstudioKeyReleased
-        if(!txtDigitaEstudio.getText().equals(this.comp) && txtDigitaEstudio.getText().isEmpty()){
+        if (!txtDigitaEstudio.getText().equals(this.comp) && txtDigitaEstudio.getText().isEmpty()) {
             ListarEstudios();
-        }else if(!txtDigitaEstudio.getText().equals(this.comp)){
+        } else if (!txtDigitaEstudio.getText().equals(this.comp)) {
             ListarEstudios(txtDigitaEstudio.getText());
         }
         this.comp = txtDigitaEstudio.getText();
     }//GEN-LAST:event_txtDigitaEstudioKeyReleased
 
     private void btnExcluirEstudioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirEstudioActionPerformed
-        int a = JOptionPane.showConfirmDialog(null, "Deseja Excluir?\nEstudio: "+estudioTable.getValueAt(estudioTable.getSelectedRow(), 1).toString());
-        if (a == 0){
+        int a = JOptionPane.showConfirmDialog(null, "Deseja Excluir?\nEstudio: " + estudioTable.getValueAt(estudioTable.getSelectedRow(), 1).toString());
+        if (a == 0) {
             DefaultTableModel dados = (DefaultTableModel) estudioTable.getModel();
             Estudio estudio = new Estudio(Integer.valueOf(estudioTable.getValueAt(estudioTable.getSelectedRow(), 0).toString()), estudioTable.getValueAt(estudioTable.getSelectedRow(), 1).toString());
-            EstudioDAO dao = new EstudioDAO();
-           
-            dao.excluirEstudio(estudio);
-            if (!txtDigitaEstudio.getText().isEmpty()){
+
+            GlobalDAO.getInstance().estudioDAO.excluirEstudio(estudio);
+            if (!txtDigitaEstudio.getText().isEmpty()) {
                 lista.remove((Estudio) estudioTable.getValueAt(estudioTable.getSelectedRow(), 1));
                 dados.removeRow(estudioTable.getSelectedRow());
                 ListarEstudios(txtDigitaEstudio.getText());
-            }else{
+            } else {
                 ListarEstudios();
             }
-            dao.close();
         }
     }//GEN-LAST:event_btnExcluirEstudioActionPerformed
 
     private void btnUpdateEstudioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateEstudioActionPerformed
         Estudio estudio = new Estudio(Integer.valueOf(estudioTable.getValueAt(estudioTable.getSelectedRow(), 0).toString()), estudioTable.getValueAt(estudioTable.getSelectedRow(), 1).toString());
-        EstudioDAO dao = new EstudioDAO();
-        Estudio oldestudio = dao.BuscarEstudioById(Integer.valueOf(estudioTable.getValueAt(estudioTable.getSelectedRow(), 0).toString()));
-        if (oldestudio.getNome().equals(estudio.getNome())){
+        Estudio oldestudio = GlobalDAO.getInstance().estudioDAO.BuscarEstudioById(Integer.valueOf(estudioTable.getValueAt(estudioTable.getSelectedRow(), 0).toString()));
+        if (oldestudio.getNome().equals(estudio.getNome())) {
             JOptionPane.showMessageDialog(null, "Faça uma alteração na tabela para atualizar!");
-        }else{
-            int a = JOptionPane.showConfirmDialog(null, "Deseja Atualizar?\nDe: "+oldestudio.getNome()+"\nPara: "+estudio.getNome());
-            if (a == 0){
-                dao.atualizarEstudio(estudio);
+        } else {
+            int a = JOptionPane.showConfirmDialog(null, "Deseja Atualizar?\nDe: " + oldestudio.getNome() + "\nPara: " + estudio.getNome());
+            if (a == 0) {
+                GlobalDAO.getInstance().estudioDAO.atualizarEstudio(estudio);
                 txtDigitaEstudio.setText("");
                 ListarEstudios();
             }
         }
-        dao.close();
     }//GEN-LAST:event_btnUpdateEstudioActionPerformed
 
     private void estudioTableFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_estudioTableFocusGained
@@ -293,42 +284,41 @@ public class GerenciaEstudio extends javax.swing.JFrame {
         BloquearButtons();
     }//GEN-LAST:event_txtEstudioFocusGained
 
-    private void LimparCampoCadastro(){
+    private void LimparCampoCadastro() {
         txtEstudio.setText("");
     }
-    
-    private void BloquearButtons(){
+
+    private void BloquearButtons() {
         btnExcluirEstudio.setEnabled(false);
         btnUpdateEstudio.setEnabled(false);
         estudioTable.clearSelection();
     }
-    
-    private void ListarEstudios(){
+
+    private void ListarEstudios() {
         BloquearButtons();
         DefaultTableModel dados = (DefaultTableModel) estudioTable.getModel();
         dados.setNumRows(0);
-        
-        EstudioDAO dao = new EstudioDAO();
-        lista = dao.listarEstudios();
-        
+
+        lista = GlobalDAO.getInstance().estudioDAO.listarEstudios();
+
         lista.forEach((estudio) -> {
             dados.addRow(new Object[]{
                 estudio.getIdestudio(),
                 estudio
             });
         });
-        dao.close();
     }
-    private void ListarEstudios(String s){
+
+    private void ListarEstudios(String s) {
         BloquearButtons();
         DefaultTableModel dados = (DefaultTableModel) estudioTable.getModel();
         dados.setNumRows(0);
-        
+
         lista.forEach((estudio) -> {
-            if (estudio.getNome().toLowerCase().contains(s.toLowerCase())){
+            if (estudio.getNome().toLowerCase().contains(s.toLowerCase())) {
                 dados.addRow(new Object[]{
-                estudio.getIdestudio(),
-                estudio
+                    estudio.getIdestudio(),
+                    estudio
                 });
             }
         });

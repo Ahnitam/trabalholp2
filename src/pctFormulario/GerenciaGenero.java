@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import pctControle.Genero;
 import pctControle.Usuario;
-import pctDAO.GeneroDAO;
+import pctDAO.GlobalDAO;
 
 /**
  *
@@ -24,7 +24,7 @@ public class GerenciaGenero extends javax.swing.JFrame {
     private String comp = "";
     private List<Genero> lista = null;
     private Usuario user;
-    
+
     public GerenciaGenero(Usuario user) {
         this.user = user;
         initComponents();
@@ -212,47 +212,43 @@ public class GerenciaGenero extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Campo vazio!");
             return;
         }
-        GeneroDAO dao = new GeneroDAO();
-        try{
-            int a = JOptionPane.showConfirmDialog(null, "Deseja Cadastrar?\nGenero: "+txtGenero.getText());
-            if (a == 0){
-                dao.cadastrarGenero(txtGenero.getText());
+        try {
+            int a = JOptionPane.showConfirmDialog(null, "Deseja Cadastrar?\nGenero: " + txtGenero.getText());
+            if (a == 0) {
+                GlobalDAO.getInstance().generoDAO.cadastrarGenero(txtGenero.getText());
                 LimparCampoCadastro();
                 ListarGeneros();
             }
-        }catch(Exception e){
-            
+        } catch (Exception e) {
+
         }
-        dao.close();
-        
+
     }//GEN-LAST:event_btnCadastraGeneroActionPerformed
 
     private void txtDigitaGeneroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDigitaGeneroKeyReleased
-        if(!txtDigitaGenero.getText().equals(this.comp) && txtDigitaGenero.getText().isEmpty()){
+        if (!txtDigitaGenero.getText().equals(this.comp) && txtDigitaGenero.getText().isEmpty()) {
             ListarGeneros();
-        }else if(!txtDigitaGenero.getText().equals(this.comp)){
+        } else if (!txtDigitaGenero.getText().equals(this.comp)) {
             ListarGeneros(txtDigitaGenero.getText());
         }
         this.comp = txtDigitaGenero.getText();
-        
+
     }//GEN-LAST:event_txtDigitaGeneroKeyReleased
 
     private void btnExcluirGeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirGeneroActionPerformed
-        int a = JOptionPane.showConfirmDialog(null, "Deseja Excluir?\nGenero: "+generoTable.getValueAt(generoTable.getSelectedRow(), 1).toString());
-        if (a == 0){
+        int a = JOptionPane.showConfirmDialog(null, "Deseja Excluir?\nGenero: " + generoTable.getValueAt(generoTable.getSelectedRow(), 1).toString());
+        if (a == 0) {
             DefaultTableModel dados = (DefaultTableModel) generoTable.getModel();
             Genero genero = new Genero(Integer.valueOf(generoTable.getValueAt(generoTable.getSelectedRow(), 0).toString()), generoTable.getValueAt(generoTable.getSelectedRow(), 1).toString());
-            GeneroDAO dao = new GeneroDAO();
-            
-            dao.excluirGenero(genero);
-            if (!txtDigitaGenero.getText().isEmpty()){
+
+            GlobalDAO.getInstance().generoDAO.excluirGenero(genero);
+            if (!txtDigitaGenero.getText().isEmpty()) {
                 lista.remove((Genero) generoTable.getValueAt(generoTable.getSelectedRow(), 1));
                 dados.removeRow(generoTable.getSelectedRow());
                 ListarGeneros(txtDigitaGenero.getText());
-            }else{
+            } else {
                 ListarGeneros();
             }
-            dao.close();
         }
     }//GEN-LAST:event_btnExcluirGeneroActionPerformed
 
@@ -263,18 +259,16 @@ public class GerenciaGenero extends javax.swing.JFrame {
 
     private void btnUpdateGeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateGeneroActionPerformed
         Genero genero = new Genero(Integer.valueOf(generoTable.getValueAt(generoTable.getSelectedRow(), 0).toString()), generoTable.getValueAt(generoTable.getSelectedRow(), 1).toString());
-        GeneroDAO dao = new GeneroDAO();
-        Genero oldgenero = dao.BuscarGeneroById(Integer.valueOf(generoTable.getValueAt(generoTable.getSelectedRow(), 0).toString()));
-        if (oldgenero.getNome().equals(genero.getNome())){
+        Genero oldgenero = GlobalDAO.getInstance().generoDAO.BuscarGeneroById(Integer.valueOf(generoTable.getValueAt(generoTable.getSelectedRow(), 0).toString()));
+        if (oldgenero.getNome().equals(genero.getNome())) {
             JOptionPane.showMessageDialog(null, "Faça uma alteração na tabela para atualizar!");
-        }else{
-            int a = JOptionPane.showConfirmDialog(null, "Deseja Atualizar?\nDe: "+oldgenero.getNome()+"\nPara: "+genero.getNome());
-            if (a == 0){
-                dao.atualizarGenero(genero);
+        } else {
+            int a = JOptionPane.showConfirmDialog(null, "Deseja Atualizar?\nDe: " + oldgenero.getNome() + "\nPara: " + genero.getNome());
+            if (a == 0) {
+                GlobalDAO.getInstance().generoDAO.atualizarGenero(genero);
                 ListarGeneros();
             }
         }
-        dao.close();
     }//GEN-LAST:event_btnUpdateGeneroActionPerformed
 
     private void btnToHomeEstudioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToHomeEstudioActionPerformed
@@ -290,33 +284,32 @@ public class GerenciaGenero extends javax.swing.JFrame {
         BloquearButtons();
     }//GEN-LAST:event_txtGeneroFocusGained
 
-    private void LimparCampoCadastro(){
+    private void LimparCampoCadastro() {
         txtGenero.setText("");
     }
-    
-    private void BloquearButtons(){
+
+    private void BloquearButtons() {
         btnExcluirGenero.setEnabled(false);
         btnUpdateGenero.setEnabled(false);
         generoTable.clearSelection();
     }
-    
-    private void ListarGeneros(){
+
+    private void ListarGeneros() {
         BloquearButtons();
         DefaultTableModel dados = (DefaultTableModel) generoTable.getModel();
         dados.setNumRows(0);
-        
-        GeneroDAO dao = new GeneroDAO();
-        this.lista = dao.listarGeneros();
-        
+
+        this.lista = GlobalDAO.getInstance().generoDAO.listarGeneros();
+
         this.lista.forEach((genero) -> {
             dados.addRow(new Object[]{
                 genero.getIdcategoria(),
                 genero.getNome()
             });
         });
-        dao.close();
     }
-    private void ListarGeneros(String s){
+
+    private void ListarGeneros(String s) {
         BloquearButtons();
         DefaultTableModel dados = (DefaultTableModel) generoTable.getModel();
         dados.setNumRows(0);

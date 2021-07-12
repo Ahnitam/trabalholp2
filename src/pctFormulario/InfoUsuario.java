@@ -9,7 +9,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import javax.swing.JOptionPane;
 import pctControle.Usuario;
-import pctDAO.UsuarioDAO;
+import pctDAO.GlobalDAO;
 
 /**
  *
@@ -167,18 +167,16 @@ public class InfoUsuario extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Senhas Diferentes!");
         } else {
             //Atualizar senha
-            UsuarioDAO dao = new UsuarioDAO();
             try {
                 MessageDigest md = MessageDigest.getInstance("MD5");
                 BigInteger hash = new BigInteger(1, md.digest(String.valueOf(fieldPassword.getPassword()).getBytes()));
                 user.setPassword(hash.toString(16));
-                dao.atualizarSenha(user);
+                GlobalDAO.getInstance().usuarioDAO.atualizarSenha(user);
                 this.changeActive = false;
                 setVisiblePasswordChange(false);
             } catch (Exception e) {
                 System.err.println(e.getMessage());
             }
-            dao.close();
         }
 
 

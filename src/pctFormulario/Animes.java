@@ -11,7 +11,7 @@ import javax.swing.ImageIcon;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import pctControle.Anime;
 import pctControle.Usuario;
-import pctDAO.AnimeDAO;
+import pctDAO.GlobalDAO;
 import utils.Imagem;
 
 /**
@@ -24,7 +24,7 @@ public class Animes extends javax.swing.JFrame {
      * Creates new form Animes
      */
     private final Usuario user;
-    
+
     public Animes(Usuario user) {
         this.user = user;
         initComponents();
@@ -205,7 +205,7 @@ public class Animes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void boxAnimesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_boxAnimesItemStateChanged
-        if (boxAnimes.getSelectedIndex() != -1){
+        if (boxAnimes.getSelectedIndex() != -1) {
             animeInfo((Anime) boxAnimes.getSelectedItem());
             btnReviews.setEnabled(true);
         }
@@ -221,40 +221,36 @@ public class Animes extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnHomeActionPerformed
 
-    private void ListarAnimes(){
+    private void ListarAnimes() {
         DefaultComboBoxModel dados = (DefaultComboBoxModel) boxAnimes.getModel();
         dados.removeAllElements();
-        
-        AnimeDAO dao = new AnimeDAO();
-        List<Anime> AnimeList = dao.listarAnimes();
-        
+
+        List<Anime> AnimeList = GlobalDAO.getInstance().animeDAO.listarAnimes();
         AnimeList.forEach(anime -> {
             dados.addElement(anime);
         });
-        dao.close();
     }
-    
-    
-    private void animeInfo(Anime anime){
-        try{
+
+    private void animeInfo(Anime anime) {
+        try {
             labelAnime.setText(anime.getName());
             labelDescricao.setText(anime.getSinopse());
             labelEstudio.setText(anime.getEstudio().getNome());
             labelData.setText(anime.getDataString());
             labelGeneros.setText(anime.Generos());
             labelNota.setText(String.valueOf(anime.getMedia()));
-            
-            if (anime.getUrlImagem() != null){
+
+            if (anime.getUrlImagem() != null) {
                 animeImagem.setIcon(Imagem.resize(anime.getUrlImagem(), 200, 300));
-            }else{
+            } else {
                 animeImagem.setIcon(Imagem.resize(new ImageIcon(getClass().getResource("/imgs/bitmap.png")), 200, 300));
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         }
     }
-    
-    private void FilterJComboBox(){
+
+    private void FilterJComboBox() {
         AutoCompleteDecorator.decorate(boxAnimes);
     }
 

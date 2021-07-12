@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import pctControle.Anime;
 import pctControle.Usuario;
-import pctDAO.ReviewDAO;
+import pctDAO.GlobalDAO;
 
 /**
  *
@@ -23,25 +23,26 @@ public class Review extends javax.swing.JFrame {
     private final Usuario user;
     private final Anime anime;
     private final JFrame parent;
-    private final pctControle.Review review; 
-    
+    private final pctControle.Review review;
+
     public Review(Usuario user, Anime anime, JFrame parent) {
         this.user = user;
         this.anime = anime;
         this.parent = parent;
         this.review = null;
         initComponents();
-        selectLabel.setText("Anime: "+this.anime.getName());
-        userLabel.setText("Usuário: "+this.user.getUsername());
+        selectLabel.setText("Anime: " + this.anime.getName());
+        userLabel.setText("Usuário: " + this.user.getUsername());
     }
+
     public Review(Usuario user, Anime anime, JFrame parent, pctControle.Review review) {
         this.user = user;
         this.anime = anime;
         this.parent = parent;
         this.review = review;
         initComponents();
-        selectLabel.setText("Anime: "+this.anime.getName());
-        userLabel.setText("Usuário: "+this.user.getUsername());
+        selectLabel.setText("Anime: " + this.anime.getName());
+        userLabel.setText("Usuário: " + this.user.getUsername());
         EditarInit();
     }
 
@@ -164,47 +165,44 @@ public class Review extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelRevActionPerformed
 
     private void btnCreateReviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateReviewActionPerformed
-        if (btnCreateReview.getText().equals("Atualizar")){
+        if (btnCreateReview.getText().equals("Atualizar")) {
             Editar();
-        }else{
+        } else {
             Cadastrar();
         }
-        
+
     }//GEN-LAST:event_btnCreateReviewActionPerformed
-    
-    protected void EditarInit(){
+
+    protected void EditarInit() {
         btnCreateReview.setText("Atualizar");
         this.setTitle("Editar Review");
         btxtDescricao.setText(this.review.getDescricao());
         selectNotaBox.setSelectedItem(String.valueOf(this.review.getNota()));
     }
-    protected void Editar(){
-        if (btxtDescricao.getText().isEmpty()){
+
+    protected void Editar() {
+        if (btxtDescricao.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Digite uma review!");
-        }else if (selectNotaBox.getSelectedIndex() == -1){
+        } else if (selectNotaBox.getSelectedIndex() == -1) {
             JOptionPane.showMessageDialog(null, "Selecione uma nota!");
-        }else if (this.review.getDescricao().equals(btxtDescricao.getText()) && selectNotaBox.getSelectedItem().toString().equals(String.valueOf(this.review.getNota()))){
+        } else if (this.review.getDescricao().equals(btxtDescricao.getText()) && selectNotaBox.getSelectedItem().toString().equals(String.valueOf(this.review.getNota()))) {
             JOptionPane.showMessageDialog(null, "Faça uma alteração para atualizar!");
-        }else{
-            ReviewDAO dao = new ReviewDAO();
-            dao.atualizarReview(new pctControle.Review(this.review.getIdReview(), btxtDescricao.getText(), Integer.valueOf(selectNotaBox.getSelectedItem().toString()), this.review.getUser(), this.review.getId_Anime(), this.review.getId_user(), this.review.getData()));
+        } else {
+            GlobalDAO.getInstance().reviewDAO.atualizarReview(new pctControle.Review(this.review.getIdReview(), btxtDescricao.getText(), Integer.valueOf(selectNotaBox.getSelectedItem().toString()), this.review.getUser(), this.review.getId_Anime(), this.review.getId_user(), this.review.getData()));
             this.parent.dispose();
-            dao.close();
             new ConsultaReview(this.user, this.anime).setVisible(true);
             this.dispose();
         }
     }
-    
-    protected void Cadastrar(){
-        if (btxtDescricao.getText().isEmpty()){
+
+    protected void Cadastrar() {
+        if (btxtDescricao.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Digite uma review!");
-        }else if(selectNotaBox.getSelectedIndex() == -1){
+        } else if (selectNotaBox.getSelectedIndex() == -1) {
             JOptionPane.showMessageDialog(null, "Selecione uma nota!");
-        }else{
-            ReviewDAO dao = new ReviewDAO();
-            dao.cadastrarReview(this.user, this.anime, btxtDescricao.getText(), Integer.valueOf(selectNotaBox.getItemAt(selectNotaBox.getSelectedIndex())));
+        } else {
+            GlobalDAO.getInstance().reviewDAO.cadastrarReview(this.user, this.anime, btxtDescricao.getText(), Integer.valueOf(selectNotaBox.getItemAt(selectNotaBox.getSelectedIndex())));
             this.parent.dispose();
-            dao.close();
             new ConsultaReview(this.user, this.anime).setVisible(true);
             this.dispose();
         }

@@ -10,8 +10,8 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import pctControle.Anime;
 import pctControle.Usuario;
-import pctDAO.ReviewDAO;
 import pctControle.Review;
+import pctDAO.GlobalDAO;
 
 /**
  *
@@ -24,14 +24,14 @@ public class ConsultaReview extends javax.swing.JFrame {
      */
     private final Usuario user;
     private Anime anime = null;
-    
+
     public ConsultaReview(Usuario user, Anime anime) {
         initComponents();
         this.user = user;
         this.anime = anime;
-        
-        labelAnime.setText("Anime: "+anime.getName());
-        userLabel.setText("Usuário: "+user.getUsername());
+
+        labelAnime.setText("Anime: " + anime.getName());
+        userLabel.setText("Usuário: " + user.getUsername());
         ListarReviews(anime);
     }
 
@@ -212,23 +212,23 @@ public class ConsultaReview extends javax.swing.JFrame {
     private void consultTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_consultTableMouseClicked
         Review r = (Review) consultTable.getValueAt(consultTable.getSelectedRow(), 2);
         bigtxtReview.setText(r.getDescricao());
-        if (r.getId_user() == this.user.getIduser()){
+        if (r.getId_user() == this.user.getIduser()) {
             btnUpdateReview.setEnabled(true);
             btnexcluirReview.setEnabled(true);
-        }else{
+        } else {
             btnUpdateReview.setEnabled(false);
             btnexcluirReview.setEnabled(false);
         }
     }//GEN-LAST:event_consultTableMouseClicked
 
     private void consultTableKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_consultTableKeyReleased
-        if (evt.getKeyCode()== 40 || evt.getKeyCode() == 38){
+        if (evt.getKeyCode() == 40 || evt.getKeyCode() == 38) {
             Review r = (Review) consultTable.getValueAt(consultTable.getSelectedRow(), 2);
             bigtxtReview.setText(r.getDescricao());
-            if (r.getId_user() == this.user.getIduser()){
+            if (r.getId_user() == this.user.getIduser()) {
                 btnUpdateReview.setEnabled(true);
                 btnexcluirReview.setEnabled(true);
-            }else{
+            } else {
                 btnUpdateReview.setEnabled(false);
                 btnexcluirReview.setEnabled(false);
             }
@@ -247,40 +247,35 @@ public class ConsultaReview extends javax.swing.JFrame {
 
     private void btnexcluirReviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnexcluirReviewActionPerformed
         int a = JOptionPane.showConfirmDialog(null, "Deseja Excluir?");
-        if (a == 0){
+        if (a == 0) {
             pctControle.Review review = (Review) consultTable.getValueAt(consultTable.getSelectedRow(), 2);
-            ReviewDAO dao = new ReviewDAO();
-           
-            dao.excluirReview(review);
+            GlobalDAO.getInstance().reviewDAO.excluirReview(review);
             btnCreateReview.setEnabled(true);
             consultTable.clearSelection();
             btnUpdateReview.setEnabled(false);
             btnexcluirReview.setEnabled(false);
             bigtxtReview.setText("");
             ListarReviews(this.anime);
-            dao.close();
-        }        
+        }
     }//GEN-LAST:event_btnexcluirReviewActionPerformed
 
-    private void ListarReviews(Anime anime){
+    private void ListarReviews(Anime anime) {
         DefaultTableModel dados = (DefaultTableModel) consultTable.getModel();
         dados.setNumRows(0);
-        ReviewDAO dao = new ReviewDAO();
-        List<Review> lista = dao.listarReviews(anime, this.user.getIduser());
-        for (Review review : lista){
-            if (review.getId_Anime() == anime.getIdanime()){
+        List<Review> lista = GlobalDAO.getInstance().reviewDAO.listarReviews(anime, this.user.getIduser());
+        for (Review review : lista) {
+            if (review.getId_Anime() == anime.getIdanime()) {
                 dados.addRow(new Object[]{
                     review.getUser(),
                     review.getNota(),
                     review,
                     review.getDataString()
                 });
-                if (review.getId_user() == this.user.getIduser()){
+                if (review.getId_user() == this.user.getIduser()) {
                     btnCreateReview.setEnabled(false);
                 }
             }
         }
-        dao.close();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
