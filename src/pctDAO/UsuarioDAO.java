@@ -86,7 +86,7 @@ public class UsuarioDAO {
     }
 
     // Método para atualização de registro
-    public void atualizarCliente(Usuario usuario) {
+    public boolean atualizarCliente(Usuario usuario) {
         try {
 
             //Primeiro  passo  - criar o comando sql
@@ -105,11 +105,12 @@ public class UsuarioDAO {
             stmt.close();
 
             JOptionPane.showMessageDialog(null, "atualizado com Sucesso!");
-
+            return true;
         } catch (SQLException erro) {
             JOptionPane.showMessageDialog(null, "Erro no banco de dados: " + erro);
 
         }
+        return false;
     }
 
     // método para o preenchimento da tabela
