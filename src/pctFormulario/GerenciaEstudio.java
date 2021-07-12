@@ -214,10 +214,10 @@ public class GerenciaEstudio extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Campo vazio!");
             return;
         }
+        EstudioDAO dao = new EstudioDAO();
         try{
             int a = JOptionPane.showConfirmDialog(null, "Deseja Cadastrar?\nGenero: "+txtEstudio.getText());
             if (a == 0){
-                EstudioDAO dao = new EstudioDAO();
                 dao.cadastrarEstudio(txtEstudio.getText());
                 LimparCampoCadastro();
                 ListarEstudios();
@@ -225,6 +225,7 @@ public class GerenciaEstudio extends javax.swing.JFrame {
         }catch(Exception e){
             
         }
+        dao.close();
         
         
     }//GEN-LAST:event_btnCadastraEstudioActionPerformed
@@ -253,6 +254,7 @@ public class GerenciaEstudio extends javax.swing.JFrame {
             }else{
                 ListarEstudios();
             }
+            dao.close();
         }
     }//GEN-LAST:event_btnExcluirEstudioActionPerformed
 
@@ -270,6 +272,7 @@ public class GerenciaEstudio extends javax.swing.JFrame {
                 ListarEstudios();
             }
         }
+        dao.close();
     }//GEN-LAST:event_btnUpdateEstudioActionPerformed
 
     private void estudioTableFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_estudioTableFocusGained
@@ -314,6 +317,7 @@ public class GerenciaEstudio extends javax.swing.JFrame {
                 estudio
             });
         });
+        dao.close();
     }
     private void ListarEstudios(String s){
         BloquearButtons();

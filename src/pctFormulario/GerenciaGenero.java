@@ -212,10 +212,10 @@ public class GerenciaGenero extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Campo vazio!");
             return;
         }
+        GeneroDAO dao = new GeneroDAO();
         try{
             int a = JOptionPane.showConfirmDialog(null, "Deseja Cadastrar?\nGenero: "+txtGenero.getText());
             if (a == 0){
-                GeneroDAO dao = new GeneroDAO();
                 dao.cadastrarGenero(txtGenero.getText());
                 LimparCampoCadastro();
                 ListarGeneros();
@@ -223,7 +223,7 @@ public class GerenciaGenero extends javax.swing.JFrame {
         }catch(Exception e){
             
         }
-        
+        dao.close();
         
     }//GEN-LAST:event_btnCadastraGeneroActionPerformed
 
@@ -252,6 +252,7 @@ public class GerenciaGenero extends javax.swing.JFrame {
             }else{
                 ListarGeneros();
             }
+            dao.close();
         }
     }//GEN-LAST:event_btnExcluirGeneroActionPerformed
 
@@ -273,7 +274,7 @@ public class GerenciaGenero extends javax.swing.JFrame {
                 ListarGeneros();
             }
         }
-        
+        dao.close();
     }//GEN-LAST:event_btnUpdateGeneroActionPerformed
 
     private void btnToHomeEstudioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToHomeEstudioActionPerformed
@@ -313,6 +314,7 @@ public class GerenciaGenero extends javax.swing.JFrame {
                 genero.getNome()
             });
         });
+        dao.close();
     }
     private void ListarGeneros(String s){
         BloquearButtons();

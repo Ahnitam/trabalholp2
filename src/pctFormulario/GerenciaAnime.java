@@ -802,6 +802,7 @@ public class GerenciaAnime extends javax.swing.JFrame {
             bigtxtConsultAnimeSin.setText("");
             ConsultAnimeTable.clearSelection();
             this.selectedAnime = null;
+            dao.close();
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
@@ -892,6 +893,7 @@ public class GerenciaAnime extends javax.swing.JFrame {
             this.selectedAnime = null;
             jTabbedPane1.setSelectedIndex(0);
             ListarAnimes();
+            dao.close();
         }
     }
     
@@ -956,6 +958,7 @@ public class GerenciaAnime extends javax.swing.JFrame {
                 jTabbedPane1.setEnabledAt(0, true);
                 jTabbedPane1.setEnabledAt(1, true);
             }
+            dao.close();
         }
     }
     
@@ -1000,6 +1003,7 @@ public class GerenciaAnime extends javax.swing.JFrame {
         });
         boxEstudio.setSelectedIndex(-1);
         boxEstudioUpdate.setSelectedIndex(-1);
+        dao.close();
     }
     
     private void BuscarGeneros(){
@@ -1015,6 +1019,7 @@ public class GerenciaAnime extends javax.swing.JFrame {
         });
         boxGender.setSelectedIndex(-1);
         boxGenderUpdate.setSelectedIndex(-1);
+        dao.close();
     }
     
     private void ListarAnimes(){
@@ -1034,6 +1039,7 @@ public class GerenciaAnime extends javax.swing.JFrame {
                 anime.getDataString()
             });
         }
+        dao.close();
     }
     private void ListarAnimes(String s){
         DefaultTableModel dados = (DefaultTableModel) ConsultAnimeTable.getModel();

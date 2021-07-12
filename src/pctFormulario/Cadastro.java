@@ -150,8 +150,9 @@ public class Cadastro extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Senhas Diferentes!");
         }else{
             //Cadastrar usuário
+            UsuarioDAO dao = new UsuarioDAO();
             try {
-                UsuarioDAO dao = new UsuarioDAO();
+                
                 Usuario usuario = new Usuario();
                 usuario.setUsername(txtUserReg.getText());
                 usuario.setEmail(txtEmailReg.getText());
@@ -168,6 +169,7 @@ public class Cadastro extends javax.swing.JFrame {
             } catch (Exception e) {
                 System.err.println(e.getMessage());
             }
+            dao.close();
         }
     }//GEN-LAST:event_btnRegRegActionPerformed
 

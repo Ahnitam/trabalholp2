@@ -29,6 +29,13 @@ public class UsuarioDAO {
     public UsuarioDAO() {
         this.con = new Conexao().getConnection();
     }
+    public void close(){
+        try {
+            this.con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(AnimeDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     // método  para salvar os registros
     public boolean cadastrarUsuario(Usuario usuario) {

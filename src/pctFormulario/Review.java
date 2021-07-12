@@ -189,6 +189,7 @@ public class Review extends javax.swing.JFrame {
             ReviewDAO dao = new ReviewDAO();
             dao.atualizarReview(new pctControle.Review(this.review.getIdReview(), btxtDescricao.getText(), Integer.valueOf(selectNotaBox.getSelectedItem().toString()), this.review.getUser(), this.review.getId_Anime(), this.review.getId_user(), this.review.getData()));
             this.parent.dispose();
+            dao.close();
             new ConsultaReview(this.user, this.anime).setVisible(true);
             this.dispose();
         }
@@ -203,6 +204,7 @@ public class Review extends javax.swing.JFrame {
             ReviewDAO dao = new ReviewDAO();
             dao.cadastrarReview(this.user, this.anime, btxtDescricao.getText(), Integer.valueOf(selectNotaBox.getItemAt(selectNotaBox.getSelectedIndex())));
             this.parent.dispose();
+            dao.close();
             new ConsultaReview(this.user, this.anime).setVisible(true);
             this.dispose();
         }

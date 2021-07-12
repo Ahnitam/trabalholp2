@@ -167,8 +167,8 @@ public class InfoUsuario extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Senhas Diferentes!");
         } else {
             //Atualizar senha
+            UsuarioDAO dao = new UsuarioDAO();
             try {
-                UsuarioDAO dao = new UsuarioDAO();
                 MessageDigest md = MessageDigest.getInstance("MD5");
                 BigInteger hash = new BigInteger(1, md.digest(String.valueOf(fieldPassword.getPassword()).getBytes()));
                 user.setPassword(hash.toString(16));
@@ -178,6 +178,7 @@ public class InfoUsuario extends javax.swing.JFrame {
             } catch (Exception e) {
                 System.err.println(e.getMessage());
             }
+            dao.close();
         }
 
 
