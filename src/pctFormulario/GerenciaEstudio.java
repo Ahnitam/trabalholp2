@@ -214,7 +214,7 @@ public class GerenciaEstudio extends javax.swing.JFrame {
             return;
         }
         try {
-            int a = JOptionPane.showConfirmDialog(null, "Deseja Cadastrar?\nGenero: " + txtEstudio.getText());
+            int a = JOptionPane.showConfirmDialog(null, "Deseja Cadastrar?\nEstúdio: " + txtEstudio.getText());
             if (a == 0) {
                 GlobalDAO.getInstance().estudioDAO.cadastrarEstudio(txtEstudio.getText());
                 LimparCampoCadastro();
