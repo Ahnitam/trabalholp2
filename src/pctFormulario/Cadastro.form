@@ -32,16 +32,20 @@
               <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="btnRegReg" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnRegReg" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                      <Component id="btnCancel" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnCancel" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="txtRegPass" pref="200" max="32767" attributes="0"/>
-                      <Component id="UserRegLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="PassRegLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtUserReg" alignment="1" pref="200" max="32767" attributes="0"/>
+                  <Component id="txtRegPass" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="UserRegLabel" max="32767" attributes="0"/>
+                      <EmptySpace min="156" pref="156" max="-2" attributes="0"/>
                   </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="PassRegLabel" max="32767" attributes="0"/>
+                      <EmptySpace min="165" pref="165" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="txtUserReg" alignment="1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
