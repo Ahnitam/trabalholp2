@@ -775,7 +775,7 @@ public class GerenciaAnime extends javax.swing.JFrame {
 
     private void txtConsultAnimeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtConsultAnimeKeyReleased
         if (!txtConsultAnime.getText().equals(this.comp) && txtConsultAnime.getText().isEmpty()) {
-            ListarAnimes();
+            ListarAnimes("");
         } else if (!txtConsultAnime.getText().equals(this.comp)) {
             ListarAnimes(txtConsultAnime.getText());
         }
