@@ -11,7 +11,6 @@ import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import pctControle.Usuario;
 import pctDAO.GlobalDAO;
-import pctDAO.UsuarioDAO;
 
 /**
  *

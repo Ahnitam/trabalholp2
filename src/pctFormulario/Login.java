@@ -11,7 +11,6 @@ import java.security.NoSuchAlgorithmException;
 import javax.swing.JOptionPane;
 import pctControle.Usuario;
 import pctDAO.GlobalDAO;
-import pctDAO.UsuarioDAO;
 
 /**
  *
