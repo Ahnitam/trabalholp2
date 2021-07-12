@@ -34,7 +34,7 @@ public class GerenciaAnime extends javax.swing.JFrame {
     private Anime selectedAnime = null;
     List<Anime> AnimeList = null;
     private String comp = "";
-    private Usuario user;
+    private final Usuario user;
     
     public GerenciaAnime(Usuario user) {
         this.user = user;
