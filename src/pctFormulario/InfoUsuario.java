@@ -5,7 +5,11 @@
  */
 package pctFormulario;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import javax.swing.JOptionPane;
 import pctControle.Usuario;
+import pctDAO.UsuarioDAO;
 
 /**
  *
@@ -17,10 +21,15 @@ public class InfoUsuario extends javax.swing.JFrame {
      * Creates new form HomeAdm
      */
     private Usuario user;
-    
+
+    private Boolean changeActive = false;
+
     public InfoUsuario(Usuario user) {
         this.user = user;
         initComponents();
+        setVisiblePasswordChange(false);
+        txtUser.setText("Usuário: " + this.user.getUsername());
+        txtEmail.setText("Email: " + this.user.getEmail());
     }
 
     /**
@@ -37,6 +46,13 @@ public class InfoUsuario extends javax.swing.JFrame {
         jPopupMenu1 = new javax.swing.JPopupMenu();
         buttonGroup3 = new javax.swing.ButtonGroup();
         btnBack = new javax.swing.JButton();
+        txtUser = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JLabel();
+        btnChangePassword = new javax.swing.JButton();
+        fieldPassword = new javax.swing.JPasswordField();
+        txtPassword = new javax.swing.JLabel();
+        fieldConfirmPassword = new javax.swing.JPasswordField();
+        txtConfirmPassword = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Informações Usuário");
@@ -49,20 +65,69 @@ public class InfoUsuario extends javax.swing.JFrame {
             }
         });
 
+        txtUser.setText("Usuário:");
+
+        txtEmail.setText("Email:");
+
+        btnChangePassword.setText("Alterar Senha");
+        btnChangePassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChangePasswordActionPerformed(evt);
+            }
+        });
+
+        txtPassword.setText("Digite sua nova senha:");
+
+        txtConfirmPassword.setText("Confirmar nova senha:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(633, Short.MAX_VALUE)
-                .addComponent(btnBack)
-                .addGap(45, 45, 45))
+                .addGap(47, 47, 47)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnChangePassword)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnBack)
+                        .addGap(45, 45, 45))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtConfirmPassword)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(fieldConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtUser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(36, 36, 36))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtPassword)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(fieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(471, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(248, Short.MAX_VALUE)
-                .addComponent(btnBack)
+                .addGap(61, 61, 61)
+                .addComponent(txtUser)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtEmail)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPassword)
+                    .addComponent(fieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtConfirmPassword)
+                    .addComponent(fieldConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBack)
+                    .addComponent(btnChangePassword))
                 .addGap(51, 51, 51))
         );
 
@@ -75,12 +140,57 @@ public class InfoUsuario extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
+    private void btnChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangePasswordActionPerformed
+        if (!changeActive) {
+            this.changeActive = true;
+            setVisiblePasswordChange(true);
+            return;
+        }
+        if (String.valueOf(fieldPassword.getPassword()).isEmpty() || String.valueOf(fieldConfirmPassword.getPassword()).isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Não deixe campos vazios!");
+        } else if (!String.valueOf(fieldPassword.getPassword()).equals(String.valueOf(fieldConfirmPassword.getPassword()))) {
+            JOptionPane.showMessageDialog(null, "Senhas Diferentes!");
+        } else {
+            //Atualizar senha
+            try {
+                UsuarioDAO dao = new UsuarioDAO();
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                BigInteger hash = new BigInteger(1, md.digest(String.valueOf(fieldPassword.getPassword()).getBytes()));
+                user.setPassword(hash.toString(16));
+                dao.atualizarSenha(user);
+                this.changeActive = false;
+                setVisiblePasswordChange(false);
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
+        }
+
+
+    }//GEN-LAST:event_btnChangePasswordActionPerformed
+
+    private void setVisiblePasswordChange(boolean visibility) {
+        this.txtPassword.setVisible(visibility);
+        this.fieldPassword.setVisible(visibility);
+        this.txtConfirmPassword.setVisible(visibility);
+        this.fieldConfirmPassword.setVisible(visibility);
+
+        //Limpar campos
+        this.fieldPassword.setText(null);
+        this.fieldConfirmPassword.setText(null);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnChangePassword;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.JPasswordField fieldConfirmPassword;
+    private javax.swing.JPasswordField fieldPassword;
     private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JLabel txtConfirmPassword;
+    private javax.swing.JLabel txtEmail;
+    private javax.swing.JLabel txtPassword;
+    private javax.swing.JLabel txtUser;
     // End of variables declaration//GEN-END:variables
 }

@@ -51,7 +51,7 @@ public class UsuarioDAO {
 
             JOptionPane.showMessageDialog(null, "Cadastrado realizado com Sucesso!");
             return true;
-        } catch (MySQLIntegrityConstraintViolationException erro){
+        } catch (MySQLIntegrityConstraintViolationException erro) {
             JOptionPane.showMessageDialog(null, "O Email ou Usuário Digitados Já Está Cadastrado, Troque e Tente Novamente");
         } catch (SQLException erro) {
             JOptionPane.showMessageDialog(null, "Erro no banco de dados: " + erro);
@@ -86,7 +86,7 @@ public class UsuarioDAO {
     }
 
     // Método para atualização de registro
-    public void atualizarCliente(Usuario usuario) {
+    public void atualizarUsuario(Usuario usuario) {
         try {
 
             //Primeiro  passo  - criar o comando sql
@@ -110,6 +110,30 @@ public class UsuarioDAO {
             JOptionPane.showMessageDialog(null, "Erro no banco de dados: " + erro);
 
         }
+    }
+
+    // Método para atualização de senha
+    public boolean atualizarSenha(Usuario usuario) {
+        try {
+
+            //Primeiro  passo  - criar o comando sql
+            String sql = "update usuario set password=? where iduser=?";
+
+            //Segundo  passo - conectar o banco de dados e organizar o comando sql
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, usuario.getPassword());
+            stmt.setInt(2, usuario.getIduser());
+
+            //Terceiro  passo - executar o comando sql
+            stmt.executeUpdate();
+            stmt.close();
+
+            JOptionPane.showMessageDialog(null, "atualizado com Sucesso!");
+            return true;
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Erro no banco de dados: " + erro);
+        }
+        return false;
     }
 
     // método para o preenchimento da tabela
@@ -145,7 +169,7 @@ public class UsuarioDAO {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
-            if(rs.next() == false){
+            if (rs.next() == false) {
                 return null;
             }
             Usuario usuario = new Usuario();
