@@ -53,7 +53,7 @@ public class HomeUsuario extends javax.swing.JFrame {
             }
         });
 
-        btnReviews.setText("Reviews");
+        btnReviews.setText("Animes");
         btnReviews.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReviewsActionPerformed(evt);
@@ -110,7 +110,7 @@ public class HomeUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLogoutUserActionPerformed
 
     private void btnReviewsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReviewsActionPerformed
-        new ConsultaReview(this.user).setVisible(true);
+        new Animes(this.user).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnReviewsActionPerformed
 
