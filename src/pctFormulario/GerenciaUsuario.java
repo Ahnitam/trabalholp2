@@ -288,7 +288,7 @@ public class GerenciaUsuario extends javax.swing.JFrame {
                 if (a == 0){
                     UsuarioDAO dao = new UsuarioDAO();
                     Usuario UpdatedUser = new Usuario(this.selectedUser.getIduser(), this.selectedUser.getUsername(), this.userTable.getValueAt(userTable.getSelectedRow(), 2).toString(), this.selectedUser.getPassword(), Integer.valueOf(this.userTable.getValueAt(userTable.getSelectedRow(), 3).toString()));
-                    dao.atualizarCliente(UpdatedUser);
+                    dao.atualizarUsuario(UpdatedUser);
                     btnUpdateUser.setEnabled(false);
                     btnExcluir.setEnabled(false);
                     userTable.clearSelection();
